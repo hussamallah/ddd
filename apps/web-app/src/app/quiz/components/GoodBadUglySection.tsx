@@ -9,54 +9,54 @@ interface GoodBadUglySectionProps {
 }
 
 export default function GoodBadUglySection({ analysis }: GoodBadUglySectionProps) {
+  // Ensure we only show 1-3 items per category
+  const goodItems = analysis.good.slice(0, 3);
+  const badItems = analysis.bad.slice(0, 3);
+  
   return (
     <div className="space-y-4">
       {/* Good */}
       <div className="rounded-2xl border border-emerald-600/30 bg-emerald-500/5 p-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
-          <div className="text-sm font-medium text-emerald-300">The Good</div>
+          <div className="text-sm font-medium text-emerald-300">✅ The Good</div>
         </div>
-        <div className="space-y-1">
-          {analysis.good.length > 0 ? (
-            analysis.good.map((item, index) => (
-              <div key={index} className="text-sm text-emerald-200">
-                • {item}
+        <div className="space-y-2">
+          {goodItems.length > 0 ? (
+            goodItems.map((item, index) => (
+              <div key={index} className="text-base text-emerald-200 font-bold text-center">
+                "{item}"
               </div>
             ))
           ) : (
-            <div className="text-sm text-emerald-400 italic">No Close lines detected</div>
+            <div className="text-sm text-emerald-400 italic text-center">No Close lines detected</div>
           )}
         </div>
-        {analysis.good.length > 0 && (
-          <div className="mt-2 text-xs text-emerald-400">
-            These lines give others: ownership, closure, clear tempo
-          </div>
-        )}
+        <div className="mt-3 text-xs text-emerald-400 text-center">
+          Stable. Outcomes land. Clear tempo.
+        </div>
       </div>
 
       {/* Bad */}
       <div className="rounded-2xl border border-amber-600/30 bg-amber-500/5 p-4">
         <div className="flex items-center gap-2 mb-2">
           <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-          <div className="text-sm font-medium text-amber-300">The Bad</div>
+          <div className="text-sm font-medium text-amber-300">⚠️ The Bad</div>
         </div>
-        <div className="space-y-1">
-          {analysis.bad.length > 0 ? (
-            analysis.bad.map((item, index) => (
-              <div key={index} className="text-sm text-amber-200">
-                • {item}
+        <div className="space-y-2">
+          {badItems.length > 0 ? (
+            badItems.map((item, index) => (
+              <div key={index} className="text-base text-amber-200 font-bold text-center">
+                "{item}"
               </div>
             ))
           ) : (
-            <div className="text-sm text-amber-400 italic">All lines are Close</div>
+            <div className="text-sm text-amber-400 italic text-center">All lines are Close</div>
           )}
         </div>
-        {analysis.bad.length > 0 && (
-          <div className="mt-2 text-xs text-amber-400">
-            These lines show: stall tax, optics bleed, tempo loss
-          </div>
-        )}
+        <div className="mt-3 text-xs text-amber-400 text-center">
+          Variability enters. Delays creep in.
+        </div>
       </div>
 
       {/* Ugly */}
@@ -64,10 +64,10 @@ export default function GoodBadUglySection({ analysis }: GoodBadUglySectionProps
         <div className="rounded-2xl border border-rose-600/30 bg-rose-500/5 p-4">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-3 h-3 rounded-full bg-rose-500"></div>
-            <div className="text-sm font-medium text-rose-300">The Ugly</div>
+            <div className="text-sm font-medium text-rose-300">❌ The Ugly</div>
           </div>
-          <div className="text-sm text-rose-200 leading-relaxed">
-            {analysis.ugly}
+          <div className="text-base text-rose-200 font-bold text-center">
+            "{analysis.ugly}"
           </div>
         </div>
       )}

@@ -1,10 +1,10 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build --workspace=apps/web-app",
   "outputDirectory": "apps/web-app/.next",
   "framework": "nextjs",
   "installCommand": "npm install",
   "functions": {
-    "apps/web-app/src/app/api/**/*.ts": {
+    "src/app/api/**/*.ts": {
       "runtime": "nodejs18.x"
     }
   },

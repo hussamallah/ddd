@@ -15,7 +15,7 @@
     "dev:always": "concurrently \"npm run dev --workspace=apps/web-app\" \"nodemon --watch ./apps/web-app/src --ignore ./apps/web-app/.next --exec 'echo Restarting dev server...'\" --on-change-only",
     "dev:phone": "npm run dev --workspace=apps/web-app -- --hostname 0.0.0.0 --port 3000",
     "dev:phone:always": "concurrently \"npm run dev:phone\" \"nodemon --watch ./apps/web-app/src --ignore ./apps/web-app/.next --exec 'echo Restarting dev server...'\" --on-change-only",
-    "build": "npm run build --workspaces",
+    "build": "npm run build --workspace=apps/web-app",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "type-check": "npm run type-check --workspaces"

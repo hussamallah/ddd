@@ -8,7 +8,7 @@ import { loadBankWithFallback, getBankProtectionStatus } from '@/lib/loadBank';
 import { composeAIR } from './results/composeAIR';
 import HeaderSection from './components/HeaderSection';
 import TradeCardsSection from './components/TradeCardsSection';
-import GoodBadUglySection from './components/GoodBadUglySection';
+import GbuDiagnosticCards from './results/components/GbuDiagnosticCards';
 import archetypeData from '../../data/archetype_decoder.json';
 
 type ArchetypeEntry = {
@@ -708,7 +708,13 @@ export default function QuizApp() {
         <ResultsHeatMap lines={result.lines} />
         
         {/* Good/Bad/Ugly Analysis */}
-        <GoodBadUglySection analysis={result.goodBadUgly} />
+        <GbuDiagnosticCards
+          good={result.goodBadUgly.good}
+          bad={result.goodBadUgly.bad}
+          ugly={result.goodBadUgly.ugly || ''}
+          goodFooter="Stable. Outcomes land. Clear tempo."
+          badFooter="Variability enters. Delays creep in."
+        />
         
         {/* Mode-Specific Insights */}
         {selectedMode !== 'standard' && selectedMode !== 'original' && result.modeSpecificInsights && (

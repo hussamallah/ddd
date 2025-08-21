@@ -2,18 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg:#0A0A0A;            /* canvas */
-  --gold:#E0B84A;          /* engraved gold */
-  --gold-shadow:#B7892D;   /* shadow for engraving */
-  --red:#7B2D26;           /* lilies + CTA base */
+:root{
+  --charcoal:#0A0A0A;
+
+  --gold-hi:#F2D88A;
+  --gold:#E0B84A;
+  --gold-dk:#B7892D;
+
+  --rose-hi:#C7362E;
+  --rose:#9E2020;
+  --rose-dk:#6F1515;
 }
 
-html,body {
-  background: var(--bg);
+/* Page background */
+body{ background: var(--charcoal); }
+
+/* Poster container subtle bloom so gold pops */
+.poster{
+  filter: drop-shadow(0 8px 30px rgba(0,0,0,.6))
+          drop-shadow(0 0 10px rgba(183,137,45,.25));
+}
+
+/* CTA halo behind button (place this div right under the button) */
+.cta-halo{
+  position:absolute; inset:auto 0 0 0; /* or wrap relative and center */
+  margin:auto; width:280px; height:180px; pointer-events:none;
+  background: radial-gradient(ellipse at center,
+    rgba(0,0,0,.55) 0%,
+    rgba(0,0,0,.35) 55%,
+    rgba(0,0,0,0) 80%);
+  filter: blur(4px);
+}
+
+/* Rose + gold engraved button (same size as your current one) */
+.cta{
+  position:relative;
+  background: linear-gradient(180deg, var(--rose-hi) 0%, var(--rose) 40%, var(--rose-dk) 100%);
+  border: 2px solid var(--gold);
   color: var(--gold);
+  padding: 12px 28px;             /* keep your current padding */
+  border-radius: 6px;              /* keep your current radius */
+  font-weight: 700;
+  letter-spacing:.5px;
+  text-transform: uppercase;
+  box-shadow:
+    inset 0 1px 0 rgba(242,216,138,.55), /* top inner glint */
+    inset 0 -2px 3px rgba(0,0,0,.35),    /* inner bottom shadow */
+    0 0 0 1px rgba(108,78,16,.45),       /* outer dark edge */
+    0 0 12px rgba(183,137,45,.35);       /* gold glow */
+  transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
 }
 
+/* Thin inner gold line for engraving */
+.cta::before{
+  content:"";
+  position:absolute; inset:3px;
+  border-radius:4px;
+  border:1px solid rgba(224,184,74,.55);
+  pointer-events:none;
+}
+
+.cta:hover{
+  background: linear-gradient(180deg, #D13C34 0%, #B52424 45%, #7F1919 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,244,205,.65),
+    inset 0 -2px 4px rgba(0,0,0,.4),
+    0 0 0 1px rgba(108,78,16,.6),
+    0 0 16px rgba(224,184,74,.55);
+  transform: translateY(-1px);
+}
+
+.cta:active{
+  transform: translateY(0);
+  background: linear-gradient(180deg, #B12824 0%, #8E1C1C 60%, #6F1515 100%);
+}
+
+/* Gold text readability everywhere */
+.gold-text{
+  color: var(--gold);
+  text-shadow:
+    0 1px 0 rgba(0,0,0,.55),
+    0 0 8px rgba(178,138,45,.18); /* subtle bloom */
+}
+
+/* Essential classes that were removed */
 .hd {
   font-family: 'Cinzel', serif;
   letter-spacing:.04em;
@@ -27,23 +99,23 @@ html,body {
 .gilded {
   color: var(--gold);
   text-shadow:
-    0.5px 0.5px 0 var(--gold-shadow),
-    -0.5px -0.5px 0 var(--gold-shadow),
+    0.5px 0.5px 0 var(--gold-dk),
+    -0.5px -0.5px 0 var(--gold-dk),
     1px 1px 2px rgba(0,0,0,0.7);
   letter-spacing: .03em;
 }
 
 .hero-wrap {
-  max-width: 1120px;
+  max-width: 1150px;
   margin: 24px auto;
-  padding: 28px;
+  padding: 20px;
 }
 .panel {
   background: #111;
   border-radius: 14px;
   border: 1px solid var(--gold);
   box-shadow:
-    0 0 0 1px var(--gold-shadow) inset,
+    0 0 0 1px var(--gold-dk) inset,
     0 18px 40px rgba(0,0,0,.45);
   padding: clamp(20px,4vw,36px);
 }
@@ -55,24 +127,68 @@ html,body {
   opacity:.8;
 }
 
-/* CTA: red base w/ gold text */
-.btn {
-  display:inline-block;
-  padding:12px 18px;
-  border-radius:10px;
-  border:1px solid var(--red);
-  background:var(--red);
-  color:var(--gold);
-  font-family:'Cinzel',serif;
-  font-weight:700;
-  letter-spacing:.02em;
-  transition:transform .12s ease, filter .12s ease;
+/* New button that matches image dimensions */
+.btn-new {
+  display: block !important;
+  width: 405px !important;
+  height: 81px !important;
+  border-radius: 6px !important;
+  border: 2px solid var(--gold) !important;
+  background: linear-gradient(180deg, var(--rose-hi) 0%, var(--rose) 40%, var(--rose-dk) 100%) !important;
+  color: var(--gold) !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: inset 0 1px 0 rgba(242,216,138,0.7), inset 0 -2px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(108,78,16,0.7) !important;
+  margin: 0 auto !important;
+  position: relative !important;
+  filter: drop-shadow(0 0 6px rgba(224,184,74,0.45)) !important;
+  /* Temporary bright background for testing */
+  background: #ff0000 !important;
 }
-.btn:hover {
-  background:var(--gold);
-  color:var(--red);
-  border-color:var(--gold);
-  transform:translateY(-1px);
+
+.btn-new::before{
+  content:"";
+  position:absolute; inset:3px;
+  border-radius:4px;
+  border:1px solid rgba(224,184,74,0.55);
+  pointer-events:none;
+}
+
+/* Add subtle texture overlay for engraved feel */
+.btn-new::after{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:6px;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(242,216,138,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(242,216,138,0.06) 0%, transparent 50%),
+    linear-gradient(45deg, transparent 40%, rgba(242,216,138,0.04) 50%, transparent 60%);
+  pointer-events:none;
+  mix-blend-mode: soft-light;
+}
+
+.btn-new:hover {
+  background: linear-gradient(180deg, #D13C34 0%, #B52424 45%, #7F1919 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,244,205,0.8),     /* brighter top glint */
+    inset 0 -2px 4px rgba(0,0,0,0.5),        /* deeper inner shadow */
+    0 0 0 1px rgba(108,78,16,0.8);            /* stronger outer edge */
+  transform: translateY(-1px);
+  filter: drop-shadow(0 0 8px rgba(224,184,74,0.6)); /* enhanced bloom on hover */
+}
+
+.btn-new:active {
+  transform: translateY(0);
+  background: linear-gradient(180deg, #B12824 0%, #8E1C1C 60%, #6F1515 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,244,205,0.6),
+    inset 0 -1px 2px rgba(0,0,0,0.6),
+    0 0 0 1px rgba(108,78,16,0.9);
 }
 
 /* grid */
@@ -112,16 +228,14 @@ html,body {
 }
 
 @layer components {
-  .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
-  }
+  /* Removed conflicting .btn styles to preserve custom button dimensions */
   
   .btn-primary {
-    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 bg-primary-600 text-white hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
   }
   
   .btn-secondary {
-    @apply btn bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
   }
   
   .card {

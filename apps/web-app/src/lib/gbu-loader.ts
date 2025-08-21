@@ -18,6 +18,39 @@ interface QuizLineResult {
   basePattern: string;
 }
 
+// Transform detailed content into minimalist quote style
+function transformToMinimalistQuotes(content: string[]): string[] {
+  // Only take first 3 items maximum
+  const limitedContent = content.slice(0, 3);
+  
+  return limitedContent.map(item => {
+    // Remove ALL technical jargon and complex phrases completely
+    let simplified = item
+      .replace(/context pressure|stall tax|optics bleed|tempo loss|check tax|posting receipt|deadlines|multitask|alignment threads|rolling delays|pre-announcement drift/gi, '')
+      .replace(/under |when |while |though |because |so |but |and |or |in |on |at |to |for |of |with |by /gi, '')
+      .replace(/appears|creates|imposes|adds|expands|lengthens|increases|decreases|becomes|stays|remains/gi, '')
+      .replace(/brief |small |momentary |sustained |prolonged |long |short |wide |narrow /gi, '')
+      .replace(/without |before |after |during |around |through |across |between |among /gi, '')
+      .replace(/the |a |an |this |that |these |those /gi, '')
+      .replace(/\.|,|;|:|\(|\)|\+/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    
+    // Convert to ultra-short, bold statements (6 words max)
+    const words = simplified.split(' ').filter(word => word.length > 0);
+    if (words.length > 6) {
+      simplified = words.slice(0, 6).join(' ');
+    }
+    
+    // Ensure we have meaningful content
+    if (simplified.length < 3) {
+      simplified = 'Stable outcomes';
+    }
+    
+    return simplified;
+  });
+}
+
 export function getGoodBadUglyForResults(quizResults: QuizLineResult[]) {
   const cards = axisCards.cards as AxisCard[];
   
@@ -58,10 +91,15 @@ export function getGoodBadUglyForResults(quizResults: QuizLineResult[]) {
   const uniqueBad = [...new Set(bad)];
   const uniqueUgly = [...new Set(ugly)];
   
+  // Transform to minimalist quote style
+  const transformedGood = transformToMinimalistQuotes(uniqueGood);
+  const transformedBad = transformToMinimalistQuotes(uniqueBad);
+  const transformedUgly = transformToMinimalistQuotes(uniqueUgly);
+  
   return {
-    good: uniqueGood,
-    bad: uniqueBad,
-    ugly: uniqueUgly.length > 0 ? uniqueUgly.join(' ') : undefined
+    good: transformedGood,
+    bad: transformedBad,
+    ugly: transformedUgly.length > 0 ? transformedUgly.join(' ') : undefined
   };
 }
 

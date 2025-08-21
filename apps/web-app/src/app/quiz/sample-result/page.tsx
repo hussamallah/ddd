@@ -5,6 +5,10 @@ import { composeAIR } from '../results/composeAIR';
 import GoodBadUglySection from '../components/GoodBadUglySection';
 import type { LineVerdict, QuizResult } from '@/lib/air-generator';
 
+// Add dynamic configuration to prevent prerender issues
+export const dynamic = 'force-dynamic'; // no SSG attempt
+export const revalidate = 0; // ensure runtime fetch
+
 // ---------- Heat Map Components (Mirrored from QuizApp) ----------
 const tokenColor = (t: string) =>
   t === "C" ? "bg-emerald-600/70" : t === "O" ? "bg-amber-500/70" : "bg-rose-600/70";
@@ -135,12 +139,13 @@ const ResultsHeatMap: React.FC<{
               </button>
             </div>
             <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300">
-              <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Base <Count v={selected.base} /></span>
+              {/* Defensive coding: guard against undefined .base */}
+              <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Base <Count v={selected.base || '0'} /></span>
               <span className="opacity-60">→</span>
-              <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Final <Count v={selected.final} /></span>
-              <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Slip: {selected.slipDriver}</span>
+              <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Final <Count v={selected.final || '0'} /></span>
+              <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Slip: {selected.slipDriver || 'Unknown'}</span>
             </div>
-            <p className="text-sm leading-6 text-zinc-200">{selected.card}</p>
+            <p className="text-sm leading-6 text-zinc-200">{selected.card || 'No description available'}</p>
           </div>
         </div>
       )}

@@ -1,5 +1,8 @@
 import QuizApp from './QuizApp';
 
+export const dynamic = 'force-dynamic'; // skip prerender pressure
+export const revalidate = 0; // ensure runtime fetch
+
 export const metadata = {
   title: 'Axis Integrity Test',
   description: '7 lines under pressure — you now.',

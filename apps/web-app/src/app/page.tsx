@@ -39,13 +39,26 @@ export default function HomePage() {
       <div className="hero">
         {/* CENTER: Poster */}
         <div style={{gridColumn:'1 / -1', textAlign:'center'}}>
-          <div style={{maxWidth:'800px', margin:'0 auto'}}>
+          <div style={{maxWidth:'860px', margin:'0 auto', position:'relative'}}>
             <img src="/images/landing-page2.png" alt="Identity Core Mapper poster"
-              style={{display:'block', width:'100%', height:'auto'}}/>
-          </div>
-          
-          <div style={{marginTop:'32px'}}>
-            <button onClick={handleStartTest} className="btn">Start the Free Test</button>
+              style={{display:'block', width:'100%', height:'auto', objectFit:'contain'}}/>
+            
+            {/* Invisible clickable overlay over the fake button in the image */}
+            <div 
+              onClick={handleStartTest}
+              style={{
+                position: 'absolute',
+                top: '81%',  /* Moved up one click for perfect alignment */
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '480px',  /* Increased by 20% from 400px to 480px */
+                height: '108px',  /* Increased by 20% from 90px to 108px */
+                cursor: 'pointer',
+                zIndex: 10
+                /* Now completely invisible but still clickable */
+              }}
+              title="Click to start the test"
+            />
           </div>
         </div>
       </div>
