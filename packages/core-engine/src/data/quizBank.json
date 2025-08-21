@@ -1,0 +1,1168 @@
+{
+  "version": "Axis QuizBank v1.2",
+  "baseItems": {
+    "Control": {
+      "micro": {
+        "id": "C-MP",
+        "line": "Control",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "inbound_status",
+            "prompt": "Boss hints 'loop me first' on a move you own.",
+            "tags": ["status","inbound","work","public"],
+            "options": [
+              {"token":"CLOSE","text":"Ship one step now; send a receipt after."},
+              {"token":"STALL","text":"Ask to meet before moving."},
+              {"token":"FRAG","text":"Pre-announce to collect excitement first."}
+            ]
+          },
+          {
+            "id": "outbound_warmth",
+            "prompt": "You want to move; close collaborator prefers pre-approval.",
+            "tags": ["warmth","outbound","work","private"],
+            "options": [
+              {"token":"CLOSE","text":"Make the move; show the result later."},
+              {"token":"STALL","text":"Check with them first."},
+              {"token":"FRAG","text":"Pitch the plan for hype before acting."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "C-D1",
+        "line": "Control",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "status",
+            "prompt": "Boss: 'Loop me first next time.' Same small step is ready.",
+            "tags": ["status","inbound","work","public"],
+            "options": [
+              {"token":"CLOSE","text":"Ship discreetly now; summarize after."},
+              {"token":"STALL","text":"Wait for explicit permission."},
+              {"token":"FRAG","text":"Rally the team first for buy-in."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "C-D2",
+        "line": "Control",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "warmth",
+            "prompt": "Close collaborator: 'Run it by me before acting.'",
+            "tags": ["warmth","inbound","work","private"],
+            "options": [
+              {"token":"CLOSE","text":"Do one move now; show outcome later."},
+              {"token":"STALL","text":"Check with them first."},
+              {"token":"FRAG","text":"Tease the plan to gather enthusiasm."}
+            ]
+          }
+        ]
+      }
+    },
+
+    "Pace": {
+      "micro": {
+        "id": "P-MP",
+        "line": "Pace",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "digital",
+            "prompt": "You're 25 minutes into a 60-minute deep-work block; pings start.",
+            "tags": ["digital","interruption","solo","work"],
+            "options": [
+              {"token":"CLOSE","text":"Mute and finish; reply after."},
+              {"token":"STALL","text":"Skim 'urgent', then resume."},
+              {"token":"FRAG","text":"Keep inbox open; reply live."}
+            ]
+          },
+          {
+            "id": "ambient",
+            "prompt": "Open office turns chatty mid-focus.",
+            "tags": ["ambient","social","interruption","work"],
+            "options": [
+              {"token":"CLOSE","text":"DND/headphones; finish; then engage."},
+              {"token":"STALL","text":"Half listen, half work."},
+              {"token":"FRAG","text":"Join the chatter; work later."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "P-D1",
+        "line": "Pace",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "open_office",
+            "prompt": "Colleagues are chatting near you mid-focus.",
+            "tags": ["ambient","social","work"],
+            "options": [
+              {"token":"CLOSE","text":"Protect the block; engage after."},
+              {"token":"STALL","text":"Split attention."},
+              {"token":"FRAG","text":"Abandon focus to join."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "P-D2",
+        "line": "Pace",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "home",
+            "prompt": "Household interruptions during your focus block.",
+            "tags": ["home","interruption","warmth"],
+            "options": [
+              {"token":"CLOSE","text":"One boundary; finish the block."},
+              {"token":"STALL","text":"Bounce between both."},
+              {"token":"FRAG","text":"Abandon the block."}
+            ]
+          }
+        ]
+      }
+    },
+
+    "Boundary": {
+      "micro": {
+        "id": "B-MP",
+        "line": "Boundary",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "warmth",
+            "prompt": "A close person asks inside your protected block.",
+            "tags": ["warmth","private","time"],
+            "options": [
+              {"token":"CLOSE","text":"Not available; offer Monday 9am."},
+              {"token":"STALL","text":"I'll try to make it work."},
+              {"token":"FRAG","text":"Ok, I'll move things."}
+            ]
+          },
+          {
+            "id": "public",
+            "prompt": "Group adds you to an event that breaks your boundary.",
+            "tags": ["public","social","time"],
+            "options": [
+              {"token":"CLOSE","text":"Decline with one line; offer alt."},
+              {"token":"STALL","text":"Tentative 'maybe'."},
+              {"token":"FRAG","text":"Accept to avoid optics."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "B-D1",
+        "line": "Boundary",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "authority",
+            "prompt": "Manager insists on a weekend call that clashes with your boundary.",
+            "tags": ["status","inbound","work","time"],
+            "options": [
+              {"token":"CLOSE","text":"Can't this weekend; Monday 9am delivery."},
+              {"token":"STALL","text":"I'll see what I can do."},
+              {"token":"FRAG","text":"Yes, I'll join."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "B-D2",
+        "line": "Boundary",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "intimacy",
+            "prompt": "Partner pressures you to change a protected block.",
+            "tags": ["warmth","private","time"],
+            "options": [
+              {"token":"CLOSE","text":"Boundary stands; offer next slot."},
+              {"token":"STALL","text":"Soften to keep peace."},
+              {"token":"FRAG","text":"Drop the boundary today."}
+            ]
+          }
+        ]
+      }
+    },
+
+    "Truth": {
+      "micro": {
+        "id": "T-MP",
+        "line": "Truth",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "pushback",
+            "prompt": "You said no; they push twice.",
+            "tags": ["inbound","boundary","decision"],
+            "options": [
+              {"token":"CLOSE","text":"Repeat once; end the thread."},
+              {"token":"STALL","text":"Add reasons to soften it."},
+              {"token":"FRAG","text":"'Maybe later.'"}
+            ]
+          },
+          {
+            "id": "ambiguity",
+            "prompt": "Must choose with incomplete info.",
+            "tags": ["ambiguity","decision"],
+            "options": [
+              {"token":"CLOSE","text":"Decide now on one clear reason."},
+              {"token":"STALL","text":"Ask for one more input."},
+              {"token":"FRAG","text":"Build comparison doc first."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "T-D1",
+        "line": "Truth",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "ambig",
+            "prompt": "Ambiguous data; decision due.",
+            "tags": ["ambiguity","decision","status"],
+            "options": [
+              {"token":"CLOSE","text":"Pick and lock."},
+              {"token":"STALL","text":"Delay for more info."},
+              {"token":"FRAG","text":"Reframe to avoid committing."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "T-D2",
+        "line": "Truth",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "downside",
+            "prompt": "Each option has a visible cost.",
+            "tags": ["downside","decision"],
+            "options": [
+              {"token":"CLOSE","text":"Pick one; accept cost; move."},
+              {"token":"STALL","text":"Delay to avoid choosing wrong."},
+              {"token":"FRAG","text":"Avoid a position."}
+            ]
+          }
+        ]
+      }
+    },
+
+    "Recognition": {
+      "micro": {
+        "id": "R-MP",
+        "line": "Recognition",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "no_audience",
+            "prompt": "Plan is solid; no one is watching.",
+            "tags": ["solo","quiet","work"],
+            "options": [
+              {"token":"CLOSE","text":"Do one step now; publish the receipt."},
+              {"token":"STALL","text":"Wait for a buy-in meeting."},
+              {"token":"FRAG","text":"Pre-announce to gather attention."}
+            ]
+          },
+          {
+            "id": "audience_tomorrow",
+            "prompt": "Stage tomorrow; quiet time today.",
+            "tags": ["audience","status","timing"],
+            "options": [
+              {"token":"CLOSE","text":"Make the move now; show it tomorrow."},
+              {"token":"STALL","text":"Wait for the stage."},
+              {"token":"FRAG","text":"Announce intent now; do it later."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "R-D1",
+        "line": "Recognition",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "nobody",
+            "prompt": "Nobody watching today.",
+            "tags": ["solo","quiet"],
+            "options": [
+              {"token":"CLOSE","text":"Ship a result anyway."},
+              {"token":"STALL","text":"Hold until seen."},
+              {"token":"FRAG","text":"Tease for attention first."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "R-D2",
+        "line": "Recognition",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "audience",
+            "prompt": "Presentation tomorrow; quiet move possible today.",
+            "tags": ["audience","timing"],
+            "options": [
+              {"token":"CLOSE","text":"Make the move; show it tomorrow."},
+              {"token":"STALL","text":"Wait for the stage to do it."},
+              {"token":"FRAG","text":"Announce intent now; do later."}
+            ]
+          }
+        ]
+      }
+    },
+
+    "Bonding": {
+      "micro": {
+        "id": "BN-MP",
+        "line": "Bonding",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "distance_threat",
+            "prompt": "Partner dislikes your boundary.",
+            "tags": ["warmth","private","relationship"],
+            "options": [
+              {"token":"CLOSE","text":"Boundary stands; invite calm next step."},
+              {"token":"STALL","text":"Soften to keep peace."},
+              {"token":"FRAG","text":"Over-explain to make them feel better."}
+            ]
+          },
+          {
+            "id": "client_pull",
+            "prompt": "Paying client asks beyond scope.",
+            "tags": ["status","client","scope"],
+            "options": [
+              {"token":"CLOSE","text":"Restate scope; offer paid add-on."},
+              {"token":"STALL","text":"Do it free to keep them happy."},
+              {"token":"FRAG","text":"Avoid no; promise later."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "BN-D1",
+        "line": "Bonding",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "new_bond",
+            "prompt": "New collaborator pushes past your limit.",
+            "tags": ["warmth","new","work"],
+            "options": [
+              {"token":"CLOSE","text":"Name the limit once; proceed on your terms."},
+              {"token":"STALL","text":"Bend to avoid losing them."},
+              {"token":"FRAG","text":"Long rationale to soothe them."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "BN-D2",
+        "line": "Bonding",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "long_term",
+            "prompt": "Trusted teammate asks for a 'small exception.'",
+            "tags": ["warmth","long_term","work"],
+            "options": [
+              {"token":"CLOSE","text":"Keep the line; offer a different path."},
+              {"token":"STALL","text":"Make the exception to avoid friction."},
+              {"token":"FRAG","text":"Over-explain to smooth it over."}
+            ]
+          }
+        ]
+      }
+    },
+
+    "Stress": {
+      "micro": {
+        "id": "S-MP",
+        "line": "Stress",
+        "type": "micro",
+        "frames": [
+          {
+            "id": "collision",
+            "prompt": "Two critical demands collide today.",
+            "tags": ["time","priority","decision"],
+            "options": [
+              {"token":"CLOSE","text":"Sequence: close one, then the other."},
+              {"token":"STALL","text":"Split attention across both."},
+              {"token":"FRAG","text":"Pause both to 'plan better'."}
+            ]
+          },
+          {
+            "id": "volume",
+            "prompt": "Dozens of small tasks compete.",
+            "tags": ["volume","time","tasks"],
+            "options": [
+              {"token":"CLOSE","text":"Batch and close in order."},
+              {"token":"STALL","text":"Hop across to keep many alive."},
+              {"token":"FRAG","text":"Park everything to reorganize."}
+            ]
+          }
+        ]
+      },
+      "duelA": {
+        "id": "S-D1",
+        "line": "Stress",
+        "type": "duelA",
+        "frames": [
+          {
+            "id": "high_stakes",
+            "prompt": "One choice has visible consequences.",
+            "tags": ["high_stakes","decision"],
+            "options": [
+              {"token":"CLOSE","text":"Decide and execute one proof now."},
+              {"token":"FRAG","text":"Delay to avoid risk."},
+              {"token":"STALL","text":"Produce more analysis first."}
+            ]
+          }
+        ]
+      },
+      "duelB": {
+        "id": "S-D2",
+        "line": "Stress",
+        "type": "duelB",
+        "frames": [
+          {
+            "id": "high_volume",
+            "prompt": "Many small tasks compete.",
+            "tags": ["volume","time","tasks"],
+            "options": [
+              {"token":"CLOSE","text":"Batch and close in order."},
+              {"token":"FRAG","text":"Hop across tasks to keep many alive."},
+              {"token":"STALL","text":"Park everything to reorganize."}
+            ]
+          }
+        ]
+      }
+    }
+  },
+
+  "tbBlocks": {
+    "Control": {
+      "integrity_check": {
+        "id": "C-IT",
+        "line": "Control",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-C1",
+            "frames": [
+              {
+                "id": "act_first",
+                "prompt": "You know your law applies. What do you actually do?",
+                "tags": ["integrity","status"],
+                "options": [
+                  {"token":"CLOSE","text":"Follow the law now (result first)."},
+                  {"token":"STALL","text":"Defer to approval before acting."},
+                  {"token":"FRAG","text":"Perform optics before acting."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-C2",
+            "frames": [
+              {
+                "id": "cost_added",
+                "prompt": "Same context with a small cost to acting first.",
+                "tags": ["integrity","cost"],
+                "options": [
+                  {"token":"CLOSE","text":"Act anyway; post receipt later."},
+                  {"token":"STALL","text":"Pause to align first."},
+                  {"token":"FRAG","text":"Announce plan; act later."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "C-DL",
+        "line": "Control",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-C1",
+            "prompt": "Thread: 'Loop before acting.' Which deviation do you make?",
+            "options": [
+              {"token":"STALL","text":"Ask for approval first."},
+              {"token":"FRAG","text":"Announce intent before acting."}
+            ],
+            "tags": ["public","status"]
+          },
+          {
+            "qid": "DL-C2",
+            "prompt": "Close collaborator DM: 'Please clear moves first.'",
+            "options": [
+              {"token":"STALL","text":"Promise to check in before acting."},
+              {"token":"FRAG","text":"Pitch the plan for enthusiasm first."}
+            ],
+            "tags": ["warmth","private"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "C-TB",
+        "line": "Control",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "C-TB1",
+            "frames": [
+              {
+                "id": "public",
+                "prompt": "Public thread says 'loop before acting.'",
+                "tags": ["public","status"],
+                "options": [
+                  {"token":"CLOSE","text":"Post the result when done; short summary."},
+                  {"token":"STALL","text":"Ask the thread for a green light."},
+                  {"token":"FRAG","text":"Post intent first to get reactions."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "C-TB2",
+            "frames": [
+              {
+                "id": "private",
+                "prompt": "Private DM says 'please clear moves first.'",
+                "tags": ["private","warmth"],
+                "options": [
+                  {"token":"CLOSE","text":"Make the move; DM the receipt."},
+                  {"token":"STALL","text":"Reply you'll wait next time."},
+                  {"token":"FRAG","text":"DM a preview pitch before moving."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "Pace": {
+      "integrity_check": {
+        "id": "P-IT",
+        "line": "Pace",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-P1",
+            "frames": [
+              {
+                "id": "planned_block",
+                "prompt": "You planned a protected block. What do you actually do?",
+                "tags": ["plan","integrity"],
+                "options": [
+                  {"token":"CLOSE","text":"Hold the block; noise waits."},
+                  {"token":"STALL","text":"Half-hold; peek at pings."},
+                  {"token":"FRAG","text":"Let pings set the tempo."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-P2",
+            "frames": [
+              {
+                "id": "social_pressure",
+                "prompt": "Same block with mild social pressure added.",
+                "tags": ["warmth","integrity"],
+                "options": [
+                  {"token":"CLOSE","text":"Keep pace; respond after."},
+                  {"token":"STALL","text":"Pause to respond, resume later."},
+                  {"token":"FRAG","text":"Switch to messaging now."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "P-DL",
+        "line": "Pace",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-P1",
+            "prompt": "Noise grows mid-focus. Which drift happens?",
+            "options": [
+              {"token":"STALL","text":"Split attention, try to resume later."},
+              {"token":"FRAG","text":"Drop focus; join the noise."}
+            ],
+            "tags": ["ambient","work"]
+          },
+          {
+            "qid": "DL-P2",
+            "prompt": "Digital pings keep popping.",
+            "options": [
+              {"token":"STALL","text":"Skim 'urgent' while working."},
+              {"token":"FRAG","text":"Keep inbox open, reply live."}
+            ],
+            "tags": ["digital","work"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "P-TB",
+        "line": "Pace",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "P-TB1",
+            "frames": [
+              {
+                "id": "airport",
+                "prompt": "Travel day: delays, announcements, messages.",
+                "tags": ["travel","interruption"],
+                "options": [
+                  {"token":"CLOSE","text":"Batch replies; close a small task fully."},
+                  {"token":"STALL","text":"Hop between tasks to keep many alive."},
+                  {"token":"FRAG","text":"Park work until settled."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "P-TB2",
+            "frames": [
+              {
+                "id": "regular_day",
+                "prompt": "Regular day with frequent pings.",
+                "tags": ["work","digital"],
+                "options": [
+                  {"token":"CLOSE","text":"Time-box replies; protect blocks."},
+                  {"token":"STALL","text":"Check pings every few minutes."},
+                  {"token":"FRAG","text":"Keep chat open while 'working'."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "Boundary": {
+      "integrity_check": {
+        "id": "B-IT",
+        "line": "Boundary",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-B1",
+            "frames": [
+              {
+                "id": "hard_block",
+                "prompt": "You set a hard block. What do you actually do?",
+                "tags": ["time","integrity"],
+                "options": [
+                  {"token":"CLOSE","text":"Hold line in one sentence."},
+                  {"token":"STALL","text":"Soften the line."},
+                  {"token":"FRAG","text":"Drop the line to please."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-B2",
+            "frames": [
+              {
+                "id": "warmth_add",
+                "prompt": "Same block with warmth pressure added.",
+                "tags": ["warmth","private"],
+                "options": [
+                  {"token":"CLOSE","text":"Hold boundary; offer alt."},
+                  {"token":"STALL","text":"Deflect with reasons."},
+                  {"token":"FRAG","text":"Give the exception."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "B-DL",
+        "line": "Boundary",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-B1",
+            "prompt": "Public invite collides with your boundary.",
+            "options": [
+              {"token":"STALL","text":"Non-committal 'maybe'."},
+              {"token":"FRAG","text":"Accept to avoid optics."}
+            ],
+            "tags": ["public","social"]
+          },
+          {
+            "qid": "DL-B2",
+            "prompt": "Private warmth pull: 'just this once.'",
+            "options": [
+              {"token":"STALL","text":"Long, soft 'maybe'."},
+              {"token":"FRAG","text":"Say yes; move your block."}
+            ],
+            "tags": ["warmth","private"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "B-TB",
+        "line": "Boundary",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "B-TB1",
+            "frames": [
+              {
+                "id": "public_invite",
+                "prompt": "Public group invite lands inside your block.",
+                "tags": ["public","time"],
+                "options": [
+                  {"token":"CLOSE","text":"Decline + alt slot."},
+                  {"token":"STALL","text":"Maybe; see how it goes."},
+                  {"token":"FRAG","text":"Accept to avoid optics."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "B-TB2",
+            "frames": [
+              {
+                "id": "private_ask",
+                "prompt": "Friend privately asks 'just this once.'",
+                "tags": ["warmth","private","time"],
+                "options": [
+                  {"token":"CLOSE","text":"Can't today; here's a fit."},
+                  {"token":"FRAG","text":"Ok, this time."},
+                  {"token":"STALL","text":"Long explanation that ends in yes."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "Truth": {
+      "integrity_check": {
+        "id": "T-IT",
+        "line": "Truth",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-T1",
+            "frames": [
+              {
+                "id": "binary_due",
+                "prompt": "You know a binary call is due. What do you do?",
+                "tags": ["decision","integrity"],
+                "options": [
+                  {"token":"CLOSE","text":"Decide cleanly now."},
+                  {"token":"STALL","text":"Hedge with more reasons."},
+                  {"token":"FRAG","text":"Keep it open."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-T2",
+            "frames": [
+              {
+                "id": "social_pressure",
+                "prompt": "Same call with social pressure added.",
+                "tags": ["status","integrity"],
+                "options": [
+                  {"token":"CLOSE","text":"Lock and move."},
+                  {"token":"STALL","text":"Seek alignment first."},
+                  {"token":"FRAG","text":"Start a discussion instead of deciding."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "T-DL",
+        "line": "Truth",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-T1",
+            "prompt": "Ambiguity remains. Which drift shows?",
+            "options": [
+              {"token":"STALL","text":"Delay for one more input."},
+              {"token":"FRAG","text":"Avoid committing altogether."}
+            ],
+            "tags": ["ambiguity","decision"]
+          },
+          {
+            "qid": "DL-T2",
+            "prompt": "Downside visible. Which drift shows?",
+            "options": [
+              {"token":"STALL","text":"Delay to dodge risk."},
+              {"token":"FRAG","text":"Reframe to escape the choice."}
+            ],
+            "tags": ["downside","decision"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "T-TB",
+        "line": "Truth",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "T-TB1",
+            "frames": [
+              {
+                "id": "owner",
+                "prompt": "You own the decision; team asks for a call.",
+                "tags": ["status","owner"],
+                "options": [
+                  {"token":"CLOSE","text":"Decide and post the call."},
+                  {"token":"STALL","text":"Delay for consensus."},
+                  {"token":"FRAG","text":"Open a thread to discuss options."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "T-TB2",
+            "frames": [
+              {
+                "id": "advisory",
+                "prompt": "You advise; someone else owns.",
+                "tags": ["advisory","status"],
+                "options": [
+                  {"token":"CLOSE","text":"One clear rec; step back."},
+                  {"token":"STALL","text":"Keep adding caveats."},
+                  {"token":"FRAG","text":"Avoid a position; hand it back."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "Recognition": {
+      "integrity_check": {
+        "id": "R-IT",
+        "line": "Recognition",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-R1",
+            "frames": [
+              {
+                "id": "act_without_optics",
+                "prompt": "You can act now without optics. What do you do?",
+                "tags": ["solo","integrity"],
+                "options": [
+                  {"token":"CLOSE","text":"Act now; publish receipt."},
+                  {"token":"STALL","text":"Wait to be seen."},
+                  {"token":"FRAG","text":"Tease it first."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-R2",
+            "frames": [
+              {
+                "id": "status_pressure",
+                "prompt": "Same moment, mild status pressure added.",
+                "tags": ["status","audience"],
+                "options": [
+                  {"token":"CLOSE","text":"Result first, summary later."},
+                  {"token":"STALL","text":"Loop authority before moving."},
+                  {"token":"FRAG","text":"Hype first; deliver later."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "R-DL",
+        "line": "Recognition",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-R1",
+            "prompt": "No audience. Which drift shows?",
+            "options": [
+              {"token":"STALL","text":"Wait for buy-in."},
+              {"token":"FRAG","text":"Pre-announce for attention."}
+            ],
+            "tags": ["solo","quiet"]
+          },
+          {
+            "qid": "DL-R2",
+            "prompt": "Audience tomorrow; quiet time today.",
+            "options": [
+              {"token":"STALL","text":"Wait for the stage."},
+              {"token":"FRAG","text":"Announce intent now; do later."}
+            ],
+            "tags": ["audience","timing"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "R-TB",
+        "line": "Recognition",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "R-TB1",
+            "frames": [
+              {
+                "id": "receipt_first",
+                "prompt": "You finish a step.",
+                "tags": ["artifact","result"],
+                "options": [
+                  {"token":"CLOSE","text":"Post the artifact only (what happened)."},
+                  {"token":"FRAG","text":"Post artifact + ask for applause."},
+                  {"token":"STALL","text":"Hold the artifact; wait for a meeting."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "R-TB2",
+            "frames": [
+              {
+                "id": "praise_pull",
+                "prompt": "People are praising you in a thread.",
+                "tags": ["public","audience"],
+                "options": [
+                  {"token":"CLOSE","text":"Thank once; add the next step you'll do."},
+                  {"token":"FRAG","text":"Keep replying to extend the praise thread."},
+                  {"token":"STALL","text":"Thank and pause; save further action for the presentation."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "Bonding": {
+      "integrity_check": {
+        "id": "BN-IT",
+        "line": "Bonding",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-BN1",
+            "frames": [
+              {
+                "id": "they_dislike",
+                "prompt": "They dislike your boundary. What do you do?",
+                "tags": ["warmth","boundary"],
+                "options": [
+                  {"token":"CLOSE","text":"Hold it gently."},
+                  {"token":"STALL","text":"Soften it."},
+                  {"token":"FRAG","text":"Drop it to keep harmony."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-BN2",
+            "frames": [
+              {
+                "id": "closer_pull",
+                "prompt": "Stronger closeness pull; same request.",
+                "tags": ["intimacy","boundary"],
+                "options": [
+                  {"token":"CLOSE","text":"Boundary + next step."},
+                  {"token":"STALL","text":"Reasons + maybe."},
+                  {"token":"FRAG","text":"Say yes to ease tension."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "BN-DL",
+        "line": "Bonding",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-BN1",
+            "prompt": "Afraid of losing a new bond.",
+            "options": [
+              {"token":"STALL","text":"Bend 'just this time'."},
+              {"token":"FRAG","text":"Over-explain instead of holding line."}
+            ],
+            "tags": ["new","warmth"]
+          },
+          {
+            "qid": "DL-BN2",
+            "prompt": "Trusted teammate asks for an exception.",
+            "options": [
+              {"token":"STALL","text":"Make the exception to avoid friction."},
+              {"token":"FRAG","text":"Soothe with long rationale."}
+            ],
+            "tags": ["long_term","work"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "BN-TB",
+        "line": "Bonding",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "BN-TB1",
+            "frames": [
+              {
+                "id": "family",
+                "prompt": "Family member wants inside your protected time.",
+                "tags": ["family","time"],
+                "options": [
+                  {"token":"CLOSE","text":"Hold the line; propose a new slot."},
+                  {"token":"STALL","text":"Explain a lot then say maybe."},
+                  {"token":"FRAG","text":"Say yes 'just this once'."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "BN-TB2",
+            "frames": [
+              {
+                "id": "client",
+                "prompt": "Client requests a favor beyond scope.",
+                "tags": ["client","scope"],
+                "options": [
+                  {"token":"CLOSE","text":"Restate scope; offer paid add-on."},
+                  {"token":"STALL","text":"Promise later; avoid saying no."},
+                  {"token":"FRAG","text":"Do it free to keep them happy."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+
+    "Stress": {
+      "integrity_check": {
+        "id": "S-IT",
+        "line": "Stress",
+        "type": "integrity_check",
+        "questions": [
+          {
+            "qid": "IT-S1",
+            "frames": [
+              {
+                "id": "one_proof",
+                "prompt": "Load is high; one proof is possible now.",
+                "tags": ["load","decision"],
+                "options": [
+                  {"token":"CLOSE","text":"Close one, then the next."},
+                  {"token":"STALL","text":"Reorganize first."},
+                  {"token":"FRAG","text":"Keep many things moving a little."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "IT-S2",
+            "frames": [
+              {
+                "id": "social_noise",
+                "prompt": "Same load with social noise added.",
+                "tags": ["interruption","social"],
+                "options": [
+                  {"token":"CLOSE","text":"Shut noise; close a unit."},
+                  {"token":"STALL","text":"Tidy boards; work later."},
+                  {"token":"FRAG","text":"Bounce across tasks."}
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "direction_lock": {
+        "id": "S-DL",
+        "line": "Stress",
+        "type": "direction_lock",
+        "questions": [
+          {
+            "qid": "DL-S1",
+            "prompt": "High volume. Which drift shows?",
+            "options": [
+              {"token":"FRAG","text":"Hop across tasks (many alive)."},
+              {"token":"STALL","text":"Park all to reorganize."}
+            ],
+            "tags": ["volume","time"]
+          },
+          {
+            "qid": "DL-S2",
+            "prompt": "Decision is interrupted.",
+            "options": [
+              {"token":"FRAG","text":"Answer ping, resume later."},
+              {"token":"STALL","text":"Stop to gather more info."}
+            ],
+            "tags": ["interruption","decision"]
+          }
+        ]
+      },
+      "standard_tiebreak": {
+        "id": "S-TB",
+        "line": "Stress",
+        "type": "standard_tiebreak",
+        "questions": [
+          {
+            "qid": "S-TB1",
+            "frames": [
+              {
+                "id": "interrupted",
+                "prompt": "Ping arrives mid-decision.",
+                "tags": ["interruption","decision"],
+                "options": [
+                  {"token":"CLOSE","text":"Ignore ping; finish decision; respond after."},
+                  {"token":"FRAG","text":"Answer first; resume later."},
+                  {"token":"STALL","text":"Stop deciding; collect more info."}
+                ]
+              }
+            ]
+          },
+          {
+            "qid": "S-TB2",
+            "frames": [
+              {
+                "id": "quiet_window",
+                "prompt": "You finally get a quiet 40-minute window.",
+                "tags": ["quiet","time"],
+                "options": [
+                  {"token":"CLOSE","text":"Close one meaningful unit now."},
+                  {"token":"STALL","text":"Organize lists; do the work later."},
+                  {"token":"FRAG","text":"Skim messages 'just in case'."}
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

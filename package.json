@@ -1,0 +1,35 @@
+{
+  "name": "core-engine-nextjs-app",
+  "version": "1.0.0",
+  "description": "Core TypeScript engine with Next.js 14+ app",
+  "private": true,
+  "workspaces": [
+    "packages/core-engine",
+    "apps/web-app"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=apps/web-app",
+    "dev:watch": "npm run dev --workspace=apps/web-app -- --watch",
+    "dev:forever": "forever start -c \"npm run dev\" --watch --watchDirectory ./apps/web-app/src",
+    "dev:nodemon": "nodemon --watch ./apps/web-app/src --exec \"npm run dev\"",
+    "dev:always": "concurrently \"npm run dev --workspace=apps/web-app\" \"nodemon --watch ./apps/web-app/src --ignore ./apps/web-app/.next --exec 'echo Restarting dev server...'\" --on-change-only",
+    "dev:phone": "npm run dev --workspace=apps/web-app -- --hostname 0.0.0.0 --port 3000",
+    "dev:phone:always": "concurrently \"npm run dev:phone\" \"nodemon --watch ./apps/web-app/src --ignore ./apps/web-app/.next --exec 'echo Restarting dev server...'\" --on-change-only",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "type-check": "npm run type-check --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0",
+    "concurrently": "^8.0.0",
+    "wait-on": "^7.0.0",
+    "nodemon": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

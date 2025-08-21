@@ -1,0 +1,134 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg:#0A0A0A;            /* canvas */
+  --gold:#E0B84A;          /* engraved gold */
+  --gold-shadow:#B7892D;   /* shadow for engraving */
+  --red:#7B2D26;           /* lilies + CTA base */
+}
+
+html,body {
+  background: var(--bg);
+  color: var(--gold);
+}
+
+.hd {
+  font-family: 'Cinzel', serif;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+}
+.body {
+  font-family: 'Lora', serif;
+}
+
+/* engraved gold effect */
+.gilded {
+  color: var(--gold);
+  text-shadow:
+    0.5px 0.5px 0 var(--gold-shadow),
+    -0.5px -0.5px 0 var(--gold-shadow),
+    1px 1px 2px rgba(0,0,0,0.7);
+  letter-spacing: .03em;
+}
+
+.hero-wrap {
+  max-width: 1120px;
+  margin: 24px auto;
+  padding: 28px;
+}
+.panel {
+  background: #111;
+  border-radius: 14px;
+  border: 1px solid var(--gold);
+  box-shadow:
+    0 0 0 1px var(--gold-shadow) inset,
+    0 18px 40px rgba(0,0,0,.45);
+  padding: clamp(20px,4vw,36px);
+}
+
+/* caption rule */
+.rule {
+  height:1px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  opacity:.8;
+}
+
+/* CTA: red base w/ gold text */
+.btn {
+  display:inline-block;
+  padding:12px 18px;
+  border-radius:10px;
+  border:1px solid var(--red);
+  background:var(--red);
+  color:var(--gold);
+  font-family:'Cinzel',serif;
+  font-weight:700;
+  letter-spacing:.02em;
+  transition:transform .12s ease, filter .12s ease;
+}
+.btn:hover {
+  background:var(--gold);
+  color:var(--red);
+  border-color:var(--gold);
+  transform:translateY(-1px);
+}
+
+/* grid */
+.hero {
+  display:grid;
+  gap:28px;
+  align-items:center;
+  justify-items:center;
+  grid-template-columns: 1fr;
+}
+@media (max-width: 960px){
+  .hero{ text-align:center }
+}
+
+/* image frame */
+.poster {
+  border:1px solid var(--gold);
+  border-radius:12px;
+  overflow:hidden;
+  background:#0e0e0e;
+  box-shadow: 0 10px 28px rgba(0,0,0,.45);
+}
+.caption {
+  font-size:12px;
+  opacity:.8;
+  margin-top:8px;
+}
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary-600 text-white hover:bg-primary-700 focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200;
+  }
+}
