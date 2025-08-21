@@ -51,7 +51,7 @@ export default function HomePage() {
               aria-label="Start the free test"
               style={{
                 position: 'absolute',
-                top: '81%',  /* Moved down 1 tick */
+                top: '81.35%',  /* Moved down 0.35% */
                 left: '51.5%',  /* Moved right to collapse right border by half a tick */
                 transform: 'translateX(-50%)',  /* Center the element */
                 width: '50%',  /* Increased width as requested */
