@@ -44,20 +44,31 @@ export default function HomePage() {
               style={{display:'block', width:'100%', height:'auto', objectFit:'contain'}}/>
             
             {/* Invisible clickable overlay over the fake button in the image */}
-            <div 
+            <button 
               onClick={handleStartTest}
+              role="button"
+              tabIndex={0}
+              aria-label="Start the free test"
               style={{
                 position: 'absolute',
-                top: '81%',  /* Moved up one click for perfect alignment */
+                top: '81%',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                width: '480px',  /* Increased by 20% from 400px to 480px */
-                height: '108px',  /* Increased by 20% from 90px to 108px */
+                width: '55%',  /* Percentage-based for responsive scaling */
+                height: '12%',  /* Percentage-based for responsive scaling */
                 cursor: 'pointer',
-                zIndex: 10
-                /* Now completely invisible but still clickable */
+                zIndex: 10,
+                border: 'none',
+                background: 'transparent',
+                padding: 0,
+                margin: 0
               }}
-              title="Click to start the test"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleStartTest();
+                }
+              }}
             />
           </div>
         </div>

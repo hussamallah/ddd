@@ -246,3 +246,25 @@ body{ background: var(--charcoal); }
     @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200;
   }
 }
+
+/* Invisible button overlay for fake button in image */
+button[aria-label="Start the free test"] {
+  transition: all 0.2s ease;
+}
+
+button[aria-label="Start the free test"]:hover,
+button[aria-label="Start the free test"]:focus {
+  outline: 2px solid rgba(224, 184, 74, 0.6);
+  outline-offset: 2px;
+  filter: drop-shadow(0 0 8px rgba(224, 184, 74, 0.4));
+}
+
+button[aria-label="Start the free test"]:active {
+  transform: translateX(-50%) translateY(1px);
+  filter: drop-shadow(0 0 4px rgba(224, 184, 74, 0.3));
+}
+
+button[aria-label="Start the free test"]:focus-visible {
+  outline: 2px solid rgba(224, 184, 74, 0.8);
+  outline-offset: 3px;
+}
