@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { generateQuizResult } from '@/lib/air-generator';
+import { generateQuizResult, type LineVerdict, type QuizResult } from '@/lib/air-generator';
 import HeaderSection from './HeaderSection';
 import TradeCardsSection from './TradeCardsSection';
 import GoodBadUglySection from './GoodBadUglySection';
@@ -85,6 +85,11 @@ function getArchetypeColor(name: string) {
   return ARCHETYPE_COLORS[name] || colorFromString(name || "fallback");
 }
 
+// Convert A-B-C counts to base pattern string (e.g., [3,0,0] -> "300")
+function countsToPattern(counts: [number, number, number]): string {
+  return counts.join('');
+}
+
 // -------------------------------
 // Components
 // -------------------------------
@@ -152,7 +157,7 @@ const CompatibilityCard: React.FC<CompatProps> = ({ theme }) => {
 interface ChamberUniverseLayoutProps {
   archetype?: ArchetypeEntry;
   themeColor?: string;
-  result?: any; // The actual quiz result from generateQuizResult
+  result?: QuizResult; // The actual quiz result from generateQuizResult
 }
 
 export default function ChamberUniverseLayout({ archetype, themeColor = "#6366f1", result }: ChamberUniverseLayoutProps) {
@@ -182,9 +187,11 @@ export default function ChamberUniverseLayout({ archetype, themeColor = "#6366f1
         return {
           line,
           distance,
-          counts: { base: baseCounts, final: finalCounts },
-          reason: 'context pressure',
-          variance: false
+          base: countsToPattern([baseCounts.A, baseCounts.B, baseCounts.C]),
+          final: countsToPattern([finalCounts.A, finalCounts.B, finalCounts.C]),
+          slipDriver: 'context pressure',
+          variance: false,
+          card: `${line}: ${distance} analysis`
         };
       });
 
@@ -247,7 +254,7 @@ export default function ChamberUniverseLayout({ archetype, themeColor = "#6366f1
       <div className="h-[calc(100vh-80px)] w-full p-2">
         <div className="h-full w-full grid gap-2 grid-cols-8">
           {ALL_LINES.map((line) => {
-            const lineResult = diagnosticResult.lines.find(l => l.line === line);
+            const lineResult = diagnosticResult.lines.find((l: LineVerdict) => l.line === line);
             const stars = lineResult ? getStarsFromDistance(lineResult.distance) : 3;
             const body = lineResult ? lineResult.card : "Loading...";
             
