@@ -368,23 +368,23 @@ button[aria-label="Start the free test"]:focus-visible {
 /* Elegant red fade in/out animation */
 @keyframes elegantRedPulse {
   0% {
-    background: rgba(255, 0, 0, 0.6);
-    filter: drop-shadow(0 0 16px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 32px rgba(255, 0, 0, 0.8)) drop-shadow(inset 0 0 16px rgba(255, 0, 0, 0.35));
+    background: rgba(199, 54, 46, 0.9);
+    filter: drop-shadow(0 0 25px rgba(199, 54, 46, 1.2)) drop-shadow(0 0 50px rgba(199, 54, 46, 1)) drop-shadow(inset 0 0 25px rgba(199, 54, 46, 0.6)) drop-shadow(0 0 20px rgba(224, 184, 74, 1)) drop-shadow(0 0 40px rgba(224, 184, 74, 0.8));
   }
   25% {
-    background: rgba(255, 0, 0, 0.4);
-    filter: drop-shadow(0 0 14px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 28px rgba(255, 0, 0, 0.7)) drop-shadow(inset 0 0 14px rgba(255, 0, 0, 0.3));
+    background: rgba(199, 54, 46, 0.7);
+    filter: drop-shadow(0 0 20px rgba(199, 54, 46, 1)) drop-shadow(0 0 40px rgba(199, 54, 46, 0.8)) drop-shadow(inset 0 0 20px rgba(199, 54, 46, 0.5)) drop-shadow(0 0 15px rgba(224, 184, 74, 1)) drop-shadow(0 0 30px rgba(224, 184, 74, 0.7));
   }
   50% {
-    background: rgba(255, 0, 0, 0.25);
-    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6)) drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)) drop-shadow(inset 0 0 10px rgba(255, 0, 0, 0.25));
+    background: rgba(199, 54, 46, 0.5);
+    filter: drop-shadow(0 0 15px rgba(199, 54, 46, 0.8)) drop-shadow(0 0 30px rgba(199, 54, 46, 0.6)) drop-shadow(inset 0 0 15px rgba(199, 54, 46, 0.4)) drop-shadow(0 0 10px rgba(224, 184, 74, 0.9)) drop-shadow(0 0 20px rgba(224, 184, 74, 0.6));
   }
   75% {
-    background: rgba(255, 0, 0, 0.4);
-    filter: drop-shadow(0 0 14px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 28px rgba(255, 0, 0, 0.7)) drop-shadow(inset 0 0 14px rgba(255, 0, 0, 0.3));
+    background: rgba(199, 54, 46, 0.7);
+    filter: drop-shadow(0 0 20px rgba(199, 54, 46, 1)) drop-shadow(0 0 40px rgba(199, 54, 46, 0.8)) drop-shadow(inset 0 0 20px rgba(199, 54, 46, 0.5)) drop-shadow(0 0 15px rgba(224, 184, 74, 1)) drop-shadow(0 0 30px rgba(224, 184, 74, 0.7));
   }
   100% {
-    background: rgba(255, 0, 0, 0.6);
-    filter: drop-shadow(0 0 16px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 32px rgba(255, 0, 0, 0.8)) drop-shadow(inset 0 0 16px rgba(255, 0, 0, 0.35));
+    background: rgba(199, 54, 46, 0.9);
+    filter: drop-shadow(0 0 25px rgba(199, 54, 46, 1.2)) drop-shadow(0 0 50px rgba(199, 54, 46, 1)) drop-shadow(inset 0 0 25px rgba(199, 54, 46, 0.6)) drop-shadow(0 0 20px rgba(224, 184, 74, 1)) drop-shadow(0 0 40px rgba(224, 184, 74, 0.8));
   }
 }
