@@ -156,7 +156,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'context pressure',
       variance: false,
       card: 'You maintain clear command under pressure. Your authority remains steady even when systems are stressed. **Truth:** you stay aligned with your core patterns.'
@@ -166,7 +165,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'deadline stress',
       variance: false,
       card: 'Your tempo remains consistent regardless of external pressure. You maintain steady rhythm even in chaos. **Truth:** your pace is your anchor.'
@@ -176,7 +174,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'social dynamics',
       variance: false,
       card: 'Your boundaries stay firm under pressure. You maintain clear limits even when others push. **Truth:** your boundaries protect your integrity.'
@@ -186,7 +183,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'complexity overload',
       variance: false,
       card: 'Your truth remains unwavering under pressure. You speak clearly even when it\'s uncomfortable. **Truth:** your honesty is your foundation.'
@@ -196,7 +192,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'attention splitting',
       variance: false,
       card: 'Your awareness stays sharp under pressure. You notice patterns even in chaos. **Truth:** your perception is your advantage.'
@@ -206,7 +201,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'relationship tension',
       variance: false,
       card: 'Your connections remain strong under pressure. You maintain relationships even when stressed. **Truth:** your bonds are your strength.'
@@ -216,7 +210,6 @@ export default function SampleResultPage() {
       distance: 'Close',
       base: '3-0-0',
       final: '3-0-0',
-      counts: { base: { A: 3, B: 0, C: 0 }, final: { A: 3, B: 0, C: 0 } },
       slipDriver: 'systemic pressure',
       variance: false,
       card: 'Your stress response remains controlled and productive. You channel pressure into performance. **Truth:** stress is your fuel.'

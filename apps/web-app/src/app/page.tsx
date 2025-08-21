@@ -40,7 +40,7 @@ export default function HomePage() {
         {/* CENTER: Poster */}
         <div style={{gridColumn:'1 / -1', textAlign:'center'}}>
           <div style={{maxWidth:'800px', margin:'0 auto'}}>
-            <img src="/images/landing -page.png" alt="Identity Core Mapper poster"
+            <img src="/images/landing-page2.png" alt="Identity Core Mapper poster"
               style={{display:'block', width:'100%', height:'auto'}}/>
           </div>
           
