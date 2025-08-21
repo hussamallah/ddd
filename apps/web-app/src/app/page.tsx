@@ -51,11 +51,11 @@ export default function HomePage() {
               aria-label="Start the free test"
               style={{
                 position: 'absolute',
-                top: '85%',  /* Moved down 3 ticks for perfect alignment */
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: '55%',  /* Percentage-based for responsive scaling */
-                height: '12%',  /* Percentage-based for responsive scaling */
+                top: '81%',  /* Moved down 1 tick */
+                left: '51.5%',  /* Moved right to collapse right border by half a tick */
+                transform: 'translateX(-50%)',  /* Center the element */
+                width: '50%',  /* Increased width as requested */
+                height: '7.5%',  /* Adjusted height as requested */
                 cursor: 'pointer',
                 zIndex: 10,
                 border: 'none',
