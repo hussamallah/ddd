@@ -254,30 +254,29 @@ button[aria-label="Start the free test"] {
 
 button[aria-label="Start the free test"]:hover,
 button[aria-label="Start the free test"]:focus {
-  outline: 3px solid rgba(255, 0, 0, 1);
-  outline-offset: 0px;
-  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 1.5)) drop-shadow(0 0 40px rgba(255, 0, 0, 1));
+  background: rgba(255, 0, 0, 0.3);
+  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 2)) drop-shadow(0 0 40px rgba(255, 0, 0, 1)) drop-shadow(inset 0 0 20px rgba(255, 0, 0, 0.4));
   animation: redPulse 2s ease-in-out infinite;
 }
 
 button[aria-label="Start the free test"]:active {
   transform: translateX(-50%) translateY(1px);
   filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7));
+  background: rgba(255, 0, 0, 0.5);
 }
 
 button[aria-label="Start the free test"]:focus-visible {
-  outline: 3px solid rgba(255, 0, 0, 1);
-  outline-offset: 0px;
+  background: rgba(255, 0, 0, 0.3);
 }
 
 /* Red fade in/out animation */
 @keyframes redPulse {
   0%, 100% {
-    outline-color: rgba(255, 0, 0, 0.7);
-    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 0, 0, 1));
+    background: rgba(255, 0, 0, 0.2);
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.6)) drop-shadow(0 0 30px rgba(255, 0, 0, 1)) drop-shadow(inset 0 0 15px rgba(255, 0, 0, 0.3));
   }
   50% {
-    outline-color: rgba(255, 0, 0, 1);
-    filter: drop-shadow(0 0 25px rgba(255, 0, 0, 1.5)) drop-shadow(0 0 50px rgba(255, 0, 0, 1));
+    background: rgba(255, 0, 0, 0.4);
+    filter: drop-shadow(0 0 25px rgba(255, 0, 0, 2)) drop-shadow(0 0 50px rgba(255, 0, 0, 1)) drop-shadow(inset 0 0 25px rgba(255, 0, 0, 0.5));
   }
 }

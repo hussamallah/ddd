@@ -10,12 +10,9 @@ const nextConfig = {
 
 // 🔴 GLOBAL KILL SWITCH: never static-export on Vercel
 if (process.env.VERCEL) {
-  nextConfig.output = 'standalone'; // forces server build packaging
-  // and if a shared config added export, nuke it:
-  // @ts-ignore
-  if (nextConfig.output === 'export') nextConfig.output = 'standalone';
-  // Helpful visibility:
-  console.log('[next.config] on Vercel → output =', nextConfig.output);
+  // Use standard output for Vercel to avoid routing issues
+  // nextConfig.output = 'standalone'; // Commented out to fix routes manifest issue
+  console.log('[next.config] on Vercel → using standard output');
 }
 
 module.exports = nextConfig
