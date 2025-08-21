@@ -51,9 +51,9 @@ export default function HomePage() {
               aria-label="Start the free test"
               style={{
                 position: 'absolute',
-                top: '81%',
+                top: '85%',  /* Moved down 3 ticks for perfect alignment */
                 left: '50%',
-                transform: 'translateX(-50%)',
+                transform: 'translate(-50%, -50%)',
                 width: '55%',  /* Percentage-based for responsive scaling */
                 height: '12%',  /* Percentage-based for responsive scaling */
                 cursor: 'pointer',
