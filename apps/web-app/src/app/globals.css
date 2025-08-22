@@ -187,7 +187,7 @@ body{ background: var(--charcoal); }
 }
 
 .hero-wrap {
-  max-width: 1150px;
+  max-width: 1200px;
   margin: 24px auto;
   padding: 20px;
 }
@@ -330,61 +330,47 @@ body{ background: var(--charcoal); }
 
 /* Invisible button overlay for fake button in image */
 button[aria-label="Start the free test"] {
-  transition: all 0.3s ease;
-  border: none !important;
+  transition: all 0.3s ease !important;
+  border: 3px solid #E0B84A !important;
   outline: none !important;
   box-shadow: none !important;
-  background: rgba(255, 0, 0, 0.15);
-  filter: drop-shadow(0 0 12px rgba(255, 0, 0, 0.4)) drop-shadow(0 0 25px rgba(255, 0, 0, 0.7)) drop-shadow(inset 0 0 12px rgba(255, 0, 0, 0.2));
-  animation: elegantRedPulse 3s ease-in-out infinite;
+  background: transparent !important;
+  filter: drop-shadow(0 0 30px rgba(224, 184, 74, 0.8)) drop-shadow(0 0 60px rgba(224, 184, 74, 0.6)) !important;
+  animation: goldBorderPulse 2s ease-in-out infinite !important;
 }
 
 button[aria-label="Start the free test"]:hover,
 button[aria-label="Start the free test"]:focus {
-  background: rgba(255, 0, 0, 0.4);
-  filter: drop-shadow(0 0 20px rgba(255, 0, 0, 2)) drop-shadow(0 0 40px rgba(255, 0, 0, 1)) drop-shadow(inset 0 0 20px rgba(255, 0, 0, 0.5));
-  animation: elegantRedPulse 2s ease-in-out infinite;
-  border: none !important;
+  background: transparent !important;
+  border: 3px solid #E0B84A !important;
+  filter: drop-shadow(0 0 45px rgba(224, 184, 74, 1)) drop-shadow(0 0 90px rgba(224, 184, 74, 0.8)) !important;
+  animation: goldBorderPulse 2s ease-in-out infinite !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
 button[aria-label="Start the free test"]:active {
-  transform: translateX(-50%) translateY(1px);
-  filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7));
-  background: rgba(255, 0, 0, 0.6);
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+  transform: translateX(-50%) translateY(1px) !important;
+  background: transparent !important;
+  border: 3px solid #E0B84A !important;
+  filter: drop-shadow(0 0 30px rgba(224, 184, 74, 0.7)) !important;
 }
 
 button[aria-label="Start the free test"]:focus-visible {
-  background: rgba(255, 0, 0, 0.4);
-  border: none !important;
+  background: transparent !important;
+  border: 3px solid #E0B84A !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Elegant red fade in/out animation */
-@keyframes elegantRedPulse {
-  0% {
-    background: rgba(255, 0, 0, 0.6);
-    filter: drop-shadow(0 0 16px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 32px rgba(255, 0, 0, 0.8)) drop-shadow(inset 0 0 16px rgba(255, 0, 0, 0.35));
-  }
-  25% {
-    background: rgba(255, 0, 0, 0.4);
-    filter: drop-shadow(0 0 14px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 28px rgba(255, 0, 0, 0.7)) drop-shadow(inset 0 0 14px rgba(255, 0, 0, 0.3));
+/* Gold border neon light animation - outward only */
+@keyframes goldBorderPulse {
+  0%, 100% {
+    border-color: #E0B84A !important;
+    filter: drop-shadow(0 0 30px rgba(224, 184, 74, 0.8)) drop-shadow(0 0 60px rgba(224, 184, 74, 0.6)) !important;
   }
   50% {
-    background: rgba(255, 0, 0, 0.25);
-    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.6)) drop-shadow(0 0 20px rgba(255, 0, 0, 0.5)) drop-shadow(inset 0 0 10px rgba(255, 0, 0, 0.25));
-  }
-  75% {
-    background: rgba(255, 0, 0, 0.4);
-    filter: drop-shadow(0 0 14px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 28px rgba(255, 0, 0, 0.7)) drop-shadow(inset 0 0 14px rgba(255, 0, 0, 0.3));
-  }
-  100% {
-    background: rgba(255, 0, 0, 0.6);
-    filter: drop-shadow(0 0 16px rgba(255, 0, 0, 0.9)) drop-shadow(0 0 32px rgba(255, 0, 0, 0.8)) drop-shadow(inset 0 0 16px rgba(255, 0, 0, 0.35));
+    border-color: #F2D88A !important;
+    filter: drop-shadow(0 0 45px rgba(224, 184, 74, 1)) drop-shadow(0 0 90px rgba(224, 184, 74, 0.8)) !important;
   }
 }

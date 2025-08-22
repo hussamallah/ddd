@@ -39,8 +39,8 @@ export default function HomePage() {
       <div className="hero">
         {/* CENTER: Poster */}
         <div style={{gridColumn:'1 / -1', textAlign:'center'}}>
-          <div style={{maxWidth:'860px', margin:'0 auto', position:'relative'}}>
-            <img src="/images/landing-page2.png" alt="Identity Core Mapper poster"
+          <div style={{maxWidth:'420px', margin:'0 auto', position:'relative'}}>
+            <img src="/images/main-landingcrow.png" alt="Identity Core Mapper poster"
               style={{display:'block', width:'100%', height:'auto', objectFit:'contain'}}/>
             
             {/* Invisible clickable overlay over the fake button in the image */}
@@ -51,15 +51,15 @@ export default function HomePage() {
               aria-label="Start the free test"
               style={{
                 position: 'absolute',
-                top: '81.35%',  /* Moved down 0.35% */
-                left: '51.5%',  /* Moved right to collapse right border by half a tick */
+                top: '77.85%',  /* Moved down 3.5% for fine-tuning */
+                left: '53.6%',  /* Moved right another 0.3% for fine-tuning */
                 transform: 'translateX(-50%)',  /* Center the element */
                 width: '50%',  /* Increased width as requested */
                 height: '7.5%',  /* Adjusted height as requested */
                 cursor: 'pointer',
                 zIndex: 10,
                 border: 'none',
-                background: 'transparent',
+                background: 'rgba(255, 255, 255, 0.1)',  /* Temporary visible background */
                 padding: 0,
                 margin: 0
               }}
