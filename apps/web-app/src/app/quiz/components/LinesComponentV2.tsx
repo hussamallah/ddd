@@ -17,7 +17,25 @@ export default function LinesComponentV2({
   lineItems,
   lineDuelItems
 }: LinesComponentV2Props) {
-  // Define lines array FIRST, before any hooks or logic
+  // ALL HOOKS MUST BE CALLED FIRST, before any validation or logic
+  const [currentLineIndex, setCurrentLineIndex] = useState(() => {
+    // Start from the first unprocessed line
+    const processedLines = quizState?.lines?.lineVerdicts?.map(v => v.line) || [];
+    const lines: Line[] = ['Control', 'Pace', 'Boundary', 'Truth', 'Recognition', 'Bonding', 'Stress'];
+    const firstUnprocessedIndex = lines.findIndex(line => !processedLines.includes(line));
+    console.log('🎯 Initializing line index:', { processedLines, firstUnprocessedIndex, lines });
+    return firstUnprocessedIndex >= 0 ? firstUnprocessedIndex : 0;
+  });
+  const [currentItemIndex, setCurrentItemIndex] = useState(0);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [lineVerdicts, setLineVerdicts] = useState<Record<Line, Array<{ token: 'C' | 'O' | 'F'; severity: number }>>>({} as Record<Line, Array<{ token: 'C' | 'O' | 'F'; severity: number }>>);
+  const [needsLineDuel, setNeedsLineDuel] = useState<Line | null>(null);
+  const [currentLine, setCurrentLine] = useState<Line>(() => {
+    const lines: Line[] = ['Control', 'Pace', 'Boundary', 'Truth', 'Recognition', 'Bonding', 'Stress'];
+    return lines[currentLineIndex];
+  });
+
+  // Define lines array
   const lines: Line[] = ['Control', 'Pace', 'Boundary', 'Truth', 'Recognition', 'Bonding', 'Stress'];
 
   // Validate props
@@ -54,22 +72,25 @@ export default function LinesComponentV2({
     );
   }
 
-  // ALL HOOKS MUST BE CALLED BEFORE ANY LOGIC THAT USES VARIABLES
-  const [currentLineIndex, setCurrentLineIndex] = useState(() => {
-    // Start from the first unprocessed line
-    const processedLines = quizState.lines.lineVerdicts.map(v => v.line);
-    const firstUnprocessedIndex = lines.findIndex(line => !processedLines.includes(line));
-    console.log('🎯 Initializing line index:', { processedLines, firstUnprocessedIndex, lines });
-    return firstUnprocessedIndex >= 0 ? firstUnprocessedIndex : 0;
-  });
-  const [currentItemIndex, setCurrentItemIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [lineVerdicts, setLineVerdicts] = useState<Record<Line, Array<{ token: 'C' | 'O' | 'F'; severity: number }>>>({} as Record<Line, Array<{ token: 'C' | 'O' | 'F'; severity: number }>>);
-  const [needsLineDuel, setNeedsLineDuel] = useState<Line | null>(null);
+  // NOW you can use currentLine - after all hooks are called
+  const currentLineItems = lineItems.filter(item => item.line === currentLine);
 
-  // NOW we can use the lines array and other variables
-  const currentLine = lines[currentLineIndex];
-  
+  // Validate currentLineItems has items
+  if (currentLineItems.length === 0) {
+    return (
+      <div className="text-center p-8">
+        <div className="text-red-400 text-6xl mb-4">⚠️</div>
+        <h2 className="text-xl font-bold text-white mb-4">No Items for Current Line</h2>
+        <p className="text-neutral-300">No items found for line: {currentLine}</p>
+      </div>
+    );
+  }
+
+  // Only show content when in the lines stage
+  if (quizState?.stage !== 'lines') {
+    return null;
+  }
+
   // Debug logging
   console.log('🔍 LinesComponentV2 Debug:', {
     currentLine,
@@ -81,7 +102,20 @@ export default function LinesComponentV2({
     uniqueLineNames: [...new Set(lineItems.map(item => item.line))]
   });
   
-  const currentLineItems = lineItems.filter(item => item.line === currentLine);
+  // Wrap the main render logic in try-catch
+  try {
+    // Before accessing line items, validate the indices
+    if (currentItemIndex >= currentLineItems.length) {
+      console.error(`⚠️ Item index ${currentItemIndex} out of bounds for line ${currentLine}. Available: ${currentLineItems.length}`);
+      // Reset to valid index
+      setCurrentItemIndex(0);
+    }
+  } catch (error) {
+    console.error('🚨 Error in LinesComponentV2:', error);
+    return <div>Error loading quiz. Please refresh.</div>;
+  }
+
+  // Now safely access the item
   const currentItem = currentLineItems[currentItemIndex];
 
   // Debug current line items
@@ -130,14 +164,46 @@ export default function LinesComponentV2({
     });
   }, [currentLine, currentLineIndex, currentItemIndex, currentLineItems, currentItem, shouldSkipFamilyLine, lineVerdicts]);
 
+  // Ensure line items are properly filtered
+  useEffect(() => {
+    const filteredItems = lineItems.filter(item => item.line === currentLine);
+    console.log(`🔍 Line ${currentLine} has ${filteredItems.length} items:`, filteredItems);
+    
+    // Validate current item index
+    if (currentItemIndex >= filteredItems.length) {
+      console.warn(`⚠️ Resetting item index from ${currentItemIndex} to 0 for line ${currentLine}`);
+      setCurrentItemIndex(0);
+    }
+  }, [currentLine, lineItems, currentItemIndex]);
+
   const handleOptionSelect = (optionKey: string) => {
+    // Validate current stage
+    if (quizState?.stage !== 'lines') {
+      console.warn('⚠️ LinesComponentV2: Ignoring option selection - wrong stage:', quizState?.stage);
+      return;
+    }
+    
     setSelectedOption(optionKey);
     
     // Auto-confirm the selection after a brief delay for visual feedback
     setTimeout(() => {
-      if (!currentItem) return;
+      // Check if stage has changed during the delay
+      if (quizState?.stage !== 'lines') {
+        console.warn('⚠️ LinesComponentV2: Stage changed during delay, ignoring selection');
+        return;
+      }
+      
+      if (!currentItem || !currentItem.token_map) {
+        console.error('❌ Invalid currentItem or missing token_map:', currentItem);
+        return;
+      }
 
       const token = currentItem.token_map[optionKey];
+      if (!token) {
+        console.error('❌ No token found for option:', optionKey, 'in currentItem:', currentItem);
+        return;
+      }
+      
       const severity = token === 'C' ? 0 : token === 'O' ? 1 : 2;
 
       // Record this item's verdict
@@ -145,6 +211,12 @@ export default function LinesComponentV2({
       if (!newLineVerdicts[currentLine]) {
         newLineVerdicts[currentLine] = [];
       }
+      
+      // Safety check to ensure the array is properly initialized
+      if (!Array.isArray(newLineVerdicts[currentLine])) {
+        newLineVerdicts[currentLine] = [];
+      }
+      
       newLineVerdicts[currentLine][currentItemIndex] = { token, severity };
       setLineVerdicts(newLineVerdicts);
 
@@ -160,10 +232,29 @@ export default function LinesComponentV2({
         
         // No duel needed, determine final verdict
         const finalVerdict = determineLineVerdict(newLineVerdicts[currentLine]);
-        onLineVerdict(currentLine, finalVerdict.token, finalVerdict.severity, {
-          item1: newLineVerdicts[currentLine][0],
-          item2: newLineVerdicts[currentLine][1]
-        });
+        
+        // Safety check to ensure finalVerdict is valid
+        if (!finalVerdict || !finalVerdict.token || finalVerdict.severity === undefined) {
+          console.error('❌ Invalid finalVerdict:', finalVerdict, 'for line:', currentLine);
+          return;
+        }
+        
+        // Double-check stage before calling onLineVerdict
+        if (quizState?.stage === 'lines') {
+          // Safety check to ensure we have the expected items
+          const lineItems = newLineVerdicts[currentLine];
+          if (!lineItems || lineItems.length < 2) {
+            console.error('❌ Insufficient line items for verdict:', lineItems);
+            return;
+          }
+          
+          onLineVerdict(currentLine, finalVerdict.token, finalVerdict.severity, {
+            item1: lineItems[0],
+            item2: lineItems[1]
+          });
+        } else {
+          console.warn('⚠️ Stage changed after line completion, not recording line verdict');
+        }
 
         // Move to next line
         if (currentLineIndex < lines.length - 1) {
@@ -175,14 +266,31 @@ export default function LinesComponentV2({
   };
 
   const handleLineDuelResult = (winner: 'C' | 'O' | 'F') => {
+    // Validate current stage
+    if (quizState?.stage !== 'lines') {
+      console.warn('⚠️ LinesComponentV2: Ignoring duel result - wrong stage:', quizState?.stage);
+      return;
+    }
+    
     const severity = winner === 'C' ? 0 : winner === 'O' ? 1 : 2;
     
     // Record the duel result and complete the line
-    onLineVerdict(needsLineDuel!, winner, severity, {
-      item1: lineVerdicts[needsLineDuel!][0],
-      item2: lineVerdicts[needsLineDuel!][1],
-      duelResult: winner
-    });
+    if (quizState?.stage === 'lines') {
+      // Safety check to ensure line verdicts exist
+      const currentLineVerdicts = lineVerdicts[needsLineDuel!];
+      if (!currentLineVerdicts || currentLineVerdicts.length < 2) {
+        console.error('❌ Missing line verdicts for duel:', needsLineDuel, 'Available:', currentLineVerdicts);
+        return;
+      }
+      
+      onLineVerdict(needsLineDuel!, winner, severity, {
+        item1: currentLineVerdicts[0],
+        item2: currentLineVerdicts[1],
+        duelResult: winner
+      });
+    } else {
+      console.warn('⚠️ Stage changed during duel result processing, not recording line verdict');
+    }
     
     // Clear duel state and move to next line
     setNeedsLineDuel(null);
@@ -202,11 +310,23 @@ export default function LinesComponentV2({
     const maxSeverityItems = items.filter(item => item.severity === maxSeverity);
     
     // If multiple items have same severity, prefer the first one
+    // Add safety check to ensure we always return a valid verdict
+    if (maxSeverityItems.length === 0 || !maxSeverityItems[0]) {
+      console.warn('⚠️ No valid verdict found, using fallback:', { items, maxSeverity, maxSeverityItems });
+      return { token: 'C', severity: 0 };
+    }
+    
     return maxSeverityItems[0];
   };
 
   const checkIfNeedsLineDuel = (line: Line, items: Array<{ token: 'C' | 'O' | 'F'; severity: number }>): boolean => {
     if (!items || items.length < 2) return false;
+    
+    // Safety check to ensure all items have valid properties
+    if (!items.every(item => item && item.token && item.severity !== undefined)) {
+      console.warn('⚠️ Invalid items in checkIfNeedsLineDuel:', items);
+      return false;
+    }
     
     // Check for edge cases that might need duels
     const tokens = items.map(item => item.token);
@@ -259,16 +379,19 @@ export default function LinesComponentV2({
     );
   }
 
-  if (!currentItem) {
+  // Additional safety check for currentItem
+  if (!currentItem || !currentItem.prompt || !currentItem.options || !currentItem.token_map) {
+    console.error('❌ Invalid currentItem:', currentItem, 'for line:', currentLine, 'at index:', currentItemIndex);
     return (
       <div className="text-center p-8">
-        <div className="text-yellow-400 text-6xl mb-4">⚠️</div>
-        <h2 className="text-xl font-bold text-white mb-4">Item Not Found</h2>
-        <p className="text-neutral-300">No item found at index {currentItemIndex} for line {currentLine}</p>
+        <div className="text-red-400 text-6xl mb-4">⚠️</div>
+        <h2 className="text-xl font-bold text-white mb-4">Item Data Error</h2>
+        <p className="text-neutral-300">Invalid item data at index {currentItemIndex} for line {currentLine}</p>
         <div className="mt-4 text-sm text-neutral-400">
           <p>Current Line: {currentLine}</p>
           <p>Current Index: {currentItemIndex}</p>
           <p>Available Items: {currentLineItems.length}</p>
+          <p>Item Data: {JSON.stringify(currentItem, null, 2)}</p>
         </div>
       </div>
     );

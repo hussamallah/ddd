@@ -35,6 +35,12 @@ export default function FaceDuelsComponent({
   const handleConfirm = () => {
     if (!selectedOption || !currentDuel) return;
 
+    // Validate current stage
+    if (quizState.stage !== 'face_duels') {
+      console.warn('⚠️ FaceDuelsComponent: Ignoring duel result - wrong stage:', quizState.stage);
+      return;
+    }
+
     const winner = currentDuel.options[selectedOption].face;
     const newDuelsRun = duelsRun + 1;
     
@@ -51,7 +57,13 @@ export default function FaceDuelsComponent({
       // Maximum duels reached, determine final winner
       const finalWinner = determineFinalWinner(newDuelResults, faceCounts);
       const pattern = detectDuelPattern(faceCounts);
-      onDuelResult(finalWinner, pattern, newDuelsRun);
+      
+      // Double-check stage before calling onDuelResult
+      if (quizState.stage === 'face_duels') {
+        onDuelResult(finalWinner, pattern, newDuelsRun);
+      } else {
+        console.warn('⚠️ Stage changed during duel processing, not recording result');
+      }
     } else {
       // Move to next duel
       setCurrentDuelIndex(prev => prev + 1);
@@ -94,6 +106,11 @@ export default function FaceDuelsComponent({
         <p className="text-neutral-400">No more duel items available.</p>
       </div>
     );
+  }
+
+  // Only show content when in the face_duels stage
+  if (quizState.stage !== 'face_duels') {
+    return null;
   }
 
   return (

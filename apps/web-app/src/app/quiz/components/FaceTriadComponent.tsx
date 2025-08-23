@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { Face, FaceTriadItem, QuizStateV2 } from '@/lib/types';
 
 interface FaceTriadComponentProps {
@@ -17,19 +17,55 @@ export default function FaceTriadComponent({
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [completedItems, setCompletedItems] = useState<Set<number>>(new Set());
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
+
+  // Cleanup timeouts and prevent stale updates
+  useEffect(() => {
+    isMountedRef.current = true;
+    
+    return () => {
+      isMountedRef.current = false;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, []);
+
+  // Reset selection when stage changes
+  useEffect(() => {
+    if (quizState.stage !== 'face_triad') {
+      setSelectedOption(null);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    }
+  }, [quizState.stage]);
+
+  // Reset selection when item changes
+  useEffect(() => {
+    setSelectedOption(null);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  }, [currentItemIndex]);
 
   const currentItem = triadItems[currentItemIndex];
   const faceCounts = quizState.faceTriad.counts;
   const isComplete = quizState.faceTriad.isComplete;
   const lockedFamily = quizState.familyHone.lockedFamily;
 
-  // Reset selection when item changes
-  useEffect(() => {
-    setSelectedOption(null);
-  }, [currentItemIndex]);
-
   const handleOptionSelect = (optionKey: string) => {
-    // 🚨 ADD STAGE VALIDATION
+    // Prevent multiple selections
+    if (selectedOption !== null) {
+      console.log('⚠️ Option already selected, ignoring click');
+      return;
+    }
+    
+    // Validate current stage
     if (quizState.stage !== 'face_triad') {
       console.warn('⚠️ FaceTriadComponent: Ignoring pick - wrong stage:', quizState.stage);
       return;
@@ -38,20 +74,50 @@ export default function FaceTriadComponent({
     setSelectedOption(optionKey);
     
     // Auto-confirm the selection after a brief delay for visual feedback
-    setTimeout(() => {
-      if (!currentItem) return;
+    timeoutRef.current = setTimeout(() => {
+      // Check if component is still mounted and stage hasn't changed
+      if (!isMountedRef.current || quizState.stage !== 'face_triad') {
+        console.warn('⚠️ FaceTriadComponent: Component unmounted or stage changed during delay, ignoring pick');
+        if (isMountedRef.current) {
+          setSelectedOption(null); // Reset selection
+        }
+        return;
+      }
+      
+      if (!currentItem) {
+        setSelectedOption(null); // Reset selection
+        return;
+      }
 
       const selectedFace = currentItem.options[optionKey].face;
-      onFacePick(selectedFace);
-      
-      // Mark this item as completed
-      setCompletedItems(prev => new Set([...prev, currentItemIndex]));
-      
-      // Move to next item if available
-      if (currentItemIndex < triadItems.length - 1) {
-        setCurrentItemIndex(prev => prev + 1);
+      if (!selectedFace) {
+        console.error('Invalid option structure:', currentItem.options[optionKey]);
+        setSelectedOption(null); // Reset selection
+        return;
       }
-    }, 300); // 300ms delay for visual feedback
+      
+      // Double-check stage before calling onFacePick
+      if (quizState.stage === 'face_triad') {
+        onFacePick(selectedFace);
+        
+        // Mark this item as completed
+        setCompletedItems(prev => new Set([...prev, currentItemIndex]));
+        
+        // Move to next item if available
+        if (currentItemIndex < triadItems.length - 1) {
+          setCurrentItemIndex(prev => prev + 1);
+        }
+      } else {
+        console.warn('⚠️ Stage changed after final validation, not recording face pick');
+      }
+      
+      // Reset selection after a longer delay to prevent rapid clicking
+      timeoutRef.current = setTimeout(() => {
+        if (isMountedRef.current) {
+          setSelectedOption(null);
+        }
+      }, 1000);
+    }, 300);
   };
 
   const handleBack = () => {
@@ -80,6 +146,11 @@ export default function FaceTriadComponent({
 
   const leadingFace = getLeadingFace();
   const totalPicks = Object.values(faceCounts).reduce((sum, count) => sum + count, 0);
+
+  // Only show content when in the face_triad stage
+  if (quizState.stage !== 'face_triad') {
+    return null;
+  }
 
   if (!currentItem) {
     return (

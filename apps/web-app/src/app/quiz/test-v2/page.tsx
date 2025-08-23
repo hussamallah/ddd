@@ -96,6 +96,22 @@ export default function TestV2Page() {
         throw new Error('Family is undefined or null');
       }
       
+      // Check if state machine is transitioning
+      if (stateMachine.isTransitioningState()) {
+        console.warn('⚠️ State machine is transitioning, ignoring family pick');
+        return;
+      }
+      
+      // Double-check current stage before calling recordFamilyPick
+      const currentState = stateMachine.getCurrentState();
+      if (currentState.stage !== 'family_hone') {
+        console.warn('⚠️ Stage already changed, ignoring family pick:', { 
+          requestedStage: 'family_hone', 
+          currentStage: currentState.stage 
+        });
+        return;
+      }
+      
       stateMachine.recordFamilyPick(family, routerItemId);
       console.log('✅ Family pick recorded successfully');
     } catch (err) {
@@ -117,6 +133,22 @@ export default function TestV2Page() {
         throw new Error('Face is undefined or null');
       }
       
+      // Check if state machine is transitioning
+      if (stateMachine.isTransitioningState()) {
+        console.warn('⚠️ State machine is transitioning, ignoring face pick');
+        return;
+      }
+      
+      // Double-check current stage before calling recordFacePick
+      const currentState = stateMachine.getCurrentState();
+      if (currentState.stage !== 'face_triad') {
+        console.warn('⚠️ Stage already changed, ignoring face pick:', { 
+          requestedStage: 'face_triad', 
+          currentStage: currentState.stage 
+        });
+        return;
+      }
+      
       stateMachine.recordFacePick(face);
       console.log('✅ Face pick recorded successfully');
     } catch (err) {
@@ -134,6 +166,22 @@ export default function TestV2Page() {
         throw new Error('State machine not initialized');
       }
       
+      // Check if state machine is transitioning
+      if (stateMachine.isTransitioningState()) {
+        console.warn('⚠️ State machine is transitioning, ignoring duel result');
+        return;
+      }
+      
+      // Double-check current stage before calling recordDuelResult
+      const currentState = stateMachine.getCurrentState();
+      if (currentState.stage !== 'face_duels') {
+        console.warn('⚠️ Stage already changed, ignoring duel result:', { 
+          requestedStage: 'face_duels', 
+          currentStage: currentState.stage 
+        });
+        return;
+      }
+      
       stateMachine.recordDuelResult(winner, pattern, duelsRun);
       console.log('✅ Duel result recorded successfully');
     } catch (err) {
@@ -149,6 +197,22 @@ export default function TestV2Page() {
       
       if (!stateMachine) {
         throw new Error('State machine not initialized');
+      }
+      
+      // Check if state machine is transitioning
+      if (stateMachine.isTransitioningState()) {
+        console.warn('⚠️ State machine is transitioning, ignoring line verdict');
+        return;
+      }
+      
+      // Double-check current stage before calling recordLineVerdict
+      const currentState = stateMachine.getCurrentState();
+      if (currentState.stage !== 'lines') {
+        console.warn('⚠️ Stage already changed, ignoring line verdict:', { 
+          requestedStage: 'lines', 
+          currentStage: currentState.stage 
+        });
+        return;
       }
       
       stateMachine.recordLineVerdict(line, token, severity, items);
@@ -283,6 +347,7 @@ export default function TestV2Page() {
                 quizState={quizState}
                 onFamilyPick={handleFamilyPick}
                 routerItems={quizBank.family_hone_items}
+                stateMachine={stateMachine}
               />
             </AnimatedStageTransition>
           );
@@ -411,10 +476,7 @@ export default function TestV2Page() {
           
           return (
             <AnimatedStageTransition isVisible={quizState.stage === 'complete'}>
-              <ResultsComponentV2
-                results={quizState.results || fallbackResults}
-                onRestart={handleRestart}
-              />
+              <Diagnostics />  // ← RESTORE THE RICH VERSION
             </AnimatedStageTransition>
           );
         
@@ -474,6 +536,15 @@ export default function TestV2Page() {
               </div>
             ))}
           </div>
+          
+          {/* Transition State Indicator */}
+          {stateMachine?.isTransitioningState?.() && (
+            <div className="mt-4 p-2 bg-blue-500/20 border border-blue-500/40 rounded-lg text-center">
+              <span className="text-blue-300 text-sm">
+                🔄 State transition in progress...
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

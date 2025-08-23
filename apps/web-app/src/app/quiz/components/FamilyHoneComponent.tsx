@@ -1,37 +1,73 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import type { Family, FamilyHoneItem, QuizStateV2 } from '@/lib/types';
+import React, { useState, useEffect, useRef } from 'react';
+import type { QuizStateV2, Family, FamilyHoneItem } from '@/lib/types';
+import type { QuizStateMachine } from '@/lib/quizStateMachine';
 
 interface FamilyHoneComponentProps {
   quizState: QuizStateV2;
   onFamilyPick: (family: Family, routerItemId: string) => void;
   routerItems: FamilyHoneItem[];
+  stateMachine?: QuizStateMachine | null;
 }
 
 export default function FamilyHoneComponent({ 
   quizState, 
   onFamilyPick, 
-  routerItems 
+  routerItems,
+  stateMachine
 }: FamilyHoneComponentProps) {
-  const [mounted, setMounted] = useState(false);
+  console.log('🔍 FamilyHoneComponent render:', { 
+    stage: quizState?.stage, 
+    hasQuizState: !!quizState, 
+    hasRouterItems: !!routerItems 
+  });
+
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
 
-  // Ensure component is mounted before rendering to prevent hydration mismatch
+  // Cleanup timeouts and prevent stale updates
   useEffect(() => {
-    setMounted(true);
+    console.log('🔍 FamilyHoneComponent mounted');
+    isMountedRef.current = true;
+    
+    return () => {
+      console.log('🔍 FamilyHoneComponent unmounting');
+      isMountedRef.current = false;
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
   }, []);
+
+  // Reset selection when stage changes (only if quizState exists)
+  useEffect(() => {
+    if (quizState && quizState.stage !== 'family_hone') {
+      setSelectedOption(null);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    }
+  }, [quizState?.stage]);
 
   // Reset selection when item changes
   useEffect(() => {
     setSelectedOption(null);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
   }, [currentItemIndex]);
 
-  // Don't render until mounted to prevent hydration mismatch
-  if (!mounted) {
+  // Validate props to prevent runtime errors
+  if (!quizState || !routerItems || !Array.isArray(routerItems)) {
+    console.error('FamilyHoneComponent: Invalid props received:', { quizState, routerItems });
     return (
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="text-center p-8">
         <div className="animate-pulse">
           <div className="h-8 bg-neutral-800 rounded mb-4"></div>
           <div className="h-4 bg-neutral-800 rounded mb-2"></div>
@@ -41,21 +77,24 @@ export default function FamilyHoneComponent({
     );
   }
 
-  // Validate props to prevent runtime errors
-  if (!quizState || !routerItems || !Array.isArray(routerItems)) {
-    console.error('FamilyHoneComponent: Invalid props received:', { quizState, routerItems });
-    return (
-      <div className="text-center p-8">
-        <p className="text-red-400">Error: Invalid component configuration</p>
-      </div>
-    );
-  }
-
+  // Now it's safe to access quizState properties
   const currentItem = routerItems[currentItemIndex];
   const familyCounts = quizState.familyHone?.counts || {};
   const isComplete = quizState.familyHone?.isComplete || false;
 
   const handleOptionSelect = (optionKey: string) => {
+    // Prevent multiple selections
+    if (selectedOption !== null) {
+      console.log('⚠️ Option already selected, ignoring click');
+      return;
+    }
+    
+    // Check if state machine is transitioning
+    if (stateMachine?.isTransitioningState?.()) {
+      console.log('⚠️ State machine is transitioning, ignoring click');
+      return;
+    }
+    
     // Validate current stage
     if (quizState.stage !== 'family_hone') {
       console.warn('⚠️ FamilyHoneComponent: Ignoring pick - wrong stage:', quizState.stage);
@@ -65,31 +104,56 @@ export default function FamilyHoneComponent({
     setSelectedOption(optionKey);
     
     // Auto-confirm the selection after a brief delay for visual feedback
-    setTimeout(() => {
-      // Check again if stage has changed during the delay
-      if (quizState.stage !== 'family_hone') {
-        console.warn('⚠️ FamilyHoneComponent: Stage changed during delay, ignoring pick');
+    timeoutRef.current = setTimeout(() => {
+      // Check if component is still mounted and stage hasn't changed
+      if (!isMountedRef.current || quizState.stage !== 'family_hone') {
+        console.warn('⚠️ FamilyHoneComponent: Component unmounted or stage changed during delay, ignoring pick');
+        if (isMountedRef.current) {
+          setSelectedOption(null); // Reset selection
+        }
         return;
       }
       
-      if (!currentItem) return;
+      if (!currentItem) {
+        setSelectedOption(null); // Reset selection
+        return;
+      }
 
       const selectedFamily = currentItem.options[optionKey]?.family;
       if (!selectedFamily) {
         console.error('Invalid option structure:', currentItem.options[optionKey]);
+        setSelectedOption(null); // Reset selection
         return;
       }
       
-      onFamilyPick(selectedFamily, currentItem.id);
-      
-      // Move to next item if family hone is not complete
-      if (!isComplete) {
-        setCurrentItemIndex(prev => prev + 1);
+      // Double-check stage before calling onFamilyPick
+      if (quizState.stage === 'family_hone') {
+        onFamilyPick(selectedFamily, currentItem.id);
+        
+        // Move to next item if family hone is not complete
+        if (!isComplete) {
+          setCurrentItemIndex(prev => prev + 1);
+        }
+      } else {
+        console.warn('⚠️ Stage changed after final validation, not recording family pick');
       }
+      
+      // Reset selection after a longer delay to prevent rapid clicking
+      timeoutRef.current = setTimeout(() => {
+        if (isMountedRef.current) {
+          setSelectedOption(null);
+        }
+      }, 1000);
     }, 300);
   };
 
   const handleSkip = () => {
+    // Prevent skipping during transitions
+    if (stateMachine?.isTransitioningState?.()) {
+      console.log('⚠️ State machine is transitioning, ignoring skip');
+      return;
+    }
+    
     // Move to next item without recording a pick
     setCurrentItemIndex(prev => prev + 1);
   };
@@ -107,6 +171,11 @@ export default function FamilyHoneComponent({
   };
 
   const leadingFamily = getLeadingFamily();
+
+  // Only show content when in the family_hone stage
+  if (quizState.stage !== 'family_hone') {
+    return null;
+  }
 
   if (!currentItem) {
     return (
@@ -126,6 +195,15 @@ export default function FamilyHoneComponent({
         <p className="text-neutral-300 mb-6">
           We're identifying your primary behavioral family. Answer honestly - there are no right or wrong choices.
         </p>
+        
+        {/* Transition State Indicator */}
+        {stateMachine?.isTransitioningState?.() && (
+          <div className="mb-4 p-3 bg-blue-500/20 border border-blue-500/40 rounded-lg text-center">
+            <span className="text-blue-300 text-sm">
+              🔄 Processing your selection...
+            </span>
+          </div>
+        )}
         
         {/* Family Counts Display */}
         <div className="grid grid-cols-7 gap-2 mb-6">
@@ -179,10 +257,13 @@ export default function FamilyHoneComponent({
             <button
               key={optionKey}
               onClick={() => handleOptionSelect(optionKey)}
+              disabled={selectedOption !== null || stateMachine?.isTransitioningState?.()}
               className={`text-left p-4 rounded-lg border-2 transition-all duration-200 cursor-pointer ${
                 selectedOption === optionKey
                   ? 'border-blue-500 bg-blue-500/20 shadow-lg shadow-blue-500/25'
-                  : 'border-neutral-600 bg-neutral-800/40 hover:border-blue-400 hover:bg-blue-500/10 hover:shadow-md hover:shadow-blue-500/20'
+                  : stateMachine?.isTransitioningState?.()
+                    ? 'border-neutral-500 bg-neutral-700/40 cursor-not-allowed opacity-50'
+                    : 'border-neutral-600 bg-neutral-800/40 hover:border-blue-400 hover:bg-blue-500/10 hover:shadow-md hover:shadow-blue-500/20'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -212,7 +293,12 @@ export default function FamilyHoneComponent({
         <div className="flex justify-between items-center">
           <button
             onClick={handleSkip}
-            className="px-4 py-2 text-neutral-400 hover:text-white transition-colors"
+            disabled={stateMachine?.isTransitioningState?.()}
+            className={`px-4 py-2 transition-colors ${
+              stateMachine?.isTransitioningState?.()
+                ? 'text-neutral-500 cursor-not-allowed'
+                : 'text-neutral-400 hover:text-white'
+            }`}
           >
             Skip this item
           </button>

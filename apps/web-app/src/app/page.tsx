@@ -42,10 +42,10 @@ export default function HomePage() {
               <div className="mt-[18px] mb-[6px] flex flex-col items-start gap-[10px]">
                 <button 
                   onClick={handleStartTest}
-                  className="relative inline-flex items-center justify-center gap-[0.6rem] h-[60px] px-4 sm:px-7 rounded-2xl border-2 border-[#d2ab59] text-[#f3eee6] font-extrabold tracking-[0.02em] text-lg sm:text-xl lg:text-[22px] bg-gradient-to-r from-[#c34733] to-[#a33329] shadow-[inset_0_2px_0_rgba(255,255,255,0.12),inset_0_-2px_0_rgba(0,0,0,0.35),0_8px_24px_rgba(204,65,45,0.25)] transition-all duration-150 ease-in-out hover:transform hover:-translate-y-[1px] hover:filter hover:saturate-[1.05] focus-visible:outline-3 focus-visible:outline-[#fff3] focus-visible:outline-offset-3 active:transform active:translate-y-0 active:shadow-[inset_0_3px_12px_rgba(0,0,0,0.35),0_6px_14px_rgba(204,65,45,0.2)]"
+                  className="relative inline-flex items-center justify-center gap-[0.6rem] h-[45px] px-1 sm:px-2 rounded-xl border-2 border-[#d2ab59] text-[#f3eee6] font-extrabold tracking-[0.02em] text-base sm:text-lg lg:text-xl bg-gradient-to-r from-[#c34733] to-[#a33329] shadow-[inset_0_2px_0_rgba(255,255,255,0.12),inset_0_-2px_0_rgba(0,0,0,0.35),0_8px_24px_rgba(204,65,45,0.25)] transition-all duration-150 ease-in-out hover:transform hover:-translate-y-[1px] hover:filter hover:saturate-[1.05] focus-visible:outline-3 focus-visible:outline-[#fff3] focus-visible:outline-offset-3 active:transform active:translate-y-0 active:shadow-[inset_0_3px_12px_rgba(0,0,0,0.35),0_6px_14px_rgba(204,65,45,0.2)]"
                   aria-label="Start the free test — about 3 to 4 minutes"
                 >
-                  START THE FREE TEST
+                  PRESS TO START
                   {/* Glint effect */}
                   <div className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.22)] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                 </button>

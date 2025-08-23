@@ -1,4 +1,4 @@
-export type Token = 'CLOSE' | 'STALL' | 'FRAG';
+export type Token = 'C' | 'O' | 'F';
 export type Line =
   | 'Control' | 'Pace' | 'Boundary' | 'Truth' | 'Recognition' | 'Bonding' | 'Stress';
 
@@ -78,9 +78,9 @@ export interface LineVerdict {
 // Backward compatibility: Convert v2.6 tokens to legacy format
 export function convertV2TokenToLegacy(token: 'C' | 'O' | 'F'): 'Close' | 'Offset' | 'Far' {
   switch (token) {
-    case 'C': return 'Close';
-    case 'O': return 'Offset';
-    case 'F': return 'Far';
+    case 'C': return 'Close';    // C → Close
+    case 'O': return 'Offset';   // O → Offset  
+    case 'F': return 'Far';      // F → Far
     default: return 'Close';
   }
 }
@@ -88,9 +88,9 @@ export function convertV2TokenToLegacy(token: 'C' | 'O' | 'F'): 'Close' | 'Offse
 // Backward compatibility: Convert legacy tokens to v2.6 format
 export function convertLegacyTokenToV2(distance: 'Close' | 'Offset' | 'Far'): 'C' | 'O' | 'F' {
   switch (distance) {
-    case 'Close': return 'C';
-    case 'Offset': return 'O';
-    case 'Far': return 'F';
+    case 'Close': return 'C';    // Close → C
+    case 'Offset': return 'O';   // Offset → O
+    case 'Far': return 'F';      // Far → F
     default: return 'C';
   }
 }

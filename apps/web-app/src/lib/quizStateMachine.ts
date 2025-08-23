@@ -19,6 +19,7 @@ import type {
 export class QuizStateMachine {
   private state: QuizStateV2;
   private listeners: Set<(state: QuizStateV2) => void> = new Set();
+  private isTransitioning: boolean = false;
 
   constructor() {
     this.state = this.createInitialState();
@@ -66,6 +67,21 @@ export class QuizStateMachine {
    */
   getCurrentState(): QuizStateV2 {
     return { ...this.state };
+  }
+
+  /**
+   * Check if state machine is currently transitioning
+   */
+  isTransitioningState(): boolean {
+    return this.isTransitioning;
+  }
+
+  /**
+   * Reset transitioning flag (for emergency use)
+   */
+  resetTransitioningFlag(): void {
+    console.warn('⚠️ Resetting transitioning flag');
+    this.isTransitioning = false;
   }
 
   /**
@@ -120,6 +136,12 @@ export class QuizStateMachine {
   recordFamilyPick(family: Family, routerItemId: string): void {
     console.log('🔍 recordFamilyPick called:', { family, routerItemId, currentStage: this.state.stage });
     
+    // Prevent recording picks during transitions
+    if (this.isTransitioning) {
+      console.warn('⚠️ Transition in progress, ignoring family pick');
+      return;
+    }
+    
     // Validate current stage
     if (this.state.stage !== 'family_hone') {
       const error = `Cannot record family pick outside of family hone stage. Current stage: ${this.state.stage}`;
@@ -158,10 +180,26 @@ export class QuizStateMachine {
       }
     });
 
-    // If family hone is complete, transition to face triad
+    // If family hone is complete, transition to face triad with a small delay to prevent race conditions
     if (isComplete && lockedFamily) {
       console.log('🚀 Family hone complete, transitioning to face triad for family:', lockedFamily);
-      this.transitionToFaceTriad(lockedFamily);
+      // Use setTimeout to prevent race conditions with component re-renders
+      setTimeout(() => {
+        // Double-check stage before transitioning
+        if (this.state.stage === 'family_hone' && !this.isTransitioning) {
+          this.transitionToFaceTriad(lockedFamily);
+        } else {
+          console.warn('⚠️ Stage already changed or transition in progress, skipping transition to face triad');
+        }
+      }, 100);
+      
+      // Set a timeout to ensure transitioning flag doesn't get stuck
+      setTimeout(() => {
+        if (this.isTransitioning) {
+          console.warn('⚠️ Transition flag stuck after family hone completion, auto-resetting');
+          this.isTransitioning = false;
+        }
+      }, 6000); // 6 second timeout (after the 100ms delay + 5s transition timeout)
     }
   }
 
@@ -170,6 +208,12 @@ export class QuizStateMachine {
    */
   private transitionToFaceTriad(family: Family): void {
     console.log('🔍 transitionToFaceTriad called:', { family, currentStage: this.state.stage });
+    
+    // Prevent multiple rapid transitions
+    if (this.isTransitioning) {
+      console.warn('⚠️ Transition already in progress, skipping');
+      return;
+    }
     
     // Validate current stage
     if (this.state.stage !== 'family_hone') {
@@ -185,34 +229,51 @@ export class QuizStateMachine {
       throw new Error(error);
     }
 
-    // Get faces for the family
-    const faces = this.getFacesForFamily(family);
-    console.log('👥 Faces for family:', { family, faces });
+    // Set transitioning flag
+    this.isTransitioning = true;
     
-    if (faces.length === 0) {
-      const error = `No faces found for family: ${family}`;
-      console.error('❌ Face validation failed:', error);
-      throw new Error(error);
-    }
-    
-    // Initialize face counts
-    const faceCounts = faces.reduce((acc, face) => ({ ...acc, [face]: 0 }), {} as Record<Face, number>);
-    console.log('📊 Initial face counts:', faceCounts);
-
-    // Transition to face triad stage
-    this.updateState({
-      stage: 'face_triad',
-      faceTriad: {
-        family,
-        counts: faceCounts,
-        duelsRun: 0,
-        confidence: 'medium',
-        selectedFace: undefined,
-        isComplete: false
+    // Set a timeout to automatically reset the flag if it gets stuck
+    const resetTimeout = setTimeout(() => {
+      if (this.isTransitioning) {
+        console.warn('⚠️ Transition flag stuck, auto-resetting');
+        this.isTransitioning = false;
       }
-    });
+    }, 5000); // 5 second timeout
     
-    console.log('✅ Successfully transitioned to face_triad stage');
+    try {
+      // Get faces for the family
+      const faces = this.getFacesForFamily(family);
+      console.log('👥 Faces for family:', { family, faces });
+      
+      if (faces.length === 0) {
+        const error = `No faces found for family: ${family}`;
+        console.error('❌ Face validation failed:', error);
+        throw new Error(error);
+      }
+      
+      // Initialize face counts
+      const faceCounts = faces.reduce((acc, face) => ({ ...acc, [face]: 0 }), {} as Record<Face, number>);
+      console.log('📊 Initial face counts:', faceCounts);
+
+      // Transition to face triad stage
+      this.updateState({
+        stage: 'face_triad',
+        faceTriad: {
+          family,
+          counts: faceCounts,
+          duelsRun: 0,
+          confidence: 'medium',
+          selectedFace: undefined,
+          isComplete: false
+        }
+      });
+      
+      console.log('✅ Successfully transitioned to face_triad stage');
+    } finally {
+      // Clear the timeout and reset transitioning flag
+      clearTimeout(resetTimeout);
+      this.isTransitioning = false;
+    }
   }
 
   /**
@@ -383,9 +444,9 @@ export class QuizStateMachine {
    */
   private generateLineNote(token: 'C' | 'O' | 'F'): string {
     const notes = {
-      'C': 'Stable: the move lands cleanly without extra passes.',
-      'O': 'Offset: hesitation/softening adds latency here.',
-      'F': 'Break: pattern derails or reverses motion under pressure.'
+      'C': 'Stable: the move lands cleanly without extra passes.',        // = CLOSE behavior
+      'O': 'Offset: hesitation/softening adds latency here.',            // = STALL behavior  
+      'F': 'Break: pattern derails or reverses motion under pressure.'   // = FRAG behavior
     };
     return notes[token];
   }

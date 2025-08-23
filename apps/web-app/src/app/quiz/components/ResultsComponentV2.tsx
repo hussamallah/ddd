@@ -2,323 +2,272 @@
 
 import React from 'react';
 import type { QuizResultV2, LineVerdictV2 } from '@/lib/types';
-import GbuDiagnosticCards from './GbuDiagnosticCards';
 
 interface ResultsComponentV2Props {
   results: QuizResultV2;
   onRestart: () => void;
 }
 
-// Archetype color mapping (copied from original QuizApp)
-const ARCHETYPE_COLORS: Record<string, { name: string; hex: string }> = {
-  "Sovereign": { "name": "Imperial Purple", "hex": "#6B2F8A" },
-  "Rebel": { "name": "Crimson Red", "hex": "#DC2626" },
-  "Catalyst": { "name": "Emerald Green", "hex": "#059669" },
-  "Strategist": { "name": "Sapphire Blue", "hex": "#2563EB" },
-  "Navigator": { "name": "Teal Blue", "hex": "#0D9488" },
-  "Visionary": { "name": "Indigo Purple", "hex": "#4F46E5" },
-  "Guardian": { "name": "Forest Green", "hex": "#166534" },
-  "Equalizer": { "name": "Amber Gold", "hex": "#D97706" },
-  "Sentinel": { "name": "Slate Gray", "hex": "#475569" },
-  "Seeker": { "name": "Rose Pink", "hex": "#E11D48" },
-  "Architect": { "name": "Violet Purple", "hex": "#7C3AED" },
-  "Alchemist": { "name": "Copper Orange", "hex": "#EA580C" },
-  "Spotlight": { "name": "Yellow Gold", "hex": "#CA8A04" },
-  "Mask": { "name": "Neutral Gray", "hex": "#6B7280" },
-  "Artisan": { "name": "Cyan Blue", "hex": "#0891B2" },
-  "Provider": { "name": "Lime Green", "hex": "#65A30D" },
-  "Partner": { "name": "Sky Blue", "hex": "#0284C7" },
-  "Servant": { "name": "Pink Rose", "hex": "#DB2777" },
-  "Diplomat": { "name": "Mint Green", "hex": "#10B981" },
-  "Wanderer": { "name": "Lavender Purple", "hex": "#8B5CF6" }
-};
-
-// Archetype Icon Component (copied from original QuizApp)
-function ArchetypeIcon({ archetypeName }: { archetypeName: string }) {
-  const IconComponent = () => {
-    switch (archetypeName.toLowerCase()) {
-      case 'sovereign': return <span className="text-4xl"></span>;
-      case 'rebel': return <span className="text-4xl"></span>;
-      case 'catalyst': return <span className="text-4xl">⚡</span>;
-      case 'strategist': return <span className="text-4xl"></span>;
-      case 'navigator': return <span className="text-4xl"></span>;
-      case 'visionary': return <span className="text-4xl"></span>;
-      case 'guardian': return <span className="text-4xl">🛡️</span>;
-      case 'equalizer': return <span className="text-4xl">⚖️</span>;
-      case 'sentinel': return <span className="text-4xl"></span>;
-      case 'seeker': return <span className="text-4xl"></span>;
-      case 'architect': return <span className="text-4xl">🏗️</span>;
-      case 'alchemist': return <span className="text-4xl"></span>;
-      case 'spotlight': return <span className="text-4xl"></span>;
-      case 'mask': return <span className="text-4xl"></span>;
-      case 'artisan': return <span className="text-4xl"></span>;
-      case 'provider': return <span className="text-4xl"></span>;
-      case 'partner': return <span className="text-4xl"></span>;
-      case 'servant': return <span className="text-4xl"></span>;
-      case 'diplomat': return <span className="text-4xl">🕊️</span>;
-      case 'wanderer': return <span className="text-4xl">🚶</span>;
-      default: return <span className="text-4xl">⭐</span>;
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-center w-16 h-16">
-      <IconComponent />
-    </div>
-  );
-}
-
-// Results Heat Map Component (copied from original QuizApp)
-const ResultsHeatMap: React.FC<{
-  lines: LineVerdictV2[];
-  title?: string;
-}> = ({ lines, title = "7 Lines Under Pressure — You Now" }) => {
+export default function ResultsComponentV2({ results, onRestart }: ResultsComponentV2Props) {
   const getTokenColor = (token: 'C' | 'O' | 'F') => {
     switch (token) {
-      case 'C': return 'bg-emerald-600/70';
-      case 'O': return 'bg-amber-500/70';
-      case 'F': return 'bg-rose-600/70';
-      default: return 'bg-neutral-600/70';
+      case 'C': return 'text-green-400';
+      case 'O': return 'text-yellow-400';
+      case 'F': return 'text-red-400';
+      default: return 'text-neutral-400';
     }
   };
 
-  const getTokenLabel = (token: 'C' | 'O' | 'F') => {
+  const getTokenBackground = (token: 'C' | 'O' | 'F') => {
     switch (token) {
-      case 'C': return 'Stable';
-      case 'O': return 'Offset';
-      case 'F': return 'Break';
-      default: return 'Unknown';
+      case 'C': return 'bg-green-500/20 border-green-500/40';
+      case 'O': return 'bg-yellow-500/20 border-yellow-500/40';
+      case 'F': return 'bg-red-500/20 border-red-500/40';
+      default: return 'bg-neutral-500/20 border-neutral-500/40';
     }
   };
 
-  const getTokenIcon = (token: 'C' | 'O' | 'F') => {
-    switch (token) {
-      case 'C': return '✅';
-      case 'O': return '⚠️';
-      case 'F': return '❌';
-      default: return '❓';
+  const getConfidenceColor = (confidence: 'high' | 'medium' | 'low') => {
+    switch (confidence) {
+      case 'high': return 'text-green-400 bg-green-500/20 border-green-500/40';
+      case 'medium': return 'text-yellow-400 bg-yellow-500/20 border-yellow-500/40';
+      case 'low': return 'text-red-400 bg-red-500/20 border-red-500/40';
+      default: return 'text-neutral-400 bg-neutral-500/20 border-neutral-500/40';
     }
   };
 
   return (
-    <div className="w-full">
-      {title && (
-        <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-zinc-400">{title}</h2>
-      )}
-      <div className="w-full">
-        <div className="rounded-xl border border-zinc-700/50 bg-zinc-950/50 p-4 backdrop-blur-sm">
-          {/* Legend */}
-          <div className="mb-3 text-center">
-            <div className="inline-flex items-center gap-4 text-xs text-zinc-400">
-              <span className="flex items-center gap-1">
-                <span className="text-green-400">✅</span>
-                <span>Stable — line holds</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="text-amber-400">⚠️</span>
-                <span>Offset — wobbles</span>
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="text-red-400">❌</span>
-                <span>Break — collapses</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Header */}
-          <div className="grid grid-cols-4 gap-2 rounded-xl bg-zinc-950/70 px-2 py-1 text-[11px] text-zinc-400 backdrop-blur">
-            <div>Line</div>
-            <div className="text-center">Status</div>
-            <div className="text-center">Token</div>
-            <div className="text-center">Severity</div>
-          </div>
-
-          {/* Rows */}
-          <div className="mt-1 space-y-0.5">
-            {lines.map((line, idx) => (
-              <div
-                key={idx}
-                className="grid grid-cols-4 items-center gap-2 rounded-xl px-2 py-2 text-left bg-zinc-900/30 hover:bg-zinc-800/50 transition-colors"
-              >
-                {/* Line Name */}
-                <div className="text-sm font-medium text-white">{line.line}</div>
-
-                {/* Status */}
-                <div className="text-center">
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getTokenColor(line.token)}`}>
-                    <span>{getTokenIcon(line.token)}</span>
-                    <span className="text-white">{getTokenLabel(line.token)}</span>
-                  </span>
-                </div>
-
-                {/* Token */}
-                <div className="text-center">
-                  <span className={`inline-block w-6 h-6 rounded-full ${getTokenColor(line.token)} text-white text-xs font-bold flex items-center justify-center`}>
-                    {line.token}
-                  </span>
-                </div>
-
-                {/* Severity */}
-                <div className="text-center">
-                  <span className="text-xs text-zinc-300">
-                    {line.severity === 0 ? 'Low' : line.severity === 1 ? 'Medium' : 'High'}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+    <div className="max-w-6xl mx-auto p-6">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold text-white mb-4">
+          Quiz Complete! 🎉
+        </h1>
+        <p className="text-xl text-neutral-300">
+          Here's your archetype profile and operating lines assessment
+        </p>
       </div>
-    </div>
-  );
-};
 
-export default function ResultsComponentV2({ results, onRestart }: ResultsComponentV2Props) {
-  // Get the archetype color
-  const archetypeColor = ARCHETYPE_COLORS[results.face.name] || ARCHETYPE_COLORS.Sovereign;
-  
-  return (
-    <div 
-      className="min-h-screen bg-black text-white relative overflow-hidden"
-      style={{
-        background: `radial-gradient(circle at center, ${archetypeColor.hex}10 0%, ${archetypeColor.hex}05 50%, #000000 100%)`,
-        transform: 'scale(0.85)',
-        transformOrigin: 'top center',
-        marginTop: '-10vh'
-      }}
-    >
-      {/* Glowing Background Elements */}
-      <div 
-        className="absolute inset-0 opacity-20"
-        style={{
-          background: `radial-gradient(circle at 30% 20%, ${archetypeColor.hex}40 0%, transparent 50%),
-                      radial-gradient(circle at 70% 80%, ${archetypeColor.hex}30 0%, transparent 50%)`
-        }}
-      />
-      
-      <div className="relative z-10 p-8">
-        {/* Results Header */}
-        <div className="text-center mb-12">
-          {/* Archetype Icon - Centered and Glowing */}
-          <div className="mb-6 flex justify-center">
-            <div 
-              className="p-4 rounded-full"
-              style={{
-                background: `radial-gradient(circle, ${archetypeColor.hex}30, ${archetypeColor.hex}10)`,
-                boxShadow: `0 0 30px ${archetypeColor.hex}50, 0 0 60px ${archetypeColor.hex}30`
-              }}
-            >
-              <ArchetypeIcon archetypeName={results.face.name} />
-            </div>
-          </div>
-          
-          {/* Main Title - Glowing Archetype Name */}
-          <h1 
-            className="text-6xl font-black mb-4 tracking-wider"
-            style={{
-              color: archetypeColor.hex,
-              textShadow: `0 0 20px ${archetypeColor.hex}, 0 0 40px ${archetypeColor.hex}80`
-            }}
-          >
-            {results.face.name.toUpperCase()}
-          </h1>
-          
-          {/* Subtitle */}
-          <h2 className="text-2xl text-white mb-2 font-medium">
-            {results.face.slug}
-          </h2>
-          
-          {/* Profile Code */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-            <div className="inline-flex items-center gap-2 rounded-full bg-purple-800/30 px-3 py-1.5 border border-purple-500/30">
-              <span className="text-purple-300 font-mono text-xs">Profile Code:</span>
-              <span className="text-purple-100 font-bold font-mono text-base">{results.lines.code7}</span>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        {/* Left Column - Family & Face */}
+        <div className="space-y-6">
+          {/* Family Section */}
+          <div className="bg-neutral-900/60 border border-neutral-700 rounded-xl p-6">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+              <span className="text-purple-400">🏠</span>
+              Family: {results.family.name}
+            </h2>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-neutral-400">Picks to Lock:</span>
+                <span className="text-white font-semibold">{results.family.picksToLock}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-neutral-400">Confidence:</span>
+                <span className="text-green-400 font-semibold">High</span>
+              </div>
             </div>
             
-            {/* Confidence Level */}
-            <div className="inline-flex items-center gap-2 rounded-full bg-emerald-800/30 px-3 py-1.5 border border-emerald-500/30">
-              <span className="text-emerald-300 font-mono text-xs">Confidence:</span>
-              <span className="text-emerald-100 font-bold text-base capitalize">{results.face.confidence}</span>
+            {/* Family History */}
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Selection History</h3>
+              <div className="flex gap-2 flex-wrap">
+                {results.family.fhHistory.map((family, index) => (
+                  <span
+                    key={index}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      family === results.family.name
+                        ? 'bg-purple-500/20 text-purple-400 border border-purple-500/40'
+                        : 'bg-neutral-700/60 text-neutral-300 border border-neutral-600'
+                    }`}
+                  >
+                    {family}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Face Section */}
+          <div className="bg-neutral-900/60 border border-neutral-700 rounded-xl p-6">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+              <span className="text-blue-400">👤</span>
+              Face: {results.face.name}
+            </h2>
+            <div className="space-y-3 mb-4">
+              <div className="flex justify-between items-center">
+                <span className="text-neutral-400">Confidence:</span>
+                <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getConfidenceColor(results.face.confidence)}`}>
+                  {results.face.confidence.charAt(0).toUpperCase() + results.face.confidence.slice(1)}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-neutral-400">Duels Run:</span>
+                <span className="text-white font-semibold">{results.face.duelsRun}</span>
+              </div>
+            </div>
+
+            {/* Face Selection Explanation */}
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Why This Face?</h3>
+              <p className="text-neutral-300 leading-relaxed">
+                {results.face.why}
+              </p>
+            </div>
+
+            {/* Triad Counts */}
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold text-white mb-2">Triad Results</h3>
+              <div className="grid grid-cols-3 gap-2">
+                {Object.entries(results.face.triadCounts).map(([face, count]) => (
+                  <div
+                    key={face}
+                    className={`text-center p-2 rounded-lg border ${
+                      face === results.face.name
+                        ? 'border-blue-500 bg-blue-500/20'
+                        : 'border-neutral-600 bg-neutral-800/40'
+                    }`}
+                  >
+                    <div className="text-xs text-neutral-400 mb-1 capitalize">{face}</div>
+                    <div className="text-lg font-bold text-white">{count}</div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* MAIN CONTENT BLOCK */}
-        <div 
-          className="max-w-2xl mx-auto mb-12 p-8 rounded-2xl backdrop-blur-sm"
-          style={{
-            background: `linear-gradient(135deg, ${archetypeColor.hex}15, ${archetypeColor.hex}25, ${archetypeColor.hex}15)`,
-            border: `1px solid ${archetypeColor.hex}30`
-          }}
-        >
-          <h3 
-            className="text-2xl font-bold mb-4"
-            style={{ color: archetypeColor.hex }}
-          >
-            What These Traits Reveal About You
-          </h3>
-          <div className="space-y-4 text-lg text-white/90 leading-relaxed">
-            <p>
-              Every answer you gave was a real reflection of your way of moving through life—not a guess, not an ideal.
+        {/* Right Column - Lines & CODE_7 */}
+        <div className="space-y-6">
+          {/* CODE_7 Section */}
+          <div className="bg-neutral-900/60 border border-neutral-700 rounded-xl p-6">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+              <span className="text-green-400">🔢</span>
+              CODE_7: {results.lines.code7}
+            </h2>
+            <p className="text-neutral-300 mb-4">
+              Your 7-line operating pattern. Each character represents a line's current state.
             </p>
-            <p>
-              You didn't invent these patterns; they're the lines your experience has already drawn.
-            </p>
+            
+            {/* Lines Grid */}
+            <div className="grid grid-cols-7 gap-2">
+              {results.lines.perLine.map((verdict, index) => (
+                <div
+                  key={verdict.line}
+                  className={`text-center p-3 rounded-lg border-2 ${getTokenBackground(verdict.token)}`}
+                >
+                  <div className="text-xs text-neutral-400 mb-1">{verdict.line}</div>
+                  <div className={`text-lg font-bold ${getTokenColor(verdict.token)}`}>
+                    {verdict.token}
+                  </div>
+                  <div className="text-xs text-neutral-400 mt-1">
+                    {verdict.severity === 0 ? 'Stable' : verdict.severity === 1 ? 'Offset' : 'Break'}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Token Legend */}
+            <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
+              <div className="text-center">
+                <span className="text-green-400 font-bold">C</span> = Stable
+              </div>
+              <div className="text-center">
+                <span className="text-yellow-400 font-bold">O</span> = Offset
+              </div>
+              <div className="text-center">
+                <span className="text-red-400 font-bold">F</span> = Break
+              </div>
+            </div>
           </div>
-          
-          {/* Glowing Line */}
-          <div 
-            className="mt-6 h-1 rounded-full"
-            style={{
-              background: `linear-gradient(90deg, transparent, ${archetypeColor.hex}, transparent)`,
-              boxShadow: `0 0 10px ${archetypeColor.hex}`
-            }}
-          />
-        </div>
 
-        {/* Results Heat Map */}
-        <div 
-          className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
-          style={{
-            background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
-            border: `1px solid ${archetypeColor.hex}40`,
-            boxShadow: `0 0 20px ${archetypeColor.hex}20`
-          }}
-        >
-          <ResultsHeatMap lines={results.lines.perLine} />
-        </div>
-        
-        {/* Good/Bad/Ugly Analysis */}
-        <div 
-          className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
-          style={{
-            background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
-            border: `1px solid ${archetypeColor.hex}40`,
-            boxShadow: `0 0 20px ${archetypeColor.hex}20`
-          }}
-        >
-          <GbuDiagnosticCards
-            good={results.face.why}
-            bad="Pattern variability under pressure"
-            ugly="Line breakdowns and reversals"
-            goodFooter="Stable. Outcomes land. Clear tempo."
-            badFooter="Variability enters. Delays creep in."
-          />
-        </div>
-
-        {/* Action Buttons */}
-        <div className="text-center space-y-4">
-          <button
-            onClick={onRestart}
-            className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105"
-          >
-            Take Quiz Again
-          </button>
-          <div className="text-sm text-neutral-400">
-            <p>Your results have been saved. You can retake the quiz anytime to see how your patterns change.</p>
+          {/* Truth Line Section */}
+          <div className="bg-neutral-900/60 border border-neutral-700 rounded-xl p-6">
+            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+              <span className="text-yellow-400">💡</span>
+              Truth Line
+            </h2>
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+              <p className="text-yellow-200 text-lg italic leading-relaxed">
+                "{results.truthLine}"
+              </p>
+            </div>
+            <p className="text-neutral-400 text-sm mt-3">
+              This truth line is specific to your selected archetype and represents a core principle.
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Detailed Line Analysis */}
+      <div className="bg-neutral-900/60 border border-neutral-700 rounded-xl p-6 mb-8">
+        <h2 className="text-2xl font-bold text-white mb-6">Detailed Line Analysis</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {results.lines.perLine.map((verdict) => (
+            <div
+              key={verdict.line}
+              className={`p-4 rounded-lg border-2 ${getTokenBackground(verdict.token)}`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg font-semibold text-white">{verdict.line}</h3>
+                <span className={`text-2xl font-bold ${getTokenColor(verdict.token)}`}>
+                  {verdict.token}
+                </span>
+              </div>
+              <p className="text-neutral-300 text-sm leading-relaxed">
+                {verdict.note}
+              </p>
+              <div className="mt-3 text-xs text-neutral-400">
+                Severity: {verdict.severity === 0 ? 'Low' : verdict.severity === 1 ? 'Medium' : 'High'}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="text-center space-y-4">
+        <button
+          onClick={onRestart}
+          className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-105"
+        >
+          Take Quiz Again
+        </button>
+        <div className="text-sm text-neutral-400">
+          <p>Your results have been saved. You can retake the quiz anytime to see how your patterns change.</p>
+        </div>
+      </div>
+
+      {/* Audit Trail (Collapsible) */}
+      <details className="mt-12 bg-neutral-900/40 border border-neutral-700 rounded-xl p-6">
+        <summary className="text-lg font-semibold text-white cursor-pointer hover:text-blue-400 transition-colors">
+          📊 View Audit Trail
+        </summary>
+        <div className="mt-4 space-y-4">
+          <div>
+            <h4 className="text-md font-semibold text-white mb-2">Family Hone Counts</h4>
+            <div className="grid grid-cols-7 gap-2">
+              {Object.entries(results.audit.familyHoneCounts).map(([family, count]) => (
+                <div key={family} className="text-center p-2 bg-neutral-800/40 rounded border border-neutral-600">
+                  <div className="text-xs text-neutral-400">{family}</div>
+                  <div className="text-white font-bold">{count}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div>
+            <h4 className="text-md font-semibold text-white mb-2">Rules Used</h4>
+            <div className="flex gap-2 flex-wrap">
+              {results.audit.rulesUsed.map((rule, index) => (
+                <span key={index} className="px-3 py-1 bg-neutral-700/60 text-neutral-300 rounded-full text-sm">
+                  {rule}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </details>
     </div>
   );
 }
