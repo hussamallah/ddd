@@ -224,15 +224,15 @@ export interface QuizBankV2 {
   faces_by_family: Record<Family, Face[]>;
   family_hone_items: FamilyHoneItem[];
   face_triad_items: Record<Family, FaceTriadItem[]>;
-  face_duel_items: Record<Family, FaceDuelItem[]>;
+  face_duel_items?: Record<Family, FaceDuelItem[]>;
   line_items: LineItemV2[];
-  logic: {
+  logic?: {
     family_hone: FamilyHoneLogic;
     [key: string]: any;
   };
   face_truth_lines: Record<Face, string>;
   line_note_templates: Record<'C' | 'O' | 'F', string>;
-  line_duel_items: Record<Line, LineDuelItem[]>;
+  line_duel_items?: Record<Line, LineDuelItem[]>;
 }
 
 export type DuelPattern = '3-0-0' | '2-1-0' | '2-0-1' | '1-1-1';

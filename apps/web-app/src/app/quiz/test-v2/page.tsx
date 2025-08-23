@@ -226,6 +226,22 @@ export default function TestV2Page() {
           lineDuelItems: Object.keys(bank.line_duel_items || {}).length
         });
         
+        // Validate critical data structures
+        if (!bank.families || !Array.isArray(bank.families)) {
+          throw new Error('Quiz bank families array is missing or invalid');
+        }
+        
+        if (!bank.faces_by_family || typeof bank.faces_by_family !== 'object') {
+          throw new Error('Quiz bank faces_by_family mapping is missing or invalid');
+        }
+        
+        // Verify all expected families are present
+        const expectedFamilies: Family[] = ['Control', 'Pace', 'Boundary', 'Truth', 'Recognition', 'Bonding', 'Stress'];
+        const missingFamilies = expectedFamilies.filter(f => !bank.families.includes(f));
+        if (missingFamilies.length > 0) {
+          throw new Error(`Missing required families: ${missingFamilies.join(', ')}`);
+        }
+        
         setQuizBank(bank);
         
         // Initialize state machine with v2.7 structure

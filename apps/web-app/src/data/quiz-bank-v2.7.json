@@ -310,5 +310,180 @@
     "C": "Stable: the move lands cleanly without extra passes.",
     "O": "Offset: hesitation/softening adds latency here.",
     "F": "Break: pattern derails or reverses motion under pressure."
+  },
+  "face_duel_items": {},
+  "line_duel_items": {},
+  "logic": {
+    "flow_version": "v5",
+    "stages": [
+      "FH_family_hone",
+      "F_face_triad",
+      "L_lines"
+    ],
+    "family_hone": {
+      "type": "first_to_n",
+      "n": 3,
+      "router_item_min_options": 5,
+      "scheduler": {
+        "include_leader": true,
+        "include_runner": true,
+        "fill_strategy": [
+          "under_exposed",
+          "confusable"
+        ],
+        "avoid_repeat_in_item": true
+      },
+      "update_rule": "on_pick_increment_family_count",
+      "stop_condition": "any_family_count>=3",
+      "outputs": [
+        "lock_family",
+        "fh_counts",
+        "fh_history",
+        "router_items_seen"
+      ]
+    },
+    "face_selection": {
+      "triad_items_required": 3,
+      "duel_rules": {
+        "pattern_3_0_0": {
+          "winner": "top",
+          "duels": []
+        },
+        "pattern_2_1_0": {
+          "duels": [
+            {
+              "pair": "top_vs_second",
+              "on_win": "return_top",
+              "on_loss_next_duel": "winner_vs_third"
+            }
+          ]
+        },
+        "pattern_2_0_1": {
+          "duels": [
+            {
+              "pair": "top_vs_third",
+              "on_win": "return_top",
+              "on_loss_next_duel": "winner_vs_second"
+            }
+          ]
+        },
+        "pattern_1_1_1": {
+          "duels": [
+            {
+              "pair": "top_vs_second",
+              "assign_winner": "W"
+            },
+            {
+              "pair": "W_vs_third"
+            }
+          ]
+        },
+        "sudden_death_tie_breaker": true
+      },
+      "duel_item_contract": {
+        "options": 2,
+        "forced_choice": true,
+        "allow_depends": false,
+        "unique_prompt_per_duel": true,
+        "no_pair_repeat_per_session": true
+      },
+      "confidence_after_resolution": {
+        "high": [
+          "3-0-0",
+          "2-1-0 (top won first duel)",
+          "2-0-1 (top won first duel)"
+        ],
+        "medium": [
+          "2-1-0 (upset then won vs third)",
+          "2-0-1 (upset then won vs second)"
+        ],
+        "low": [
+          "1-1-1 resolved by two duels"
+        ]
+      },
+      "outputs": [
+        "face",
+        "triad_counts",
+        "duels_run",
+        "duel_log",
+        "confidence"
+      ]
+    },
+    "lines": {
+      "items_per_line": 2,
+      "token_map_default": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      },
+      "verdict_rule": "max_severity",
+      "severity_order": [
+        "F",
+        "O",
+        "C"
+      ],
+      "code7_order": [
+        "Control",
+        "Pace",
+        "Boundary",
+        "Truth",
+        "Recognition",
+        "Bonding",
+        "Stress"
+      ],
+      "outputs": [
+        "code_7",
+        "per_line_verdicts",
+        "per_line_notes",
+        "line_item_tokens"
+      ],
+      "skip_family_line": false,
+      "assume_clean_for_family_line": false,
+      "line_duel": {
+        "trigger": "if_two_items_disagree",
+        "forced_choice": true,
+        "no_pair_repeat": true,
+        "selector": "use token-pair variant (C_vs_O / O_vs_F / C_vs_F)",
+        "outputs": [
+          "line_duel_log"
+        ]
+      }
+    },
+    "output_contract": {
+      "family": [
+        "name",
+        "picks_to_lock",
+        "fh_history",
+        "router_items_seen"
+      ],
+      "face": [
+        "name",
+        "slug",
+        "triad_counts",
+        "duels_run",
+        "duel_log",
+        "confidence"
+      ],
+      "lines": [
+        "code_7",
+        "per_line_notes",
+        "line_duel_log"
+      ],
+      "truth_line": true,
+      "audit": [
+        "family_hone_counts",
+        "family_hone_history",
+        "face_triad_counts",
+        "face_duel_log",
+        "line_item_tokens",
+        "rules_used"
+      ]
+    },
+    "scoring_parameters": {
+      "randomize_option_order": true,
+      "disallow_same_family_twice_in_item": true,
+      "allow_abstain": false
+    },
+    "readme": "Run FH loop serving 5-option router items until any family hits count=3. Lock that family. Ask 3 face triad items; compute counts and apply duel rules. Then run Lines: 14 items (2 per line). Produce code_7 + notes + truth_line. See duel_rules for exact sequences."
   }
 }

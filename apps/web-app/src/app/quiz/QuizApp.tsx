@@ -38,9 +38,9 @@ type Rendered = {
 // ——— helpers ———
 function computeABC(tokens: Token[]): Counts {
   return {
-    A: tokens.filter(t => t === 'CLOSE').length,
-    B: tokens.filter(t => t === 'STALL').length,
-    C: tokens.filter(t => t === 'FRAG').length,
+    A: tokens.filter(t => t === 'C').length,
+    B: tokens.filter(t => t === 'O').length,
+    C: tokens.filter(t => t === 'F').length,
   };
 }
 function distanceFromCounts(A:number,B:number,C:number): 'Close'|'Offset'|'Far' {
@@ -595,7 +595,7 @@ export default function QuizApp() {
   function onChoose(option: Option) {
     // record token + tags (for reason extraction)
     setCurrentPicks(prev => [...prev, option.token]);
-    if (render?.frame?.tags && option.token !== 'CLOSE') {
+    if (render?.frame?.tags && option.token !== 'C') {
       setNonCloseTags(prev => [...prev, ...render.frame!.tags!]);
     }
 
@@ -656,11 +656,9 @@ export default function QuizApp() {
     const drift = finalC.A === 0 ? { stallPct: finalC.B * 20, fragPct: finalC.C * 20 } : undefined;
     const reason = extractReason(nonCloseTags);
 
-    // Convert to new token system
-    const newToken = convertLegacyTokenToV2(distance); // Close→C, Offset→O, Far→F
-    const severity = getSeverityFromLegacy({ distance } as LineVerdict);
-
-    // Convert to legacy format for compatibility
+    // Convert distance to token (Close→C, Offset→O, Far→F)
+    const newToken = distance === 'Close' ? 'C' : distance === 'Offset' ? 'O' : 'F';
+    
     const verdict: LineVerdict = {
       line,
       distance,              // Use legacy distance (Close, Offset, Far)
@@ -668,7 +666,7 @@ export default function QuizApp() {
       variance,
       reason
     };
-
+    
     setVerdicts(prev => [...prev, verdict]); // ✅ CORRECT TYPE
 
     // reset per-line state
