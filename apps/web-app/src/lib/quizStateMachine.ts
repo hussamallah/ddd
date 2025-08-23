@@ -77,6 +77,16 @@ export class QuizStateMachine {
   }
 
   /**
+   * Get current transitioning status for debugging
+   */
+  getTransitioningStatus(): { isTransitioning: boolean; stage: string } {
+    return {
+      isTransitioning: this.isTransitioning,
+      stage: this.state.stage
+    };
+  }
+
+  /**
    * Reset transitioning flag (for emergency use)
    */
   resetTransitioningFlag(): void {
@@ -127,6 +137,13 @@ export class QuizStateMachine {
     const oldState = { ...this.state };
     this.state = { ...this.state, ...updates };
     console.log('🔄 State updated:', { old: oldState, new: this.state });
+    
+    // Reset transitioning flag after state update is complete
+    if (this.isTransitioning) {
+      console.log('✅ Resetting transitioning flag after state update');
+      this.isTransitioning = false;
+    }
+    
     this.notifyListeners();
   }
 
@@ -282,6 +299,12 @@ export class QuizStateMachine {
   recordFacePick(face: Face): void {
     console.log('🔍 recordFacePick called:', { face, currentStage: this.state.stage });
     
+    // Prevent recording face picks during transitions
+    if (this.isTransitioning) {
+      console.warn('⚠️ Transition in progress, ignoring face pick');
+      return;
+    }
+    
     // Validate current stage
     if (this.state.stage !== 'face_triad') {
       const error = `Cannot record face pick outside of face triad stage. Current stage: ${this.state.stage}`;
@@ -367,11 +390,28 @@ export class QuizStateMachine {
       throw new Error('Can only transition to face duels from face triad stage');
     }
 
-    this.updateState({
-      stage: 'face_duels'
-    });
+    // Set transitioning flag
+    this.isTransitioning = true;
     
-    console.log('✅ Successfully transitioned to face_duels stage');
+    // Set a timeout to automatically reset the flag if it gets stuck
+    const resetTimeout = setTimeout(() => {
+      if (this.isTransitioning) {
+        console.warn('⚠️ Transition flag stuck in face duels transition, auto-resetting');
+        this.isTransitioning = false;
+      }
+    }, 5000); // 5 second timeout
+    
+    try {
+      this.updateState({
+        stage: 'face_duels'
+      });
+      
+      console.log('✅ Successfully transitioned to face_duels stage');
+    } finally {
+      // Clear the timeout and reset transitioning flag
+      clearTimeout(resetTimeout);
+      this.isTransitioning = false;
+    }
   }
 
   /**
@@ -379,6 +419,12 @@ export class QuizStateMachine {
    */
   recordDuelResult(winner: Face, pattern: DuelPattern, duelsRun: number): void {
     console.log('🔍 recordDuelResult called:', { winner, pattern, duelsRun });
+    
+    // Prevent recording duel results during transitions
+    if (this.isTransitioning) {
+      console.warn('⚠️ Transition in progress, ignoring duel result');
+      return;
+    }
     
     if (this.state.stage !== 'face_duels') {
       throw new Error('Cannot record duel result outside of face duels stage');
@@ -413,6 +459,12 @@ export class QuizStateMachine {
   recordLineVerdict(line: Line, token: 'C' | 'O' | 'F', severity: number, items: any): void {
     console.log('🔍 recordLineVerdict called:', { line, token, severity, items });
     
+    // Prevent recording line verdicts during transitions
+    if (this.isTransitioning) {
+      console.warn('⚠️ Transition in progress, ignoring line verdict');
+      return;
+    }
+    
     if (this.state.stage !== 'lines') {
       throw new Error('Cannot record line verdict outside of lines stage');
     }
@@ -433,9 +485,12 @@ export class QuizStateMachine {
       }
     });
 
-    // Check if all lines are complete
-    if (newLineVerdicts.length >= 7) {
+    // Check if all lines are complete (12 items total: 6 lines × 2 items each, skipping family line)
+    if (newLineVerdicts.length >= 12) {
+      console.log('🎯 All 12 line items completed, transitioning to complete stage');
       this.completeLines();
+    } else {
+      console.log(`📊 Line progress: ${newLineVerdicts.length}/12 items completed`);
     }
   }
 
@@ -443,10 +498,11 @@ export class QuizStateMachine {
    * Generate line note based on token
    */
   private generateLineNote(token: 'C' | 'O' | 'F'): string {
+    // According to JSON: line_note_templates
     const notes = {
-      'C': 'Stable: the move lands cleanly without extra passes.',        // = CLOSE behavior
-      'O': 'Offset: hesitation/softening adds latency here.',            // = STALL behavior  
-      'F': 'Break: pattern derails or reverses motion under pressure.'   // = FRAG behavior
+      'C': 'Stable: the move lands cleanly without extra passes.',
+      'O': 'Offset: hesitation/softening adds latency here.',
+      'F': 'Break: pattern derails or reverses motion under pressure.'
     };
     return notes[token];
   }

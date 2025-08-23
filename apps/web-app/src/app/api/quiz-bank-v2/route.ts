@@ -6,11 +6,11 @@ export const revalidate = 0;
 export async function GET() {
   try {
     // Import the quiz bank data
-    const quizBankData = (await import('@/data/quiz-bank-v2.6.json')).default;
+    const quizBankData = (await import('@/data/quiz-bank-v2.7.json')).default;
     
     // Validate basic structure
     if (!quizBankData.version || !quizBankData.families || !quizBankData.family_hone_items) {
-      throw new Error('Invalid quiz bank v2.6 structure');
+      throw new Error('Invalid quiz bank v2.7 structure');
     }
     
     return NextResponse.json(quizBankData as QuizBankV2, {

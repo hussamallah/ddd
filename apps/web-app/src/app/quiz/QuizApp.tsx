@@ -908,43 +908,182 @@ export default function QuizApp() {
     const result = composeAIR(verdicts, selectedMode);
     const archetypeProfile = generateArchetypeProfile(verdicts);
     
-    // Generate the subtitle showing broken/stalled lines
-    const brokenLines = result.lines.filter(line => line.distance === 'Far').map(line => line.line);
-    const stalledLines = result.lines.filter(line => line.distance === 'Offset').map(line => line.line);
-    
-    const subtitle = [
-      ...brokenLines.map(line => `${line} Broken`),
-      ...stalledLines.map(line => `${line} Stalled`)
-    ].join(' — ');
+    // Get archetype color for theming
+    const archetypeColor = ARCHETYPE_COLORS[archetypeProfile.archetype] || ARCHETYPE_COLORS.Sovereign;
     
     return (
-      <div className="min-h-screen bg-black p-8">
-        {/* Rich archetype header */}
-        <div className="text-center mb-8">
-          <ArchetypeIcon archetypeName={archetypeProfile.archetype} />
-          <h1 className="text-6xl font-black text-white mb-4" style={{textShadow: "0 0 20px cyan"}}>
-            {archetypeProfile.archetype.toUpperCase()}
-          </h1>
-          {/* Subtitle showing broken/stalled lines */}
-          <p className="text-lg text-neutral-300 mb-6">{subtitle}</p>
-        </div>
+      <div 
+        className="min-h-screen bg-black text-white relative overflow-hidden"
+        style={{
+          background: `radial-gradient(circle at center, ${archetypeColor.hex}10 0%, ${archetypeColor.hex}05 50%, #000000 100%)`,
+          transform: 'scale(0.85)',
+          transformOrigin: 'top center',
+          marginTop: '-10vh'
+        }}
+      >
+        {/* Glowing Background Elements */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            background: `radial-gradient(circle at 30% 20%, ${archetypeColor.hex}40 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, ${archetypeColor.hex}30 0%, transparent 50%)`
+          }}
+        />
         
-        {/* "What These Traits Reveal About You" Section */}
-        <div className="max-w-4xl mx-auto mb-8">
-          <div className="bg-gradient-to-r from-blue-900/40 to-indigo-900/40 rounded-xl border border-blue-500/30 p-6">
-            <h2 className="text-xl font-semibold text-blue-300 mb-4">What These Traits Reveal About You</h2>
-            <div className="space-y-3 text-neutral-200">
-              <p>Every answer you gave was a real reflection of your way of moving through life—not a guess, not an ideal.</p>
-              <p>You didn't invent these patterns; they're the lines your experience has already drawn.</p>
+        <div className="relative z-10 p-8">
+          {/* Header moved inside here */}
+          <Header />
+          
+          {/* Results Header */}
+          <div className="text-center mb-12">
+            {/* Archetype Icon - Centered and Glowing */}
+            <div className="mb-6 flex justify-center">
+              <div 
+                className="p-4 rounded-full"
+                style={{
+                  background: `radial-gradient(circle, ${archetypeColor.hex}30, ${archetypeColor.hex}10)`,
+                  boxShadow: `0 0 30px ${archetypeColor.hex}50, 0 0 60px ${archetypeColor.hex}30`
+                }}
+              >
+                <ArchetypeIcon archetypeName={archetypeProfile.archetype} />
+              </div>
             </div>
+            
+            {/* Main Title - Glowing Archetype Name */}
+            <h1 
+              className="text-6xl font-black mb-4 tracking-wider"
+              style={{
+                color: archetypeColor.hex,
+                textShadow: `0 0 20px ${archetypeColor.hex}, 0 0 40px ${archetypeColor.hex}80`
+              }}
+            >
+              {archetypeProfile.archetype.toUpperCase()}
+            </h1>
+            
+            {/* Subtitle 1 */}
+            <h2 className="text-2xl text-white mb-2 font-medium">
+              {(() => {
+                // Find all lines that are not Close (Offset or Far)
+                const offLines = verdicts.filter(l => l.distance !== 'Close');
+                
+                // Group by distance type
+                const brokenLines = offLines.filter(l => l.distance === 'Far').map(l => l.line);
+                const stalledLines = offLines.filter(l => l.distance === 'Offset').map(l => l.line);
+                
+                // Create descriptive combinations
+                let description = '';
+                
+                if (brokenLines.length > 0) {
+                  description += `${brokenLines.join(', ')} Broken`;
+                }
+                
+                if (stalledLines.length > 0) {
+                  if (description) description += ' — ';
+                  description += `${stalledLines.join(', ')} Stalled`;
+                }
+                
+                if (!description) {
+                  description = 'All Lines Stable';
+                }
+                
+                return description;
+              })()}
+            </h2>
           </div>
+
+          {/* MAIN CONTENT BLOCK */}
+          <div 
+            className="max-w-2xl mx-auto mb-12 p-8 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${archetypeColor.hex}15, ${archetypeColor.hex}25, ${archetypeColor.hex}15)`,
+              border: `1px solid ${archetypeColor.hex}30`
+            }}
+          >
+            <h3 
+              className="text-2xl font-bold mb-4"
+              style={{ color: archetypeColor.hex }}
+            >
+              What These Traits Reveal About You
+            </h3>
+            <div className="space-y-4 text-lg text-white/90 leading-relaxed">
+              <p>
+                Every answer you gave was a real reflection of your way of moving through life—not a guess, not an ideal.
+              </p>
+              <p>
+                You didn't invent these patterns; they're the lines your experience has already drawn.
+              </p>
+            </div>
+            
+            {/* Glowing Line */}
+            <div 
+              className="mt-6 h-1 rounded-full"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${archetypeColor.hex}, transparent)`,
+                boxShadow: `0 0 10px ${archetypeColor.hex}`
+              }}
+            />
+          </div>
+
+          {/* Results Heat Map */}
+          <div 
+            className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
+              border: `1px solid ${archetypeColor.hex}40`,
+              boxShadow: `0 0 20px ${archetypeColor.hex}20`
+            }}
+          >
+            <ResultsHeatMap lines={result.lines} />
+          </div>
+          
+          {/* Good/Bad/Ugly Analysis */}
+          <div 
+            className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
+              border: `1px solid ${archetypeColor.hex}40`,
+              boxShadow: `0 0 20px ${archetypeColor.hex}20`
+            }}
+          >
+            <GbuDiagnosticCards
+              good={result.goodBadUgly.good}
+              bad={result.goodBadUgly.bad}
+              ugly={result.goodBadUgly.ugly || ''}
+              goodFooter="Stable. Outcomes land. Clear tempo."
+              badFooter="Variability enters. Delays creep in."
+            />
+          </div>
+          
+          {/* Mode-Specific Insights */}
+          {selectedMode !== 'original' && result.modeSpecificInsights && (
+            <div 
+              className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
+              style={{
+                background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
+                border: `1px solid ${archetypeColor.hex}40`,
+                boxShadow: `0 0 20px ${archetypeColor.hex}20`
+              }}
+            >
+              <h3 
+                className="text-xl font-semibold mb-4"
+                style={{ color: archetypeColor.hex }}
+              >
+                {selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1)} Mode Insights
+              </h3>
+              <div className="space-y-2 text-base text-white/90">
+                {result.modeSpecificInsights.heatAnalysis && (
+                  <p>{result.modeSpecificInsights.heatAnalysis}</p>
+                )}
+                {result.modeSpecificInsights.thirdPersonPattern && (
+                  <p>{result.modeSpecificInsights.thirdPersonPattern}</p>
+                )}
+                {result.modeSpecificInsights.betOutcome && (
+                  <p>{result.modeSpecificInsights.betOutcome}</p>
+                )}
+              </div>
+            </div>
+          )}
         </div>
-        
-        {/* Heat Map Results Display */}
-        <ResultsHeatMap lines={result.lines} />
-        
-        {/* Good/Bad/Ugly Analysis */}
-        <GbuDiagnosticCards {...result.goodBadUgly} />
       </div>
     );
   }

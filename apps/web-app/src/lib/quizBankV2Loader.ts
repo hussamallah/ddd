@@ -1,7 +1,7 @@
 import type { QuizBankV2, Family, Face, FamilyHoneItem, FaceTriadItem, FaceDuelItem, LineItemV2 } from './types';
 
 /**
- * Quiz Bank V2.6 Loader
+ * Quiz Bank V2.7 Loader
  * Handles loading and validation of the new quiz bank format
  */
 export class QuizBankV2Loader {
@@ -44,7 +44,7 @@ export class QuizBankV2Loader {
       
       return this.quizBank;
     } catch (error) {
-      console.error('Failed to load quiz bank v2.6:', error);
+      console.error('Failed to load quiz bank v2.7:', error);
       throw error;
     }
   }
@@ -238,10 +238,10 @@ export async function loadQuizBankV2WithFallback(): Promise<QuizBankV2> {
 
     // Fallback to static import
     console.warn('API load failed, falling back to static import');
-    const bankData = (await import('@/data/quiz-bank-v2.6.json')).default;
+    const bankData = (await import('@/data/quiz-bank-v2.7.json')).default;
     return await quizBankV2Loader.loadQuizBank(bankData);
   } catch (error) {
-    console.error('Failed to load quiz bank v2.6:', error);
+    console.error('Failed to load quiz bank v2.7:', error);
     throw error;
   }
 }

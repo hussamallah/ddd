@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import type { Line, LineItemV2, QuizStateV2, LineDuelItem } from '@/lib/types';
 import LineDuelsComponent from './LineDuelsComponent';
 
@@ -32,11 +32,20 @@ export default function LinesComponentV2({
   const [needsLineDuel, setNeedsLineDuel] = useState<Line | null>(null);
   const [currentLine, setCurrentLine] = useState<Line>(() => {
     const lines: Line[] = ['Control', 'Pace', 'Boundary', 'Truth', 'Recognition', 'Bonding', 'Stress'];
-    return lines[currentLineIndex];
+    const initialLine = lines[currentLineIndex] || lines[0];
+    console.log('🎯 Initializing currentLine:', { currentLineIndex, initialLine, lines });
+    return initialLine;
   });
 
   // Define lines array
   const lines: Line[] = ['Control', 'Pace', 'Boundary', 'Truth', 'Recognition', 'Bonding', 'Stress'];
+
+  // Filter out the family line (skip it as per JSON rules)
+  const familyLine = quizState?.familyHone?.lockedFamily;
+  const linesToProcess = lines.filter(line => line !== familyLine);
+  
+  console.log(`🎯 Processing lines: ${linesToProcess.join(', ')} (skipping family line: ${familyLine})`);
+  console.log(`📊 Total items to process: ${linesToProcess.length * 2} (${linesToProcess.length} lines × 2 items each)`);
 
   // Validate props
   console.log('🚀 LinesComponentV2 Props Validation:', {
@@ -135,16 +144,27 @@ export default function LinesComponentV2({
   // Skip the family line (assume 'C' - stable)
   const shouldSkipFamilyLine = currentLine === quizState.faceTriad.family;
 
+  // Update currentLine when currentLineIndex changes
+  useEffect(() => {
+    if (currentLineIndex >= 0 && currentLineIndex < lines.length) {
+      setCurrentLine(lines[currentLineIndex]);
+    } else if (currentLineIndex >= lines.length) {
+      // Prevent going beyond array bounds
+      console.log('🛑 Reached end of lines, preventing further advancement');
+      setCurrentLineIndex(lines.length - 1);
+    }
+  }, [currentLineIndex, lines]);
+
   // Auto-advance family line
   useEffect(() => {
-    if (shouldSkipFamilyLine) {
+    if (shouldSkipFamilyLine && currentLineIndex < lines.length - 1) {
       console.log('🚀 Auto-advancing family line:', currentLine);
-      if (currentLineIndex < lines.length - 1) {
-        setCurrentLineIndex(prev => prev + 1);
-        setCurrentItemIndex(0);
-      }
+      setCurrentLineIndex(prev => prev + 1);
+      setCurrentItemIndex(0);
+    } else if (shouldSkipFamilyLine && currentLineIndex >= lines.length - 1) {
+      console.log('✅ Family line auto-advance complete - reached end of lines');
     }
-  }, [shouldSkipFamilyLine, currentLineIndex, lines.length]);
+  }, [shouldSkipFamilyLine, currentLineIndex, lines.length, currentLine]);
 
   // Reset selection when item changes
   useEffect(() => {
@@ -175,6 +195,36 @@ export default function LinesComponentV2({
       setCurrentItemIndex(0);
     }
   }, [currentLine, lineItems, currentItemIndex]);
+
+  // Safety check: prevent infinite loops by monitoring state changes
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (shouldSkipFamilyLine && currentLineIndex === 7) {
+        console.warn('⚠️ Potential infinite loop detected at Control line, forcing advancement');
+        setCurrentLineIndex(1); // Skip to Pace line
+        setCurrentItemIndex(0);
+      }
+    }, 2000); // 2 second timeout
+
+    return () => clearTimeout(timeoutId);
+  }, [shouldSkipFamilyLine, currentLineIndex]);
+
+  // Initialize line index
+  const initializeLineIndex = useCallback(() => {
+    const processedLines = Object.keys(lineVerdicts);
+    const firstUnprocessedIndex = linesToProcess.findIndex(line => !processedLines.includes(line));
+    
+    console.log('🎯 Initializing line index:', {
+      processedLines,
+      firstUnprocessedIndex,
+      lines: linesToProcess
+    });
+    
+    if (firstUnprocessedIndex !== -1) {
+      setCurrentLineIndex(firstUnprocessedIndex);
+      setCurrentLine(linesToProcess[firstUnprocessedIndex]);
+    }
+  }, [lineVerdicts, linesToProcess]);
 
   const handleOptionSelect = (optionKey: string) => {
     // Validate current stage
@@ -218,51 +268,66 @@ export default function LinesComponentV2({
       }
       
       newLineVerdicts[currentLine][currentItemIndex] = { token, severity };
+      console.log(`📊 Line verdicts for ${currentLine}:`, newLineVerdicts[currentLine]);
       setLineVerdicts(newLineVerdicts);
 
       // Move to next item or line
       if (currentItemIndex < currentLineItems.length - 1) {
+        console.log(`🔄 Advancing to next item on line ${currentLine}: ${currentItemIndex + 1}/${currentLineItems.length}`);
         setCurrentItemIndex(prev => prev + 1);
       } else {
+        console.log(`✅ Line ${currentLine} complete! All ${currentLineItems.length} items processed.`);
         // Line complete, check if we need a duel
-        if (checkIfNeedsLineDuel(currentLine, newLineVerdicts[currentLine])) {
+        if (checkIfNeedsLineDuel(newLineVerdicts[currentLine])) {
           setNeedsLineDuel(currentLine);
-          return;
-        }
-        
-        // No duel needed, determine final verdict
-        const finalVerdict = determineLineVerdict(newLineVerdicts[currentLine]);
-        
-        // Safety check to ensure finalVerdict is valid
-        if (!finalVerdict || !finalVerdict.token || finalVerdict.severity === undefined) {
-          console.error('❌ Invalid finalVerdict:', finalVerdict, 'for line:', currentLine);
-          return;
-        }
-        
-        // Double-check stage before calling onLineVerdict
-        if (quizState?.stage === 'lines') {
-          // Safety check to ensure we have the expected items
-          const lineItems = newLineVerdicts[currentLine];
-          if (!lineItems || lineItems.length < 2) {
-            console.error('❌ Insufficient line items for verdict:', lineItems);
+          // Don't return here - continue to advance to next line
+        } else {
+          // No duel needed, determine final verdict
+          const finalVerdict = determineLineVerdict(newLineVerdicts[currentLine]);
+          
+          // Safety check to ensure finalVerdict is valid
+          if (!finalVerdict || !finalVerdict.token || finalVerdict.severity === undefined) {
+            console.error('❌ Invalid finalVerdict:', finalVerdict, 'for line:', currentLine);
             return;
           }
           
-          onLineVerdict(currentLine, finalVerdict.token, finalVerdict.severity, {
-            item1: lineItems[0],
-            item2: lineItems[1]
-          });
-        } else {
-          console.warn('⚠️ Stage changed after line completion, not recording line verdict');
+          // Double-check stage before calling onLineVerdict
+          if (quizState?.stage === 'lines') {
+            // Safety check to ensure we have the expected items
+            const lineItems = newLineVerdicts[currentLine];
+            if (!lineItems || lineItems.length < 2) {
+              console.error('❌ Insufficient line items for verdict:', lineItems);
+              return;
+            }
+            
+            console.log(`📝 Recording final verdict for line ${currentLine}:`, finalVerdict);
+            onLineVerdict(currentLine, finalVerdict.token, finalVerdict.severity, {
+              item1: lineItems[0],
+              item2: lineItems[1]
+            });
+          } else {
+            console.warn('⚠️ Stage changed after line completion, not recording line verdict');
+          }
         }
 
-        // Move to next line
-        if (currentLineIndex < lines.length - 1) {
+        // Always move to next line after completing current line (with or without duel)
+        if (currentLineIndex < linesToProcess.length - 1) {
+          console.log(`🚀 Advancing from line ${currentLine} (${currentLineIndex}) to next line`);
           setCurrentLineIndex(prev => prev + 1);
+          setCurrentLine(linesToProcess[currentLineIndex + 1]);
           setCurrentItemIndex(0);
+        } else {
+          // We're on the last line, check if we've completed both items
+          if (currentItemIndex >= currentLineItems.length - 1) {
+            console.log(`🎯 All lines and items completed! Final line: ${currentLine} (${currentLineIndex})`);
+            console.log(`📊 Total items processed: ${Object.values(lineVerdicts).flat().length} out of ${linesToProcess.length * 2}`);
+            // This should trigger the completion logic in the state machine
+          } else {
+            console.log(`🔄 Still processing items on final line ${currentLine} (${currentLineIndex}), item ${currentItemIndex + 1}/${currentLineItems.length}`);
+          }
         }
       }
-    }, 300); // 300ms delay for visual feedback
+    }, 700); // 700ms delay for visual feedback
   };
 
   const handleLineDuelResult = (winner: 'C' | 'O' | 'F') => {
@@ -300,45 +365,49 @@ export default function LinesComponentV2({
     }
   };
 
-  const determineLineVerdict = (items: Array<{ token: 'C' | 'O' | 'F'; severity: number }>): { token: 'C' | 'O' | 'F'; severity: number } => {
+  const determineLineVerdict = (items: Array<{ token: 'C' | 'O' | 'F'; severity?: number }>): { token: 'C' | 'O' | 'F'; severity: number } => {
     if (!items || items.length === 0) {
       return { token: 'C', severity: 0 };
     }
 
-    // Use max severity rule (F > O > C)
-    const maxSeverity = Math.max(...items.map(item => item.severity));
-    const maxSeverityItems = items.filter(item => item.severity === maxSeverity);
+    // According to JSON: severity_order: ["F", "O", "C"] - F > O > C
+    // Use max_severity rule: find the highest severity token
+    const tokens = items.map(item => item.token);
     
-    // If multiple items have same severity, prefer the first one
-    // Add safety check to ensure we always return a valid verdict
-    if (maxSeverityItems.length === 0 || !maxSeverityItems[0]) {
-      console.warn('⚠️ No valid verdict found, using fallback:', { items, maxSeverity, maxSeverityItems });
-      return { token: 'C', severity: 0 };
+    // Check for F first (highest severity)
+    if (tokens.includes('F')) {
+      return { token: 'F', severity: 3 };
     }
     
-    return maxSeverityItems[0];
+    // Then check for O (medium severity)
+    if (tokens.includes('O')) {
+      return { token: 'O', severity: 2 };
+    }
+    
+    // Default to C (lowest severity)
+    return { token: 'C', severity: 1 };
   };
 
-  const checkIfNeedsLineDuel = (line: Line, items: Array<{ token: 'C' | 'O' | 'F'; severity: number }>): boolean => {
-    if (!items || items.length < 2) return false;
+  const checkIfNeedsLineDuel = (items: Array<{ token: 'C' | 'O' | 'F'; severity?: number }>): boolean => {
+    if (!items || items.length === 0) return false;
     
     // Safety check to ensure all items have valid properties
-    if (!items.every(item => item && item.token && item.severity !== undefined)) {
+    if (!items.every(item => item && item.token)) {
       console.warn('⚠️ Invalid items in checkIfNeedsLineDuel:', items);
       return false;
     }
     
-    // Check for edge cases that might need duels
+    // According to JSON: line_duel.trigger: "if_two_items_disagree"
+    // Trigger duel if the two items have different tokens
     const tokens = items.map(item => item.token);
-    const hasMixedSeverity = tokens.some(t => t === 'C') && tokens.some(t => t === 'F');
-    const hasEqualSeverity = items.every(item => item.severity === items[0].severity);
+    const uniqueTokens = new Set(tokens);
     
-    // Trigger duel if we have mixed severity or equal severity with different tokens
-    return hasMixedSeverity || (hasEqualSeverity && new Set(tokens).size > 1);
+    // If we have more than one unique token, the items disagree - trigger duel
+    return uniqueTokens.size > 1;
   };
 
   const getProgressPercentage = (): number => {
-    const totalItems = lines.length * 2; // 2 items per line
+    const totalItems = linesToProcess.length * 2; // 6 lines × 2 items each = 12 total
     const completedItems = Object.values(lineVerdicts).reduce((sum, items) => sum + items.length, 0);
     return (completedItems / totalItems) * 100;
   };

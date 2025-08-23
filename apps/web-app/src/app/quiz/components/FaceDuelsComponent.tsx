@@ -32,41 +32,97 @@ export default function FaceDuelsComponent({
     setSelectedOption(optionKey);
   };
 
+  // Fix the duel logic to match the pattern rules:
+
   const handleConfirm = () => {
     if (!selectedOption || !currentDuel) return;
-
-    // Validate current stage
-    if (quizState.stage !== 'face_duels') {
-      console.warn('⚠️ FaceDuelsComponent: Ignoring duel result - wrong stage:', quizState.stage);
-      return;
-    }
 
     const winner = currentDuel.options[selectedOption].face;
     const newDuelsRun = duelsRun + 1;
     
+    console.log('🎯 handleConfirm called:', {
+      selectedOption,
+      winner,
+      newDuelsRun,
+      currentDuelIndex,
+      duelItems: duelItems.length,
+      faceCounts
+    });
+    
     // Record this duel result
-    const newDuelResults = [...duelResults, { 
-      winner, 
-      pattern: `duel_${newDuelsRun}` 
-    }];
+    const newDuelResults = [...duelResults, { winner, pattern: `duel_${newDuelsRun}` }];
     setDuelResults(newDuelResults);
     setDuelsRun(newDuelsRun);
 
-    // Determine if we need more duels
-    if (newDuelsRun >= 2) {
-      // Maximum duels reached, determine final winner
-      const finalWinner = determineFinalWinner(newDuelResults, faceCounts);
-      const pattern = detectDuelPattern(faceCounts);
-      
-      // Double-check stage before calling onDuelResult
-      if (quizState.stage === 'face_duels') {
+    // Check the pattern to determine how many duels needed
+    const pattern = detectDuelPattern(faceCounts);
+    console.log('🎯 Duel pattern detected:', pattern);
+    
+    if (pattern === '2-0-1') {
+      console.log('🎯 Processing 2-0-1 pattern');
+      if (newDuelsRun === 1) {
+        // First duel: 2nd vs 3rd place
+        // Get the 2nd place face from counts
+        const secondPlaceFace = Object.entries(faceCounts).find(([face, count]) => count === 1)?.[0];
+        console.log('🎯 Second place face:', secondPlaceFace);
+        
+        if (winner === secondPlaceFace) {
+          // 2nd place won - advance to lines
+          console.log('🎯 2nd place won, advancing to lines');
+          onDuelResult(winner, pattern, newDuelsRun);
+        } else {
+          // 3rd place won - need final question
+          console.log('🎯 3rd place won, moving to next duel');
+          if (currentDuelIndex + 1 < duelItems.length) {
+            setCurrentDuelIndex(prev => prev + 1);
+          } else {
+            console.error('❌ No more duel items available for 2-0-1 pattern');
+            // Fallback: use the winner we have
+            onDuelResult(winner, pattern, newDuelsRun);
+          }
+        }
+      } else if (newDuelsRun === 2) {
+        // Final question completed - determine winner
+        console.log('🎯 Final duel completed, determining winner');
+        const finalWinner = determineFinalWinner(newDuelResults, faceCounts);
+        onDuelResult(finalWinner, pattern, newDuelsRun);
+      }
+    } else if (pattern === '2-1-0') {
+      console.log('🎯 Processing 2-1-0 pattern - only 1 duel needed');
+      // Only 1 duel needed
+      onDuelResult(winner, pattern, newDuelsRun);
+    } else if (pattern === '1-1-1') {
+      console.log('🎯 Processing 1-1-1 pattern - need 2 duels');
+      // Need 2 duels
+      if (newDuelsRun >= 2) {
+        const finalWinner = determineFinalWinner(newDuelResults, faceCounts);
         onDuelResult(finalWinner, pattern, newDuelsRun);
       } else {
-        console.warn('⚠️ Stage changed during duel processing, not recording result');
+        console.log('🎯 Moving to next duel for 1-1-1 pattern');
+        if (currentDuelIndex + 1 < duelItems.length) {
+          setCurrentDuelIndex(prev => prev + 1);
+        } else {
+          console.error('❌ No more duel items available for 1-1-1 pattern');
+          // Fallback: use the winner we have
+          onDuelResult(winner, pattern, newDuelsRun);
+        }
       }
     } else {
-      // Move to next duel
-      setCurrentDuelIndex(prev => prev + 1);
+      console.log('🎯 Unknown pattern, using default behavior');
+      // Default behavior for unknown patterns
+      if (newDuelsRun >= 2) {
+        const finalWinner = determineFinalWinner(newDuelResults, faceCounts);
+        onDuelResult(finalWinner, pattern, newDuelsRun);
+      } else {
+        console.log('🎯 Moving to next duel for unknown pattern');
+        if (currentDuelIndex + 1 < duelItems.length) {
+          setCurrentDuelIndex(prev => prev + 1);
+        } else {
+          console.error('❌ No more duel items available for unknown pattern');
+          // Fallback: use the winner we have
+          onDuelResult(winner, pattern, newDuelsRun);
+        }
+      }
     }
   };
 
@@ -78,10 +134,28 @@ export default function FaceDuelsComponent({
   const detectDuelPattern = (counts: Record<Face, number>): DuelPattern => {
     const values = Object.values(counts).sort((a, b) => b - a);
     
-    if (values[0] === 2 && values[1] === 1) return '2-1-0';
-    if (values[0] === 2 && values[2] === 1) return '2-0-1';
+    console.log('🔍 detectDuelPattern - Face counts:', counts);
+    console.log('🔍 detectDuelPattern - Sorted values:', values);
+    
+    // Handle all possible patterns
+    if (values[0] === 2 && values[1] === 1 && values[2] === 0) return '2-1-0';
+    if (values[0] === 2 && values[1] === 0 && values[2] === 1) return '2-0-1';
     if (values[0] === 1 && values[1] === 1 && values[2] === 1) return '1-1-1';
     
+    // Additional patterns that might occur
+    if (values[0] === 3 && values[1] === 0 && values[2] === 0) return '3-0-0';
+    
+    // For edge cases, map to closest valid pattern
+    if (values[0] === 1 && values[1] === 1 && values[2] === 0) {
+      console.log('⚠️ detectDuelPattern - Mapping 1-1-0 to 1-1-1 pattern');
+      return '1-1-1';
+    }
+    if (values[0] === 1 && values[1] === 0 && values[2] === 0) {
+      console.log('⚠️ detectDuelPattern - Mapping 1-0-0 to 1-1-1 pattern');
+      return '1-1-1';
+    }
+    
+    console.log('⚠️ detectDuelPattern - No specific pattern matched, using default');
     return '2-1-0'; // Default fallback
   };
 
@@ -171,6 +245,9 @@ export default function FaceDuelsComponent({
           <span className="text-yellow-300">
             Duel {duelsRun + 1} of 2 - {duelsRun === 0 ? 'First duel' : 'Final duel'}
           </span>
+          <div className="text-xs text-yellow-400 mt-1">
+            Question {currentDuelIndex + 1} of {duelItems.length} available
+          </div>
         </div>
       </div>
 
@@ -221,7 +298,7 @@ export default function FaceDuelsComponent({
         </div>
 
         {/* Action Button */}
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4">
           <button
             onClick={handleConfirm}
             disabled={!selectedOption}
@@ -233,6 +310,26 @@ export default function FaceDuelsComponent({
           >
             {duelsRun === 0 ? 'Confirm First Duel' : 'Confirm Final Duel'}
           </button>
+          
+          {/* Debug Button */}
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              onClick={() => {
+                console.log('🔍 FaceDuelsComponent Debug Info:', {
+                  currentDuelIndex,
+                  duelItems: duelItems.length,
+                  duelsRun,
+                  selectedOption,
+                  faceCounts,
+                  pattern: detectDuelPattern(faceCounts),
+                  duelResults
+                });
+              }}
+              className="px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-all"
+            >
+              Debug
+            </button>
+          )}
         </div>
       </div>
 
@@ -261,6 +358,21 @@ export default function FaceDuelsComponent({
           After {duelsRun === 0 ? '2' : '1'} duel{duelsRun === 0 ? 's' : ''}, we'll determine your final archetype.
         </p>
       </div>
+
+      {/* Debug Information */}
+      {process.env.NODE_ENV === 'development' && (
+        <div className="mt-8 p-4 bg-neutral-800/40 border border-neutral-600 rounded-lg">
+          <h4 className="text-sm font-semibold text-neutral-300 mb-2">Debug Info</h4>
+          <div className="text-xs text-neutral-400 space-y-1">
+            <div>Current Duel Index: {currentDuelIndex}</div>
+            <div>Total Duel Items: {duelItems.length}</div>
+            <div>Duels Run: {duelsRun}</div>
+            <div>Selected Option: {selectedOption || 'None'}</div>
+            <div>Face Counts: {JSON.stringify(faceCounts)}</div>
+            <div>Pattern: {detectDuelPattern(faceCounts)}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,0 +1,12 @@
+{
+  "buildCommand": "cd apps/web-app && npm run build",
+  "outputDirectory": "apps/web-app/.next",
+  "framework": "nextjs",
+  "installCommand": "cd apps/web-app && npm install",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    }
+  ]
+}

@@ -21,7 +21,7 @@ import { ResultsEngineV2 } from '../engines/ResultsEngineV2';
 
 /**
  * Quiz System Bridge
- * Maintains backward compatibility between v1 and v2.6 quiz systems
+ * Maintains backward compatibility between v1 and v2.7 quiz systems
  */
 
 export interface QuizSystemConfig {
@@ -32,7 +32,7 @@ export interface QuizSystemConfig {
 }
 
 export interface QuizSystemState {
-  currentFormat: 'v1' | 'v2.6' | 'hybrid';
+  currentFormat: 'v1' | 'v2.7' | 'hybrid';
   v1Bank: QuizBank | null;
   v2Bank: QuizBankV2 | null;
   hybridBank: any | null;
@@ -121,11 +121,11 @@ export class QuizSystemBridge {
   }
 
   /**
-   * Load v2.6 quiz bank
+   * Load v2.7 quiz bank
    */
   private async loadV2Bank(data: any): Promise<void> {
     if (!this.config.enableV2) {
-      throw new Error('V2.6 quiz system is disabled');
+      throw new Error('V2.7 quiz system is disabled');
     }
 
     this.state.v2Bank = data as QuizBankV2;
