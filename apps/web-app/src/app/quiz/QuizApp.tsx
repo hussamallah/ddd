@@ -6,6 +6,7 @@ import type { QuizBank, Line, Token, TBType, BaseItem, TBBlock, Frame, Option, L
 import { decideTB, fallbackDistance } from '@/lib/pointsMap';
 import { loadBankWithFallback, getBankProtectionStatus } from '@/lib/loadBank';
 import { composeAIR } from './results/composeAIR';
+import { generateArchetypeProfile } from '@/lib/archetype-generator';
 import HeaderSection from './components/HeaderSection';
 import TradeCardsSection from './components/TradeCardsSection';
 import GbuDiagnosticCards from './results/components/GbuDiagnosticCards';
@@ -25,7 +26,7 @@ const perms = [
   [0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]
 ];
 
-type Phase = 'intro' | 'mode-select' | 'base' | 'tb' | 'final';
+type Phase = 'intro' | 'mode-select' | 'flow-select' | 'base' | 'tb' | 'final';
 
 type Rendered = {
   frame: Frame | null;
@@ -48,16 +49,13 @@ function distanceFromCounts(A:number,B:number,C:number): 'Close'|'Offset'|'Far' 
   return 'Far';
 }
 function pickFrame(item: BaseItem, mode?: QuizMode): Rendered {
-  // Filter frames by mode if specified
-  let availableFrames = item.frames;
-  if (mode && mode !== 'friend' && mode !== 'heat' && mode !== 'bet') {
-    const modeFrames = item.frames.filter(f => 
-      !f.mode || f.mode.includes(mode) || (mode !== 'original' && f.mode.includes('standard'))
-    );
-    if (modeFrames.length > 0) {
-      availableFrames = modeFrames;
-    }
-  }
+  // ALWAYS show primary variant (variant === "primary" or no variant specified)
+  const primaryFrames = item.frames.filter(f => 
+    !f.variant || f.variant === 'primary'
+  );
+  
+  // If no primary frames found, fall back to all frames
+  const availableFrames = primaryFrames.length > 0 ? primaryFrames : item.frames;
   
   const f = availableFrames[Math.floor(Math.random() * availableFrames.length)];
   const order = perms[Math.floor(Math.random() * perms.length)];
@@ -123,6 +121,10 @@ function generateArchetypeCode(verdicts: LineVerdict[]): string {
 }
 
 function getArchetype(code: string): ArchetypeEntry | null {
+  // Try the new system first
+  const newArchetype = generateArchetypeProfile([]); // This will be called with actual verdicts
+  
+  // Fallback to old system if needed
   const archetypes = archetypeData as ArchetypeEntry[];
   return archetypes.find(entry => entry.code === code) || null;
 }
@@ -170,26 +172,26 @@ const LineReportCard: React.FC<{
   onClose: () => void 
 }> = ({ line, onClose }) => {
   return (
-    <div className="w-full max-w-2xl rounded-2xl border border-white/10 bg-zinc-900/90 p-5 ring-1 ring-white/10 shadow-2xl">
-      <div className="mb-3 flex items-center justify-between">
+    <div className="w-full max-w-xl rounded-xl bg-zinc-900/90 p-3 shadow-xl">
+      <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <h3 className="text-lg font-bold text-white">{line.line}</h3>
+          <h3 className="text-base font-bold text-white">{line.line}</h3>
           <TokenPill t={line.distance === 'Close' ? 'C' : line.distance === 'Offset' ? 'O' : 'F'} />
         </div>
-        <button onClick={onClose} className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-semibold text-zinc-200 hover:bg-zinc-700 transition-colors">
+        <button onClick={onClose} className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs font-semibold text-zinc-200 hover:bg-zinc-700 transition-colors">
           Close
         </button>
       </div>
 
-      <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-zinc-300">
-        <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Status: {line.distance === 'Close' ? '✅ Stable' : line.distance === 'Offset' ? '⚠️ Offset' : '❌ Break'}</span>
-        <span className="rounded-lg bg-zinc-800/60 px-2 py-1">Trips You: {line.slipDriver}</span>
+      <div className="mb-2 flex flex-wrap items-center gap-1 text-xs text-zinc-300">
+        <span className="rounded-lg bg-zinc-800/60 px-1.5 py-0.5">Status: {line.distance === 'Close' ? '✅ Stable' : line.distance === 'Offset' ? '⚠️ Offset' : '❌ Break'}</span>
+        <span className="rounded-lg bg-zinc-800/60 px-1.5 py-0.5">Trips You: {line.slipDriver}</span>
         {line.variance && (
-          <span className="rounded-full bg-indigo-600/30 px-2 py-0.5 text-xs text-indigo-100">variance</span>
+          <span className="rounded-full bg-indigo-600/30 px-1 py-0.5 text-xs text-indigo-100">variance</span>
         )}
       </div>
 
-      <p className="text-sm leading-6 text-zinc-200">{line.card}</p>
+      <p className="text-xs leading-5 text-zinc-200">{line.card}</p>
     </div>
   );
 };
@@ -203,9 +205,9 @@ const ResultsHeatMap: React.FC<{
   const [selected, setSelected] = React.useState<any>(null);
 
   const headerCls =
-    "sticky top-0 z-10 grid grid-cols-4 gap-2 rounded-xl bg-zinc-950/70 px-2 py-1 text-[11px] text-zinc-400 backdrop-blur supports-[backdrop-filter]:bg-zinc-950/40";
+    "sticky top-0 z-10 grid grid-cols-4 gap-1 rounded-lg bg-zinc-950/70 px-1 py-0.5 text-[10px] text-zinc-400 backdrop-blur supports-[backdrop-filter]:bg-zinc-950/40";
   const rowCls =
-    "group grid grid-cols-4 items-center gap-2 rounded-xl px-2 py-2 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 hover:bg-indigo-900/50 hover:ring-2 hover:ring-indigo-400";
+    "group grid grid-cols-4 items-center gap-1 rounded-lg px-1 py-1 text-left transition-all duration-200 focus:outline-none focus-visible:ring-1 focus-visible:ring-indigo-400 hover:bg-indigo-900/50 hover:ring-1 hover:ring-indigo-400";
 
   return (
     <div className="w-full">
@@ -213,21 +215,21 @@ const ResultsHeatMap: React.FC<{
         <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-zinc-400">{title}</h2>
       )}
       <div className="w-full">
-        <div className="w-full rounded-2xl border border-white/10 bg-zinc-900/40 p-2 ring-1 ring-white/5">
+        <div className="w-full rounded-xl bg-zinc-900/40 p-1">
           {/* Legend */}
-          <div className="mb-3 text-center">
-            <div className="inline-flex items-center gap-4 text-xs text-zinc-400">
+          <div className="mb-2 text-center">
+            <div className="inline-flex items-center gap-2 text-xs text-zinc-400">
               <span className="flex items-center gap-1">
                 <span className="text-green-400">✅</span>
-                <span>Stable — line holds</span>
+                <span>Stable</span>
               </span>
               <span className="flex items-center gap-1">
                 <span className="text-amber-400">⚠️</span>
-                <span>Offset — wobbles</span>
+                <span>Offset</span>
               </span>
               <span className="flex items-center gap-1">
                 <span className="text-red-400">❌</span>
-                <span>Break — collapses</span>
+                <span>Break</span>
               </span>
             </div>
           </div>
@@ -241,7 +243,7 @@ const ResultsHeatMap: React.FC<{
           </div>
 
           {/* Rows */}
-          <div className="mt-1 space-y-0.5">
+          <div className="mt-0.5 space-y-0.5">
             {lines.map((line, idx) => (
               <button
                 key={line.line}
@@ -250,15 +252,15 @@ const ResultsHeatMap: React.FC<{
                 aria-label={`Open ${line.line} details`}
               >
                 {/* Line */}
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-white">
-                    {line.line === 'Control' ? '🎯 Control — Who owns the call' :
-                     line.line === 'Pace' ? '⏰ Pace — How time is handled' :
-                     line.line === 'Boundary' ? '🛡️ Boundary — What gets through' :
-                     line.line === 'Truth' ? '⚖️ Truth — How decisions are made' :
-                     line.line === 'Recognition' ? '👁️ Recognition — What gets noticed' :
-                     line.line === 'Bonding' ? '🤝 Bonding — How ties are held' :
-                     line.line === 'Stress' ? '🔥 Stress — What happens under load' :
+                <div className="flex items-center gap-1">
+                  <span className="text-xs font-semibold text-white">
+                    {line.line === 'Control' ? '🎯 Control' :
+                     line.line === 'Pace' ? '⏰ Pace' :
+                     line.line === 'Boundary' ? '🛡️ Boundary' :
+                     line.line === 'Truth' ? '⚖️ Truth' :
+                     line.line === 'Recognition' ? '👁️ Recognition' :
+                     line.line === 'Bonding' ? '🤝 Bonding' :
+                     line.line === 'Stress' ? '🔥 Stress' :
                      line.line}
                   </span>
                 </div>
@@ -266,27 +268,27 @@ const ResultsHeatMap: React.FC<{
                 {/* Status */}
                 <div className="flex items-center justify-center">
                   {line.distance === 'Close' ? (
-                    <span className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-white bg-green-600/70">
-                      ✅ Stable
+                    <span className="inline-flex items-center gap-0.5 rounded-full px-1 py-0.5 text-[10px] font-semibold text-white bg-green-600/70">
+                      ✅
                     </span>
                   ) : line.distance === 'Offset' ? (
-                    <span className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-white bg-amber-500/70">
-                      ⚠️ Offset
+                    <span className="inline-flex items-center gap-0.5 rounded-full px-1 py-0.5 text-[10px] font-semibold text-white bg-amber-500/70">
+                      ⚠️
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-semibold text-white bg-red-600/70">
-                      ❌ Break
+                    <span className="inline-flex items-center gap-0.5 rounded-full px-1 py-0.5 text-[10px] font-semibold text-white bg-red-600/70">
+                      ❌
                     </span>
                   )}
                 </div>
 
                 {/* Trips You */}
-                <div className="rounded-lg bg-zinc-800/60 p-1 text-center text-xs text-white truncate">
+                <div className="rounded-lg bg-zinc-800/60 p-0.5 text-center text-[10px] text-white truncate">
                   {line.slipDriver}
                 </div>
 
                 {/* Steady Truth */}
-                <div className="rounded-lg bg-black/30 p-1 text-center text-xs text-white truncate">
+                <div className="rounded-lg bg-black/30 p-0.5 text-center text-[10px] text-white truncate">
                   {line.card.split('Truth:')[1]?.trim() || line.card.split('.').slice(-2).join('.')}
                 </div>
               </button>
@@ -302,6 +304,208 @@ const ResultsHeatMap: React.FC<{
   );
 };
 
+// ————— Archetype Color Mapping —————
+const ARCHETYPE_COLORS: Record<string, { name: string; hex: string }> = {
+  "Sovereign": { "name": "Imperial Purple", "hex": "#6B2F8A" },
+  "Visionary": { "name": "Indigo", "hex": "#3F51B5" },
+  "Rebel": { "name": "Crimson", "hex": "#C62828" },
+  "Equalizer": { "name": "Teal", "hex": "#00897B" },
+  "Provider": { "name": "Sage Green", "hex": "#5E8C6A" },
+  "Wanderer": { "name": "Turquoise", "hex": "#1ABC9C" },
+  "Seeker": { "name": "Midnight Blue", "hex": "#0D47A1" },
+  "Mask": { "name": "Charcoal", "hex": "#2E3138" },
+  "Partner": { "name": "Rose", "hex": "#D81B60" },
+  "Guardian": { "name": "Forest Green", "hex": "#1B5E20" },
+  "Servant": { "name": "Ochre", "hex": "#A9782B" },
+  "Spotlight": { "name": "Marigold", "hex": "#F9A825" },
+  "Architect": { "name": "Blueprint Blue", "hex": "#355AA6" },
+  "Strategist": { "name": "Navy", "hex": "#1A2A44" },
+  "Catalyst": { "name": "Flame Orange", "hex": "#EF6C00" },
+  "Diplomat": { "name": "Olive", "hex": "#6B8E23" },
+  "Sentinel": { "name": "Blue-Gray", "hex": "#455A64" },
+  "Artisan": { "name": "Terracotta", "hex": "#C65D3A" },
+  "Navigator": { "name": "Cerulean", "hex": "#2A9DF4" },
+  "Alchemist": { "name": "Citrine", "hex": "#C59A1F" }
+};
+
+// ————— Art Nouveau Archetype Icons —————
+const GOLD = "#D4AF37"; // warm gold
+
+// Decorative corner ornaments
+function CornerOrnament({ flipX=false, flipY=false }: { flipX?: boolean; flipY?: boolean }) {
+  const sx = flipX ? -1 : 1;
+  const sy = flipY ? -1 : 1;
+  return (
+    <svg viewBox="0 0 100 100" className="absolute size-10 opacity-70" style={{ transform: `scale(${sx},${sy})`}} aria-hidden>
+      <g fill="none" stroke={GOLD} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+        <path d="M2,98 C22,78 42,60 64,54"/>
+        <path d="M6,94 C22,80 36,68 48,62"/>
+        <path d="M38 70c8-8 18-10 24-8c-8 2-12 8-12 14c6-4 14-2 18 2c-10 0-16 6-18 12"/>
+        <path d="M18 78c6-10 18-16 30-18"/>
+      </g>
+    </svg>
+  );
+}
+
+// Icon definitions
+const ICONS: Record<string, React.FC> = {
+  Sovereign: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="50" cy="58" r="22"/>
+      <path d="M26 38l8 4l8-10l8 10l8-10l8 10l8-4"/>
+      <path d="M20 72h60"/>
+    </svg>
+  ),
+  Visionary: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 50c12-18 30-28 42-28s30 10 42 28c-12 18-30 28-42 28S20 68 8 50z"/>
+      <circle cx="50" cy="50" r="10"/>
+      <path d="M18 50h64"/>
+    </svg>
+  ),
+  Rebel: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M38 16l-8 22h16l-10 28l26-26h-14l10-24z"/>
+      <path d="M62 20l-6 14h12l-8 18"/>
+    </svg>
+  ),
+  Equalizer: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M50 16v66"/>
+      <path d="M22 28h56"/>
+      <path d="M32 28l-12 20h24z"/>
+      <path d="M68 28l-12 20h24z"/>
+      <path d="M36 82h28"/>
+    </svg>
+  ),
+  Provider: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 52c0 16 14 28 32 28s32-12 32-28H18z"/>
+      <path d="M26 46c8-8 40-8 48 0"/>
+    </svg>
+  ),
+  Wanderer: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="50" cy="50" r="4"/>
+      <path d="M50 10v22M50 68v22M10 50h22M68 50h22"/>
+      <path d="M50 18l10 32l-10 10l-10-10z"/>
+    </svg>
+  ),
+  Seeker: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="50" cy="36" r="10"/>
+      <path d="M50 46l-8 16h16z"/>
+    </svg>
+  ),
+  Mask: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 30c0 20 12 34 32 34S82 50 82 30c-10 6-20 6-32 0c-12 6-22 6-32 0z"/>
+      <path d="M38 44c2 0 4 2 4 4M58 44c-2 0-4 2-4 4"/>
+      <path d="M50 28v40"/>
+    </svg>
+  ),
+  Partner: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="40" cy="54" r="14"/>
+      <circle cx="60" cy="46" r="14"/>
+    </svg>
+  ),
+  Guardian: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M50 14l28 10v20c0 22-14 32-28 40c-14-8-28-18-28-40V24z"/>
+    </svg>
+  ),
+  Servant: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M26 16v68"/>
+      <path d="M26 18h40l-6 10l6 10H26z"/>
+    </svg>
+  ),
+  Spotlight: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M50 8v84M8 50h84M22 22l56 56M78 22L22 78"/>
+      <circle cx="50" cy="50" r="6"/>
+    </svg>
+  ),
+  Architect: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M30 78l40-40"/>
+      <path d="M34 30l16 40l16-40"/>
+      <circle cx="50" cy="26" r="6"/>
+    </svg>
+  ),
+  Strategist: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M64 32c-6-6-18-10-24 0c10 2 10 8 6 12c-6 6-12 8-12 18h32v-8l6-6l-8-16z"/>
+      <path d="M34 72h36"/>
+      <circle cx="54" cy="36" r="2"/>
+    </svg>
+  ),
+  Catalyst: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M50 12l4 16l16 4l-16 4l-4 16l-4-16l-16-4l16-4z"/>
+      <path d="M50 78l2 10M22 50l-10 2M78 50l10 2M50 22l2-10"/>
+    </svg>
+  ),
+  Diplomat: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 70c28-12 46-30 68-44"/>
+      <path d="M40 54c0 8-6 12-14 12c0-8 6-12 14-12z"/>
+      <path d="M60 42c0 8-6 12-14 12c0-8 6-12 14-12z"/>
+      <path d="M76 32c0 8-6 12-14 12c0-8 6-12 14-12z"/>
+    </svg>
+  ),
+  Sentinel: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M38 82V56h24v26"/>
+      <path d="M34 56h32l-4-16H38z"/>
+      <path d="M42 26h16v8H42z"/>
+      <path d="M38 22h24l-12-8z"/>
+    </svg>
+  ),
+  Artisan: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="50" cy="50" r="6"/>
+      <path d="M50 20c-6 0-12 8-12 14c0 6 6 10 12 10s12-4 12-10c0-6-6-14-12-14z"/>
+      <path d="M50 80c6 0 12-8 12-14c0-6-6-10-12-10s-12 4-12 10c0 6 6 14 12 14z"/>
+      <path d="M20 50c0 6 8 12 14 12c6 0 10-6 10-12s-4-12-10-12c-6 0-14 6-14 12z"/>
+      <path d="M80 50c0-6-8-12-14-12c-6 0-10 6-10 12s4 12 10 12c6 0 14-6 14-12z"/>
+    </svg>
+  ),
+  Navigator: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M24 72h52l-26-44z"/>
+      <path d="M50 28v44M26 60h48"/>
+      <path d="M22 72a28 28 0 1 0 56 0"/>
+      <circle cx="50" cy="28" r="3"/>
+    </svg>
+  ),
+  Alchemist: () => (
+    <svg viewBox="0 0 100 100" fill="none" stroke={GOLD} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <path d="M50 14c20 0 36 16 36 36s-16 36-36 36S14 70 14 50c0-14 8-26 20-32"/>
+      <path d="M34 18l12 2l-6 10"/>
+    </svg>
+  ),
+};
+
+// Archetype Icon Component
+function ArchetypeIcon({ archetypeName }: { archetypeName: string }) {
+  const IconComponent = ICONS[archetypeName] || ICONS.Sovereign; // fallback to Sovereign
+  
+  return (
+    <div className="relative">
+      {/* Corner ornaments */}
+      <CornerOrnament />
+      <CornerOrnament flipX flipY />
+      
+      {/* Icon container */}
+      <div className="relative z-10 flex items-center justify-center w-24 h-24 mx-auto">
+        <IconComponent />
+      </div>
+    </div>
+  );
+}
+
 // ——— component ———
 export default function QuizApp() {
   const router = useRouter();
@@ -309,12 +513,12 @@ export default function QuizApp() {
   const [bank, setBank] = useState<QuizBank>(bankData as QuizBank);
   const [phase, setPhase] = useState<Phase>(() => {
     const modeParam = searchParams.get('mode');
-    if (modeParam && ['original', 'standard', 'heat', 'friend', 'bet'].includes(modeParam)) {
+    if (modeParam && ['original', 'heat', 'friend', 'bet'].includes(modeParam)) {
       return 'base'; // Start in quiz mode, not selection mode
     }
-    return 'mode-select';
+    return 'flow-select';
   });
-  const [selectedMode, setSelectedMode] = useState<QuizMode>('standard');
+  const [selectedMode, setSelectedMode] = useState<QuizMode>('original');
   const [lineIdx, setLineIdx] = useState(0);
   const [baseStep, setBaseStep] = useState<0|1|2>(0);
   const [tbIdx, setTbIdx] = useState<0|1>(0);
@@ -325,11 +529,12 @@ export default function QuizApp() {
   const [tbType, setTbType] = useState<TBType | null>(null);
 
   const [verdicts, setVerdicts] = useState<LineVerdict[]>([]);
+  const [selectedArchetype, setSelectedArchetype] = useState<string>('');
 
   // Check for mode parameter on mount and auto-start quiz
   useEffect(() => {
     const modeParam = searchParams.get('mode');
-    if (modeParam && ['original', 'standard', 'heat', 'friend', 'bet'].includes(modeParam)) {
+    if (modeParam && ['original', 'heat', 'friend', 'bet'].includes(modeParam)) {
       // Auto-start the quiz with the selected mode
       startQuiz(modeParam as QuizMode);
     }
@@ -364,8 +569,12 @@ export default function QuizApp() {
     setPhase('mode-select');
   }
 
+  function startFlowSelection() {
+    setPhase('flow-select');
+  }
+
   function startQuiz(mode: QuizMode) {
-    if (mode === 'original' || mode === 'standard') {
+    if (mode === 'original') {
       setSelectedMode(mode);
       setPhase('base');
       const r = pickFrame(currentBaseItem, mode);
@@ -377,6 +586,10 @@ export default function QuizApp() {
       // Route to the new mode system
       router.push(`/quiz/run?mode=${mode}`);
     }
+  }
+
+  function startV2Flow() {
+    router.push('/quiz/test-v2');
   }
 
   function onChoose(option: Option) {
@@ -480,9 +693,76 @@ export default function QuizApp() {
   function Header() {
     const protectionStatus = getBankProtectionStatus(bank);
     
+    const jumpToResults = () => {
+      // Create mock verdicts for testing
+      const mockVerdicts: LineVerdict[] = [
+        { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Consistent A picks' },
+        { line: 'Pace' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Mixed B/C picks' },
+        { line: 'Boundary' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Consistent C picks' },
+        { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Consistent A picks' },
+        { line: 'Recognition' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Mixed B/C picks' },
+        { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Consistent C picks' },
+        { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Consistent A picks' }
+      ];
+      
+      setVerdicts(mockVerdicts);
+      setSelectedMode('original');
+      setPhase('final');
+    };
+    
     return (
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight text-yellow-400">Identity Code Mapper</h1>
+        
+        {/* Test Button to Jump to Results */}
+        <div className="mt-4">
+          <button
+            onClick={jumpToResults}
+            className="px-4 py-2 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-colors text-sm font-medium"
+          >
+            🧪 Test Results View
+          </button>
+          
+          {/* Profile Selector */}
+          <div className="mt-3">
+            <select 
+              onChange={(e) => renderSpecificProfile(e.target.value)}
+              className="px-3 py-2 bg-neutral-800 text-white rounded-lg border border-neutral-700 text-sm"
+              defaultValue=""
+            >
+              <option value="">Select Profile to Render</option>
+              <option value="Sovereign">Sovereign</option>
+              <option value="Visionary">Visionary</option>
+              <option value="Rebel">Rebel</option>
+              <option value="Equalizer">Equalizer</option>
+              <option value="Provider">Provider</option>
+              <option value="Wanderer">Wanderer</option>
+              <option value="Seeker">Seeker</option>
+              <option value="Mask">Mask</option>
+              <option value="Partner">Partner</option>
+              <option value="Guardian">Guardian</option>
+              <option value="Servant">Servant</option>
+              <option value="Spotlight">Spotlight</option>
+              <option value="Architect">Architect</option>
+              <option value="Strategist">Strategist</option>
+              <option value="Catalyst">Catalyst</option>
+              <option value="Diplomat">Diplomat</option>
+              <option value="Sentinel">Sentinel</option>
+              <option value="Artisan">Artisan</option>
+              <option value="Navigator">Navigator</option>
+              <option value="Alchemist">Alchemist</option>
+            </select>
+          </div>
+          
+          {/* ICM Header Image */}
+          <div className="mt-4 flex justify-start">
+            <img 
+              src="/images/screen-header.png" 
+              alt="ICM Header" 
+              className="w-48 h-auto opacity-90 hover:opacity-100 transition-opacity duration-300"
+            />
+          </div>
+        </div>
         
         {/* Protection Status Display - Dev Team Only */}
         {protectionStatus && (
@@ -501,11 +781,7 @@ export default function QuizApp() {
         title: '📜 Original',
         description: 'The classic AIT experience - your exact specifications, one-breath neutral prompts'
       },
-      {
-        mode: 'standard',
-        title: '🎯 Standard',
-        description: 'Classic AIT - test your axis integrity under normal pressure'
-      },
+
       {
         mode: 'heat',
         title: '🔥 Heat Mode',
@@ -541,6 +817,43 @@ export default function QuizApp() {
               <div className="text-sm text-neutral-400 mt-1">{modeOption.description}</div>
             </button>
           ))}
+          
+          <button
+            onClick={() => startFlowSelection()}
+            className="text-left rounded-xl border border-blue-500/50 bg-blue-500/10 p-4 hover:bg-blue-500/20 transition-colors"
+          >
+            <div className="font-medium text-neutral-200">🚀 Try New v2.6 Flow</div>
+            <div className="text-sm text-neutral-400 mt-1">Family Hone → Face Triad → Duels → Lines → CODE_7 Results</div>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  function FlowSelection() {
+    return (
+      <div className="mt-6 space-y-4">
+        <div className="text-center">
+          <h2 className="text-lg font-medium text-neutral-200">Choose Your Quiz Flow</h2>
+          <p className="text-sm text-neutral-400 mt-1">Select between the classic flow and the new v2.6 experience</p>
+        </div>
+        
+        <div className="grid gap-3">
+          <button
+            onClick={() => startModeSelection()}
+            className="text-left rounded-xl border border-neutral-800 bg-neutral-900/40 p-4 hover:bg-neutral-800/60 transition-colors"
+          >
+            <div className="font-medium text-neutral-200">📜 Classic Flow</div>
+            <div className="text-sm text-neutral-400 mt-1">The original AIT experience with base items and tiebreakers</div>
+          </button>
+          
+          <button
+            onClick={() => startV2Flow()}
+            className="text-left rounded-xl border border-neutral-800 bg-neutral-800/60 p-4 hover:bg-neutral-700/60 transition-colors border-blue-500/50"
+          >
+            <div className="font-medium text-neutral-200">🚀 New v2.6 Flow</div>
+            <div className="text-sm text-neutral-400 mt-1">Family Hone → Face Triad → Duels → Lines → CODE_7 Results</div>
+          </button>
         </div>
       </div>
     );
@@ -590,159 +903,639 @@ export default function QuizApp() {
   function Diagnostics() {
     const result = composeAIR(verdicts, selectedMode);
     
-    // Generate archetype code and get archetype
+    // Use selected archetype if available, otherwise generate from verdicts
+    let archetypeProfile;
+    if (selectedArchetype) {
+      // Use the manually selected archetype
+      archetypeProfile = { archetype: selectedArchetype, name: selectedArchetype };
+    } else {
+      // Generate archetype profile using the new system
+      archetypeProfile = generateArchetypeProfile(verdicts);
+    }
     const archetypeCode = generateArchetypeCode(verdicts);
-    const archetype = getArchetype(archetypeCode);
+    
+    // Get the archetype color
+    const archetypeColor = ARCHETYPE_COLORS[archetypeProfile.archetype] || ARCHETYPE_COLORS.Sovereign;
     
     return (
-      <div className="space-y-6">
-        {/* PROMINENT ARCHETYPE HEADLINE */}
-        <div className="text-center mb-8">
-          {archetype ? (
-            <div className="space-y-4">
-              {/* Main Archetype Display */}
-              <div className="backdrop-blur-xl bg-gradient-to-r from-purple-900/40 to-indigo-900/40 rounded-3xl border border-purple-500/30 p-6 shadow-2xl">
-                <div className="text-5xl mb-3">🎭</div>
-                <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-300 to-indigo-300 bg-clip-text text-transparent">
-                  {archetype.archetype}
-                </h1>
-                <p className="text-lg text-purple-200 mb-3 max-w-xl mx-auto leading-relaxed">
-                  {archetype.label}
-                </p>
-                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-                  {/* Profile Code */}
-                  <div className="inline-flex items-center gap-2 rounded-full bg-purple-800/30 px-3 py-1.5 border border-purple-500/30">
-                    <span className="text-purple-300 font-mono text-xs">Profile Code:</span>
-                    <span className="text-purple-100 font-bold font-mono text-base">{archetypeCode}</span>
-                  </div>
-                  
-                  {/* Axis Tier */}
-                  <div className="inline-flex items-center gap-2 rounded-full bg-emerald-800/30 px-3 py-1.5 border border-emerald-500/30">
-                    <span className="text-emerald-300 font-mono text-xs">Axis Tier:</span>
-                    <span className="text-emerald-100 font-bold text-base">{result.axisTier}</span>
-                  </div>
-                  
-                  {/* Primary Drift */}
-                  <div className="inline-flex items-center gap-2 rounded-full bg-amber-800/30 px-3 py-1.5 border border-amber-500/30">
-                    <span className="text-amber-300 font-mono text-xs">Primary Drift:</span>
-                    <span className="text-amber-100 font-bold text-base">{result.primaryDrift}</span>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Archetype Description */}
-              <div className="max-w-4xl mx-auto">
-                <div className="rounded-2xl border border-blue-800/30 bg-blue-950/20 p-6">
-                  <h3 className="text-2xl font-semibold text-blue-200 mb-4 text-center">🌟 Your Archetype Profile</h3>
-                  <p className="text-blue-100 text-center text-lg leading-relaxed mb-6">
-                    This archetype represents your core behavioral patterns under pressure. 
-                    Understanding it helps you leverage your strengths and navigate your challenges.
-                  </p>
-                  
-                  {/* Archetype Traits Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-                    <div className="space-y-2">
-                      <div className="font-semibold text-blue-100 flex items-center gap-2">
-                        <span className="text-lg">👑</span>
-                        <span>Leadership Style</span>
-                      </div>
-                      <div className="text-blue-300 text-xs">How you take charge and guide others</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="font-semibold text-blue-100 flex items-center gap-2">
-                        <span className="text-lg">🎯</span>
-                        <span>Core Motivation</span>
-                      </div>
-                      <div className="text-blue-300 text-xs">What drives your decisions and actions</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="font-semibold text-blue-100 flex items-center gap-2">
-                        <span className="text-lg">⚡</span>
-                        <span>Energy Pattern</span>
-                      </div>
-                      <div className="text-blue-300 text-xs">How you maintain momentum and focus</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="font-semibold text-blue-100 flex items-center gap-2">
-                        <span className="text-lg">🛡️</span>
-                        <span>Defense Mechanism</span>
-                      </div>
-                      <div className="text-blue-300 text-xs">How you protect yourself under stress</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="font-semibold text-blue-100 flex items-center gap-2">
-                        <span className="text-lg">🤝</span>
-                        <span>Relationship Approach</span>
-                      </div>
-                      <div className="text-blue-300 text-xs">How you connect and collaborate</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="font-semibold text-blue-100 flex items-center gap-2">
-                        <span className="text-lg">🚀</span>
-                        <span>Growth Direction</span>
-                      </div>
-                      <div className="text-blue-300 text-xs">Where you're evolving and developing</div>
-                    </div>
-                  </div>
-                </div>
+      <div 
+        className="min-h-screen bg-black text-white relative overflow-hidden"
+        style={{
+          background: `radial-gradient(circle at center, ${archetypeColor.hex}10 0%, ${archetypeColor.hex}05 50%, #000000 100%)`,
+          transform: 'scale(0.85)',
+          transformOrigin: 'top center',
+          marginTop: '-10vh'
+        }}
+      >
+        {/* Glowing Background Elements */}
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            background: `radial-gradient(circle at 30% 20%, ${archetypeColor.hex}40 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, ${archetypeColor.hex}30 0%, transparent 50%)`
+          }}
+        />
+        
+        <div className="relative z-10 p-8">
+          {/* Header moved inside here */}
+          <Header />
+          
+          {/* Results Header */}
+          <div className="text-center mb-12">
+            {/* Archetype Icon - Centered and Glowing */}
+            <div className="mb-6 flex justify-center">
+              <div 
+                className="p-4 rounded-full"
+                style={{
+                  background: `radial-gradient(circle, ${archetypeColor.hex}30, ${archetypeColor.hex}10)`,
+                  boxShadow: `0 0 30px ${archetypeColor.hex}50, 0 0 60px ${archetypeColor.hex}30`
+                }}
+              >
+                <ArchetypeIcon archetypeName={archetypeProfile.archetype} />
               </div>
             </div>
-          ) : (
-            <div className="backdrop-blur-xl bg-gradient-to-r from-red-900/40 to-orange-900/40 rounded-3xl border border-red-500/30 p-8 shadow-2xl">
-              <div className="text-6xl mb-4">❓</div>
-              <h1 className="text-4xl font-bold mb-3 text-red-300">Archetype Not Found</h1>
-              <p className="text-xl text-red-200 mb-4">
-                We couldn't match your pattern to a known archetype
+            
+            {/* Main Title - Glowing Archetype Name */}
+            <h1 
+              className="text-6xl font-black mb-4 tracking-wider"
+              style={{
+                color: archetypeColor.hex,
+                textShadow: `0 0 20px ${archetypeColor.hex}, 0 0 40px ${archetypeColor.hex}80`
+              }}
+            >
+              {archetypeProfile.archetype.toUpperCase()}
+            </h1>
+            
+            {/* Subtitle 1 */}
+            <h2 className="text-2xl text-white mb-2 font-medium">
+              {(() => {
+                // Find all lines that are not Close (Offset or Far)
+                const offLines = verdicts.filter(l => l.distance !== 'Close');
+                
+                // Group by distance type
+                const brokenLines = offLines.filter(l => l.distance === 'Far').map(l => l.line);
+                const stalledLines = offLines.filter(l => l.distance === 'Offset').map(l => l.line);
+                
+                // Create descriptive combinations
+                let description = '';
+                
+                if (brokenLines.length > 0) {
+                  description += `${brokenLines.join(', ')} Broken`;
+                }
+                
+                if (stalledLines.length > 0) {
+                  if (description) description += ' — ';
+                  description += `${stalledLines.join(', ')} Stalled`;
+                }
+                
+                if (!description) {
+                  description = 'All Lines Stable';
+                }
+                
+                return description;
+              })()}
+            </h2>
+            
+
+          </div>
+
+          {/* MAIN CONTENT BLOCK */}
+          <div 
+            className="max-w-2xl mx-auto mb-12 p-8 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${archetypeColor.hex}15, ${archetypeColor.hex}25, ${archetypeColor.hex}15)`,
+              border: `1px solid ${archetypeColor.hex}30`
+            }}
+          >
+            <h3 
+              className="text-2xl font-bold mb-4"
+              style={{ color: archetypeColor.hex }}
+            >
+              What These Traits Reveal About You
+            </h3>
+            <div className="space-y-4 text-lg text-white/90 leading-relaxed">
+              <p>
+                Every answer you gave was a real reflection of your way of moving through life—not a guess, not an ideal.
               </p>
-              <div className="inline-flex items-center gap-2 rounded-full bg-red-800/30 px-4 py-2 border border-red-500/30">
-                <span className="text-red-300 font-mono text-sm">Generated Code:</span>
-                <span className="text-red-100 font-bold font-mono text-lg">{archetypeCode}</span>
+              <p>
+                You didn't invent these patterns; they're the lines your experience has already drawn.
+              </p>
+            </div>
+            
+            {/* Glowing Line */}
+            <div 
+              className="mt-6 h-1 rounded-full"
+              style={{
+                background: `linear-gradient(90deg, transparent, ${archetypeColor.hex}, transparent)`,
+                boxShadow: `0 0 10px ${archetypeColor.hex}`
+              }}
+            />
+          </div>
+
+          {/* Results Heat Map */}
+          <div 
+            className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
+              border: `1px solid ${archetypeColor.hex}40`,
+              boxShadow: `0 0 20px ${archetypeColor.hex}20`
+            }}
+          >
+            <ResultsHeatMap lines={result.lines} />
+          </div>
+          
+          {/* Good/Bad/Ugly Analysis */}
+          <div 
+            className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
+              border: `1px solid ${archetypeColor.hex}40`,
+              boxShadow: `0 0 20px ${archetypeColor.hex}20`
+            }}
+          >
+            <GbuDiagnosticCards
+              good={result.goodBadUgly.good}
+              bad={result.goodBadUgly.bad}
+              ugly={result.goodBadUgly.ugly || ''}
+              goodFooter="Stable. Outcomes land. Clear tempo."
+              badFooter="Variability enters. Delays creep in."
+            />
+          </div>
+          
+          {/* Mode-Specific Insights */}
+          {selectedMode !== 'original' && result.modeSpecificInsights && (
+            <div 
+              className="max-w-6xl mx-auto mb-8 p-6 rounded-2xl backdrop-blur-sm"
+              style={{
+                background: `linear-gradient(135deg, ${archetypeColor.hex}20, ${archetypeColor.hex}30)`,
+                border: `1px solid ${archetypeColor.hex}40`,
+                boxShadow: `0 0 20px ${archetypeColor.hex}20`
+              }}
+            >
+              <h3 
+                className="text-xl font-semibold mb-4"
+                style={{ color: archetypeColor.hex }}
+              >
+                {selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1)} Mode Insights
+              </h3>
+              <div className="space-y-2 text-base text-white/90">
+                {result.modeSpecificInsights.heatAnalysis && (
+                  <p>{result.modeSpecificInsights.heatAnalysis}</p>
+                )}
+                {result.modeSpecificInsights.thirdPersonPattern && (
+                  <p>{result.modeSpecificInsights.thirdPersonPattern}</p>
+                )}
+                {result.modeSpecificInsights.betOutcome && (
+                  <p>{result.modeSpecificInsights.betOutcome}</p>
+                )}
               </div>
             </div>
           )}
-        </div>
-        
 
-        
-        {/* Heat Map Results Display */}
-        <ResultsHeatMap lines={result.lines} />
-        
-        {/* Good/Bad/Ugly Analysis */}
-        <GbuDiagnosticCards
-          good={result.goodBadUgly.good}
-          bad={result.goodBadUgly.bad}
-          ugly={result.goodBadUgly.ugly || ''}
-          goodFooter="Stable. Outcomes land. Clear tempo."
-          badFooter="Variability enters. Delays creep in."
-        />
-        
-        {/* Mode-Specific Insights */}
-        {selectedMode !== 'standard' && selectedMode !== 'original' && result.modeSpecificInsights && (
-          <div className="rounded-2xl border border-blue-800 bg-blue-950/20 p-4">
-            <h3 className="text-lg font-semibold text-blue-200 mb-3">
-              {selectedMode.charAt(0).toUpperCase() + selectedMode.slice(1)} Mode Insights
-            </h3>
-            <div className="space-y-2 text-sm text-blue-100">
-              {result.modeSpecificInsights.heatAnalysis && (
-                <p>{result.modeSpecificInsights.heatAnalysis}</p>
-              )}
-              {result.modeSpecificInsights.thirdPersonPattern && (
-                <p>{result.modeSpecificInsights.thirdPersonPattern}</p>
-              )}
-              {result.modeSpecificInsights.betOutcome && (
-                <p>{result.modeSpecificInsights.betOutcome}</p>
-              )}
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     );
   }
 
+  // Add this function to pre-generate all results
+  const preGenerateAllResults = () => {
+    const allResults = [];
+    
+    // Generate all possible combinations of 7 lines
+    const distances = ['Close', 'Offset', 'Far'];
+    const totalCombinations = Math.pow(3, 7); // 3^7 = 2187 combinations
+    
+    for (let i = 0; i < totalCombinations; i++) {
+      const verdicts: LineVerdict[] = [];
+      
+      // Convert number to base 3 to get line distances
+      for (let j = 0; j < 7; j++) {
+        const distanceIndex = Math.floor(i / Math.pow(3, j)) % 3;
+        const distance = distances[distanceIndex] as 'Close' | 'Offset' | 'Far';
+        
+        verdicts.push({
+          line: LINES[j] as Line,
+          distance,
+          counts: { 
+            base: {A: 0, B: 0, C: 0}, 
+            final: {A: 0, B: 0, C: 0} 
+          },
+          variance: false,
+          reason: 'Generated combination'
+        });
+      }
+      
+      // Generate result for this combination
+      const result = composeAIR(verdicts, 'original');
+      const archetypeProfile = generateArchetypeProfile(verdicts);
+      
+      allResults.push({
+        verdicts,
+        result,
+        archetypeProfile,
+        code: generateArchetypeCode(verdicts)
+      });
+    }
+    
+    return allResults;
+  };
+
+  // Pre-render common archetype results with ALL 20 archetypes
+  const preRenderCommonArchetypes = () => {
+    const commonProfiles = [
+      // Sovereign (Control primary - Far)
+      {
+        name: 'Sovereign',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Control line break' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Pace line stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Boundary line stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Truth line stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Recognition line stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Bonding line stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stress line stable' }
+        ]
+      },
+      // Visionary (Boundary primary)
+      {
+        name: 'Visionary',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Boundary break' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Rebel (Control primary, Pace secondary)
+      {
+        name: 'Rebel',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Control break' },
+          { line: 'Pace' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Pace offset' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Equalizer (Stress primary)
+      {
+        name: 'Equalizer',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Stress break' }
+        ]
+      },
+      // Provider (Bonding primary)
+      {
+        name: 'Provider',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Wanderer (Pace primary)
+      {
+        name: 'Wanderer',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Seeker (Truth primary)
+      {
+        name: 'Seeker',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Mask (Recognition primary)
+      {
+        name: 'Mask',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Partner (Bonding primary, Control secondary)
+      {
+        name: 'Partner',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Guardian (Pace primary)
+      {
+        name: 'Guardian',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Servant (Bonding primary, Pace secondary)
+      {
+        name: 'Servant',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Spotlight (Recognition primary, Bonding secondary)
+      {
+        name: 'Spotlight',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Bonding' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Architect (Truth primary)
+      {
+        name: 'Architect',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Strategist (Pace primary, Control secondary)
+      {
+        name: 'Strategist',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Pace' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Catalyst (Control primary, Stress secondary)
+      {
+        name: 'Catalyst',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' }
+        ]
+      },
+      // Diplomat (Bonding primary, Recognition secondary)
+      {
+        name: 'Diplomat',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Sentinel (Recognition primary)
+      {
+        name: 'Sentinel',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Artisan (Boundary primary, Truth secondary)
+      {
+        name: 'Artisan',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Truth' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Navigator (Bonding primary)
+      {
+        name: 'Navigator',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      },
+      // Alchemist (Control primary, Boundary secondary)
+      {
+        name: 'Alchemist',
+        verdicts: [
+          { line: 'Control' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Break pattern' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Offset pattern' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ]
+      }
+    ];
+    
+    return commonProfiles.map(profile => {
+      const result = composeAIR(profile.verdicts, 'original');
+      const archetypeProfile = generateArchetypeProfile(profile.verdicts);
+      
+      return {
+        ...profile,
+        result,
+        archetypeProfile,
+        code: generateArchetypeCode(profile.verdicts)
+      };
+    });
+  };
+
+  // Function to render a specific profile
+  const renderSpecificProfile = (profileName: string) => {
+    // Create archetype-specific line patterns that will generate the correct archetype
+    let mockVerdicts: LineVerdict[];
+    
+    switch (profileName) {
+      case 'Sovereign':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Control break' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      case 'Rebel':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Control break' },
+          { line: 'Pace' as Line, distance: 'Offset' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 1, B: 2, C: 0}, final: {A: 1, B: 2, C: 0} }, variance: false, reason: 'Pace offset' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      case 'Provider':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Bonding break' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      case 'Wanderer':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Pace break' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      case 'Seeker':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Truth break' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      case 'Visionary':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Boundary break' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      case 'Equalizer':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Stress break' }
+        ];
+        break;
+      case 'Architect':
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Far' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 0, B: 1, C: 2}, final: {A: 0, B: 1, C: 2} }, variance: false, reason: 'Truth break' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+        break;
+      default:
+        // Default pattern for other archetypes
+        mockVerdicts = [
+          { line: 'Control' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Pace' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Boundary' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Truth' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Recognition' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Bonding' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' },
+          { line: 'Stress' as Line, distance: 'Close' as 'Close' | 'Offset' | 'Far', counts: { base: {A: 3, B: 0, C: 0}, final: {A: 3, B: 0, C: 0} }, variance: false, reason: 'Stable' }
+        ];
+    }
+    
+    // Set the selected archetype name for display
+    setSelectedArchetype(profileName);
+    
+    setVerdicts(mockVerdicts);
+    setSelectedMode('original');
+    setPhase('final');
+  };
+
   // render
   return (
     <div>
-      <Header />
       {phase === 'intro' && (
         <div className="mt-6 rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
           <p className="text-sm text-neutral-300">
@@ -758,10 +1551,12 @@ export default function QuizApp() {
         </div>
       )}
 
-      {phase === 'mode-select' && <ModeSelection />}
+              {phase === 'flow-select' && <FlowSelection />}
+        {phase === 'mode-select' && <ModeSelection />}
 
       {(phase === 'base' || phase === 'tb') && (
         <>
+          <Header />
           <Progress />
           <Question />
         </>

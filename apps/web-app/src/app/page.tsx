@@ -5,135 +5,84 @@ import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
   const router = useRouter()
-  const [showPopup, setShowPopup] = useState(false)
-  // Add state for smooth transition
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionMode, setTransitionMode] = useState<string>('');
+  const [showStep, setShowStep] = useState(false)
 
   const handleStartTest = () => {
-    setShowPopup(true)
+    // Navigate to the actual quiz page
+    router.push('/quiz')
   }
 
-  const handleModeSelect = (mode: string) => {
-    // Start the cinematic transition
-    setTransitionMode(mode);
-    setIsTransitioning(true);
-    
-    // Wait for the fade-out animation to complete, then navigate
-    setTimeout(() => {
-      router.push(`/quiz?mode=${mode}`);
-    }, 800); // 800ms for smooth fade-out
+  const handleChoiceClick = (button: HTMLButtonElement) => {
+    button.style.borderColor = '#5b4a3a'
+    button.style.background = '#201a16'
   }
-
-  // Add CSS for the cinematic transition
-  const popupClasses = `fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 transition-all duration-800 ease-in-out ${
-    isTransitioning ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-  }`;
-
-  const modalClasses = `bg-neutral-950 rounded-2xl shadow-2xl max-w-2xl w-full p-8 transition-all duration-800 ease-in-out ${
-    isTransitioning ? 'opacity-0 -translate-y-4 blur-sm' : 'opacity-100 translate-y-0 blur-0'
-  }`;
 
   return (
-    <main className="hero-wrap">
-      <div className="hero">
-        {/* CENTER: Poster */}
-        <div style={{gridColumn:'1 / -1', textAlign:'center'}}>
-          <div style={{maxWidth:'420px', margin:'0 auto', position:'relative'}}>
-            <img src="/images/main-landingcrow.png" alt="Identity Core Mapper poster"
-              style={{display:'block', width:'100%', height:'auto', objectFit:'contain'}}/>
-            
-            {/* Invisible clickable overlay over the fake button in the image */}
-            <button 
-              onClick={handleStartTest}
-              role="button"
-              tabIndex={0}
-              aria-label="Start the free test"
-              style={{
-                position: 'absolute',
-                top: '77.85%',  /* Moved down 3.5% for fine-tuning */
-                left: '53.6%',  /* Moved right another 0.3% for fine-tuning */
-                transform: 'translateX(-50%)',  /* Center the element */
-                width: '50%',  /* Increased width as requested */
-                height: '7.5%',  /* Adjusted height as requested */
-                cursor: 'pointer',
-                zIndex: 10,
-                border: 'none',
-                background: 'rgba(255, 255, 255, 0.1)',  /* Temporary visible background */
-                padding: 0,
-                margin: 0
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleStartTest();
-                }
-              }}
-            />
-          </div>
-        </div>
-      </div>
+    <main className="min-h-screen bg-gradient-to-br from-[#1b1814] via-[#0c0b09] to-[#0c0b09] bg-fixed bg-[length:1200px_700px] bg-[position:15%_10%]">
+      <div className="max-w-6xl mx-auto p-6">
+        <section className="relative border-2 border-[#d2ab59] rounded-3xl p-4 sm:p-7 shadow-[0_10px_30px_rgba(0,0,0,0.45)] bg-gradient-to-b from-[rgba(210,171,89,0.05)] to-transparent bg-[length:100%_120px] bg-no-repeat bg-[position:0_0], linear-gradient(to bottom, #15120f, #0e0c0a)">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-4 lg:gap-10 items-center min-h-[500px]">
+            {/* Left side - eagle/hawk image */}
+            <div className="relative min-h-[420px] lg:flex lg:items-center lg:justify-center" aria-hidden="true">
+              <div className="w-96 h-96 lg:w-[640px] lg:h-[640px] flex items-center justify-center">
+                <img 
+                  src="/images/landingpage2.png" 
+                  alt="Powerful eagle with golden highlights" 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </div>
 
-      {/* Popup Modal - Test Mode Selection Only */}
-      {showPopup && (
-        <div className={popupClasses}>
-          <div className={modalClasses}>
-            {/* Close Button */}
-            <div className="flex justify-end mb-6">
-              <button
-                onClick={() => setShowPopup(false)}
-                className="text-neutral-400 hover:text-white font-medium py-2 px-4 transition-colors"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <h2 className="hd gilded text-2xl font-bold mb-6 text-center">Choose Your Test Mode</h2>
-            
-            <div className="space-y-4">
-              <button
-                onClick={() => handleModeSelect('original')}
-                className="w-full p-4 text-left rounded-lg border border-neutral-700 hover:border-neutral-500 transition-colors"
-              >
-                <h3 className="hd gilded font-semibold text-lg">📜 Original</h3>
-                <p className="body text-sm text-neutral-400 mt-1">The classic AIT experience - your exact specifications, one-breath neutral prompts</p>
-              </button>
+            {/* Content - right side */}
+            <div className="content lg:col-start-2 w-full -translate-y-20">
+              <h1 className="font-extrabold text-4xl sm:text-6xl lg:text-[72px] leading-[1.05] mt-1 mb-4 text-[#f3eee6]">
+                Know your now.
+              </h1>
               
-              <button
-                onClick={() => handleModeSelect('standard')}
-                className="w-full p-4 text-left rounded-lg border border-neutral-700 hover:border-neutral-500 transition-colors"
-              >
-                <h3 className="hd gilded font-semibold text-lg">🎯 Standard</h3>
-                <p className="body text-sm text-neutral-400 mt-1">Classic AIT - test your axis integrity under normal pressure</p>
-              </button>
-              
-              <button
-                onClick={() => handleModeSelect('heat')}
-                className="w-full p-4 text-left rounded-lg border border-neutral-700 hover:border-neutral-500 transition-colors"
-              >
-                <h3 className="hd gilded font-semibold text-lg">🔥 Heat Mode</h3>
-                <p className="body text-sm text-neutral-400 mt-1">High-pressure scenarios - when everything is urgent and visible</p>
-              </button>
-              
-              <button
-                onClick={() => handleModeSelect('friend')}
-                className="w-full p-4 text-left rounded-lg border border-neutral-700 hover:border-neutral-500 transition-colors"
-              >
-                <h3 className="hd gilded font-semibold text-lg">👥 Third-Person</h3>
-                <p className="body text-sm text-neutral-400 mt-1">How others see your patterns - external perspective view</p>
-              </button>
-              
-              <button
-                onClick={() => handleModeSelect('bet')}
-                className="w-full p-4 text-left rounded-lg border border-neutral-700 hover:border-neutral-500 transition-colors"
-              >
-                <h3 className="hd gilded font-semibold text-lg">🎲 Bet Mode</h3>
-                <p className="body text-sm text-neutral-400 mt-1">Stakes are high - reputation and relationships on the line</p>
-              </button>
+              <div className="mt-[18px] mb-[6px] flex flex-col items-start gap-[10px]">
+                <button 
+                  onClick={handleStartTest}
+                  className="relative inline-flex items-center justify-center gap-[0.6rem] h-[60px] px-4 sm:px-7 rounded-2xl border-2 border-[#d2ab59] text-[#f3eee6] font-extrabold tracking-[0.02em] text-lg sm:text-xl lg:text-[22px] bg-gradient-to-r from-[#c34733] to-[#a33329] shadow-[inset_0_2px_0_rgba(255,255,255,0.12),inset_0_-2px_0_rgba(0,0,0,0.35),0_8px_24px_rgba(204,65,45,0.25)] transition-all duration-150 ease-in-out hover:transform hover:-translate-y-[1px] hover:filter hover:saturate-[1.05] focus-visible:outline-3 focus-visible:outline-[#fff3] focus-visible:outline-offset-3 active:transform active:translate-y-0 active:shadow-[inset_0_3px_12px_rgba(0,0,0,0.35),0_6px_14px_rgba(204,65,45,0.2)]"
+                  aria-label="Start the free test — about 3 to 4 minutes"
+                >
+                  START THE FREE TEST
+                  {/* Glint effect */}
+                  <div className="absolute inset-[2px] rounded-[14px] bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.22)] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                </button>
+                
+                <div className="text-sm text-[#e6dfd3]">
+                  <span className="font-bold text-[#d2ab59]">Free • 3–4 min • No email</span>
+                </div>
+                
+                <div className="flex gap-4 flex-wrap mt-[6px] text-sm text-[#e6dfd3]">
+                  <span className="flex items-center gap-[6px]" aria-label="No signup">
+                    <svg className="w-4 text-[#d2ab59]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 6L9 17l-5-5"/>
+                    </svg>
+                    No signup
+                  </span>
+                  <span className="flex items-center gap-[6px]" aria-label="Instant result">
+                    <svg className="w-4 text-[#d2ab59]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 6v6l4 2"/>
+                    </svg>
+                    Instant result
+                  </span>
+                  <span className="flex items-center gap-[6px]" aria-label="Privacy first">
+                    <svg className="w-4 text-[#d2ab59]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 22s8-4 8-10V7l-8-4-8 4v5c0 6 8 10 8 10z"/>
+                    </svg>
+                    Privacy-first
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        </section>
+
+        <footer className="max-w-[880px] mx-auto mt-9 mb-2 text-center text-[#c8bfae] text-sm">
+          Only your answers. No tricks. No pressure.
+        </footer>
+      </div>
     </main>
   )
 }

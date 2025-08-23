@@ -1,0 +1,2218 @@
+{
+  "version": "quiz-bank-v2.6",
+  "flow": "FH (first-to-3) → Face Triad (3 items + duel rules §19.9) → Lines (14 items)",
+  "families": [
+    "Control",
+    "Pace",
+    "Boundary",
+    "Truth",
+    "Recognition",
+    "Bonding",
+    "Stress"
+  ],
+  "faces_by_family": {
+    "Control": [
+      "sovereign",
+      "rebel",
+      "catalyst"
+    ],
+    "Pace": [
+      "strategist",
+      "navigator",
+      "visionary"
+    ],
+    "Boundary": [
+      "guardian",
+      "equalizer",
+      "sentinel"
+    ],
+    "Truth": [
+      "seeker",
+      "architect",
+      "alchemist"
+    ],
+    "Recognition": [
+      "spotlight",
+      "mask",
+      "artisan"
+    ],
+    "Bonding": [
+      "provider",
+      "partner",
+      "servant"
+    ],
+    "Stress": [
+      "diplomat",
+      "wanderer",
+      "catalyst"
+    ]
+  },
+  "family_hone_items": [
+    {
+      "id": "FH01",
+      "prompt": "When nothing moves, the first useful action for you is to…",
+      "options": {
+        "A": {
+          "text": "Decide and move.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Take a reversible step and adjust underway.",
+          "family": "Pace"
+        },
+        "C": {
+          "text": "Gate by criteria; reset order.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Run a quick test to collapse uncertainty.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Tune the message so the room can accept it.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH02",
+      "prompt": "Under heat, the opener that usually works is…",
+      "options": {
+        "A": {
+          "text": "Spark a visible first step.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Broker overlap and cool the room.",
+          "family": "Stress"
+        },
+        "C": {
+          "text": "Pick up extra load so others can move.",
+          "family": "Bonding"
+        },
+        "D": {
+          "text": "Name the next horizon and rally.",
+          "family": "Pace"
+        },
+        "E": {
+          "text": "Let the artifact speak; keep shipping.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH03",
+      "prompt": "When a system is messy, you tend to…",
+      "options": {
+        "A": {
+          "text": "Redesign interfaces and standards.",
+          "family": "Truth"
+        },
+        "B": {
+          "text": "Keep access fair and consistent.",
+          "family": "Boundary"
+        },
+        "C": {
+          "text": "Adjust optics to fit the room.",
+          "family": "Recognition"
+        },
+        "D": {
+          "text": "Coordinate paths to reduce collisions.",
+          "family": "Bonding"
+        },
+        "E": {
+          "text": "Start small and course-correct.",
+          "family": "Pace"
+        }
+      }
+    },
+    {
+      "id": "FH04",
+      "prompt": "An off-slot request lands. You…",
+      "options": {
+        "A": {
+          "text": "Apply the same gate; schedule properly.",
+          "family": "Boundary"
+        },
+        "B": {
+          "text": "Use the moment to set a clear direction.",
+          "family": "Control"
+        },
+        "C": {
+          "text": "Offer a small reversible path forward.",
+          "family": "Pace"
+        },
+        "D": {
+          "text": "Reframe with evidence so it lands.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Smooth the optics to keep doors open.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH05",
+      "prompt": "Plan and relationship collide. Your default is…",
+      "options": {
+        "A": {
+          "text": "Surface constraints; choose the measurable path.",
+          "family": "Truth"
+        },
+        "B": {
+          "text": "Renegotiate edges together.",
+          "family": "Bonding"
+        },
+        "C": {
+          "text": "Hold the gate so flow stays fair.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Place a small reversible stake now.",
+          "family": "Pace"
+        },
+        "E": {
+          "text": "Decide; set a simple standard.",
+          "family": "Control"
+        }
+      }
+    },
+    {
+      "id": "FH06",
+      "prompt": "A blocking rule stops progress. Your move is to…",
+      "options": {
+        "A": {
+          "text": "Replace it with a simpler standard.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Enforce criteria consistently; document access.",
+          "family": "Boundary"
+        },
+        "C": {
+          "text": "Prototype around it to show a path.",
+          "family": "Pace"
+        },
+        "D": {
+          "text": "Test the rule; keep what works.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Broker an exception to keep motion.",
+          "family": "Stress"
+        }
+      }
+    },
+    {
+      "id": "FH07",
+      "prompt": "Conflicting claims appear. You typically…",
+      "options": {
+        "A": {
+          "text": "Verify with a quick test.",
+          "family": "Truth"
+        },
+        "B": {
+          "text": "Cite the standard; require compliance.",
+          "family": "Boundary"
+        },
+        "C": {
+          "text": "Make the call; move.",
+          "family": "Control"
+        },
+        "D": {
+          "text": "Adjust framing so people can hear it.",
+          "family": "Recognition"
+        },
+        "E": {
+          "text": "Choose a reversible route now.",
+          "family": "Pace"
+        }
+      }
+    },
+    {
+      "id": "FH08",
+      "prompt": "Pressure spikes across teams. You first…",
+      "options": {
+        "A": {
+          "text": "Set a small action and refocus.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Cool the room; keep channels open.",
+          "family": "Stress"
+        },
+        "C": {
+          "text": "Protect people; delay until safe.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Carry load quietly to keep motion.",
+          "family": "Bonding"
+        },
+        "E": {
+          "text": "Explain where we’re going next.",
+          "family": "Pace"
+        }
+      }
+    },
+    {
+      "id": "FH09",
+      "prompt": "A demo is split on feedback. You…",
+      "options": {
+        "A": {
+          "text": "Stay on the prototype and proof.",
+          "family": "Truth"
+        },
+        "B": {
+          "text": "Shift tone and framing to hold attention.",
+          "family": "Recognition"
+        },
+        "C": {
+          "text": "Gate new asks; finish the current.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Pick a heading and adjust underway.",
+          "family": "Pace"
+        },
+        "E": {
+          "text": "Coordinate impacts across relationships.",
+          "family": "Bonding"
+        }
+      }
+    },
+    {
+      "id": "FH10",
+      "prompt": "Multiple fires start at once. You…",
+      "options": {
+        "A": {
+          "text": "Pick one and act; make progress.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Open channels and broker overlap.",
+          "family": "Stress"
+        },
+        "C": {
+          "text": "Hold until risk is acceptably low.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Tell the leverage story; reframe.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Let craft speak; keep shipping.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH11",
+      "prompt": "An influential stakeholder pushes an off-slot request. You…",
+      "options": {
+        "A": {
+          "text": "Apply the same gate; schedule them.",
+          "family": "Boundary"
+        },
+        "B": {
+          "text": "Fit them with minimal disruption.",
+          "family": "Bonding"
+        },
+        "C": {
+          "text": "Use the moment to set direction.",
+          "family": "Control"
+        },
+        "D": {
+          "text": "Show a small reversible path.",
+          "family": "Pace"
+        },
+        "E": {
+          "text": "Reframe so the room accepts the plan.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH12",
+      "prompt": "A plan is fuzzy but momentum exists. You…",
+      "options": {
+        "A": {
+          "text": "Freeze scope; ship the smallest viable.",
+          "family": "Pace"
+        },
+        "B": {
+          "text": "Clarify standards to remove ambiguity.",
+          "family": "Truth"
+        },
+        "C": {
+          "text": "Keep the perimeter predictable.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Direct attention and stage the reveal.",
+          "family": "Recognition"
+        },
+        "E": {
+          "text": "Synchronize people to reduce collisions.",
+          "family": "Bonding"
+        }
+      }
+    },
+    {
+      "id": "FH13",
+      "prompt": "A senior asks to skip process. You…",
+      "options": {
+        "A": {
+          "text": "Hold the standard; same gate as others.",
+          "family": "Boundary"
+        },
+        "B": {
+          "text": "Decide quickly and take responsibility.",
+          "family": "Control"
+        },
+        "C": {
+          "text": "Offer a low-risk pilot path.",
+          "family": "Pace"
+        },
+        "D": {
+          "text": "Recast the ask into a testable slice.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Maintain relationship; find a workable slot.",
+          "family": "Bonding"
+        }
+      }
+    },
+    {
+      "id": "FH14",
+      "prompt": "A big opportunity appears mid-build. You…",
+      "options": {
+        "A": {
+          "text": "Keep v1 tight; schedule v2.",
+          "family": "Pace"
+        },
+        "B": {
+          "text": "Refactor structure to support it.",
+          "family": "Truth"
+        },
+        "C": {
+          "text": "Reset scope rules to avoid favoritism.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Make a crisp call and realign.",
+          "family": "Control"
+        },
+        "E": {
+          "text": "Shape the story so it lands.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH15",
+      "prompt": "Two groups are clashing live. You…",
+      "options": {
+        "A": {
+          "text": "Set a small action; refocus the room.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Broker overlap; reduce loss.",
+          "family": "Stress"
+        },
+        "C": {
+          "text": "Reassert criteria for decisions.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Surface the test that decides.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Translate tone to hold attention.",
+          "family": "Recognition"
+        }
+      }
+    },
+    {
+      "id": "FH16",
+      "prompt": "Work is drifting. You…",
+      "options": {
+        "A": {
+          "text": "Name the next step and assign it.",
+          "family": "Control"
+        },
+        "B": {
+          "text": "Pick a reversible route and start.",
+          "family": "Pace"
+        },
+        "C": {
+          "text": "Clarify entrance/exit rules.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Run a tiny proof to regain signal.",
+          "family": "Truth"
+        },
+        "E": {
+          "text": "Coordinate calendars to reduce friction.",
+          "family": "Bonding"
+        }
+      }
+    },
+    {
+      "id": "FH17",
+      "prompt": "A flashy fix is pitched. You…",
+      "options": {
+        "A": {
+          "text": "Ask for a proof path first.",
+          "family": "Truth"
+        },
+        "B": {
+          "text": "Stage the reveal to see reactions.",
+          "family": "Recognition"
+        },
+        "C": {
+          "text": "Approve only if it meets the criteria.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Pilot quickly to learn.",
+          "family": "Pace"
+        },
+        "E": {
+          "text": "Make the call and move.",
+          "family": "Control"
+        }
+      }
+    },
+    {
+      "id": "FH18",
+      "prompt": "Team morale dips under load. You…",
+      "options": {
+        "A": {
+          "text": "Carry extra load to stabilize.",
+          "family": "Bonding"
+        },
+        "B": {
+          "text": "Re-sequence work to find a window.",
+          "family": "Pace"
+        },
+        "C": {
+          "text": "Reaffirm rules that protect focus.",
+          "family": "Boundary"
+        },
+        "D": {
+          "text": "Point attention at true progress.",
+          "family": "Recognition"
+        },
+        "E": {
+          "text": "Set a clear call and reduce ambiguity.",
+          "family": "Control"
+        }
+      }
+    },
+    {
+      "id": "FH19",
+      "prompt": "A compliance issue is flagged. You…",
+      "options": {
+        "A": {
+          "text": "Enforce the standard; document actions.",
+          "family": "Boundary"
+        },
+        "B": {
+          "text": "Redesign the process to remove failure modes.",
+          "family": "Truth"
+        },
+        "C": {
+          "text": "Communicate calmly to restore trust.",
+          "family": "Recognition"
+        },
+        "D": {
+          "text": "Coordinate owners to resolve impacts.",
+          "family": "Bonding"
+        },
+        "E": {
+          "text": "Make a decisive call and proceed.",
+          "family": "Control"
+        }
+      }
+    },
+    {
+      "id": "FH20",
+      "prompt": "Timing is unclear and risk is rising. You…",
+      "options": {
+        "A": {
+          "text": "Hold for a better window.",
+          "family": "Pace"
+        },
+        "B": {
+          "text": "Lower variance by tightening thresholds.",
+          "family": "Boundary"
+        },
+        "C": {
+          "text": "Run a quick, low-cost test.",
+          "family": "Truth"
+        },
+        "D": {
+          "text": "Shift environment to restart motion.",
+          "family": "Stress"
+        },
+        "E": {
+          "text": "Direct attention to the next concrete step.",
+          "family": "Recognition"
+        }
+      }
+    }
+  ],
+  "face_triad_items": {
+    "Control": [
+      {
+        "id": "FC-CTL-1",
+        "prompt": "Blocking rule: your instinct is to…",
+        "options": {
+          "A": {
+            "text": "Replace it now.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Bypass to expose dead weight.",
+            "face": "rebel"
+          },
+          "C": {
+            "text": "Spark a visible first step.",
+            "face": "catalyst"
+          }
+        }
+      },
+      {
+        "id": "FC-CTL-2",
+        "prompt": "Room is drifting: you…",
+        "options": {
+          "A": {
+            "text": "Make a one-line call; move.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Provoke then channel energy.",
+            "face": "rebel"
+          },
+          "C": {
+            "text": "Do the first visible step; pull others in.",
+            "face": "catalyst"
+          }
+        }
+      },
+      {
+        "id": "FC-CTL-3",
+        "prompt": "Under pressure, your opener is…",
+        "options": {
+          "A": {
+            "text": "Command; set a binary.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Challenge the premise in public.",
+            "face": "rebel"
+          },
+          "C": {
+            "text": "Ignite motion; stabilize after.",
+            "face": "catalyst"
+          }
+        }
+      }
+    ],
+    "Pace": [
+      {
+        "id": "FC-PAC-1",
+        "prompt": "With unclear odds, you…",
+        "options": {
+          "A": {
+            "text": "Wait for the leverage window.",
+            "face": "strategist"
+          },
+          "B": {
+            "text": "Choose a reversible route now.",
+            "face": "navigator"
+          },
+          "C": {
+            "text": "Name the next era and move toward it.",
+            "face": "visionary"
+          }
+        }
+      },
+      {
+        "id": "FC-PAC-2",
+        "prompt": "Mid-build opportunity appears. You…",
+        "options": {
+          "A": {
+            "text": "Park it for v2; ship v1.",
+            "face": "navigator"
+          },
+          "B": {
+            "text": "Stretch v1 slightly to include it.",
+            "face": "strategist"
+          },
+          "C": {
+            "text": "Re-orient toward the bigger arc now.",
+            "face": "visionary"
+          }
+        }
+      },
+      {
+        "id": "FC-PAC-3",
+        "prompt": "Timer is running, data is thin. You…",
+        "options": {
+          "A": {
+            "text": "Hold for the right window.",
+            "face": "strategist"
+          },
+          "B": {
+            "text": "Act and adjust with feedback.",
+            "face": "navigator"
+          },
+          "C": {
+            "text": "Frame the future to pull people.",
+            "face": "visionary"
+          }
+        }
+      }
+    ],
+    "Boundary": [
+      {
+        "id": "FC-BND-1",
+        "prompt": "Queue is crowded. You…",
+        "options": {
+          "A": {
+            "text": "Hard gate: criteria first.",
+            "face": "sentinel"
+          },
+          "B": {
+            "text": "Reset terms so access is even.",
+            "face": "equalizer"
+          },
+          "C": {
+            "text": "No until safe; then green-light.",
+            "face": "guardian"
+          }
+        }
+      },
+      {
+        "id": "FC-BND-2",
+        "prompt": "Risky shortcut is proposed. You…",
+        "options": {
+          "A": {
+            "text": "Decline until criteria are met.",
+            "face": "guardian"
+          },
+          "B": {
+            "text": "Allow with guardrails.",
+            "face": "equalizer"
+          },
+          "C": {
+            "text": "Approve only if standards allow.",
+            "face": "sentinel"
+          }
+        }
+      },
+      {
+        "id": "FC-BND-3",
+        "prompt": "A senior asks to skip the gate. You…",
+        "options": {
+          "A": {
+            "text": "Apply same gate; schedule.",
+            "face": "sentinel"
+          },
+          "B": {
+            "text": "Reset terms for even application.",
+            "face": "equalizer"
+          },
+          "C": {
+            "text": "Protect people; decline until safe.",
+            "face": "guardian"
+          }
+        }
+      }
+    ],
+    "Truth": [
+      {
+        "id": "FC-TRU-1",
+        "prompt": "Claims conflict. You…",
+        "options": {
+          "A": {
+            "text": "Verify with tests; collapse uncertainty.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Formalize schema; route decisions.",
+            "face": "architect"
+          },
+          "C": {
+            "text": "Reframe into leverage you can use now.",
+            "face": "alchemist"
+          }
+        }
+      },
+      {
+        "id": "FC-TRU-2",
+        "prompt": "Messy inputs, limited time. You…",
+        "options": {
+          "A": {
+            "text": "Ship the smallest test.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Design structure to lower future drag.",
+            "face": "architect"
+          },
+          "C": {
+            "text": "Convert scraps into a start.",
+            "face": "alchemist"
+          }
+        }
+      },
+      {
+        "id": "FC-TRU-3",
+        "prompt": "A flashy fix is pitched. You…",
+        "options": {
+          "A": {
+            "text": "Ask for a proof path first.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Set standards before adopting.",
+            "face": "architect"
+          },
+          "C": {
+            "text": "Bend it into measurable yield.",
+            "face": "alchemist"
+          }
+        }
+      }
+    ],
+    "Recognition": [
+      {
+        "id": "FC-REC-1",
+        "prompt": "How do you make your work land?",
+        "options": {
+          "A": {
+            "text": "Run the room; stage the reveal.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Tune language to the audience.",
+            "face": "mask"
+          },
+          "C": {
+            "text": "Let the build quality speak.",
+            "face": "artisan"
+          }
+        }
+      },
+      {
+        "id": "FC-REC-2",
+        "prompt": "During a demo, you tend to…",
+        "options": {
+          "A": {
+            "text": "Direct attention in real time.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Mirror tone to minimize friction.",
+            "face": "mask"
+          },
+          "C": {
+            "text": "Stay on the prototype and proof.",
+            "face": "artisan"
+          }
+        }
+      },
+      {
+        "id": "FC-REC-3",
+        "prompt": "Post-ship, your instinct is…",
+        "options": {
+          "A": {
+            "text": "Orchestrate the launch moment.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Align optics inside norms.",
+            "face": "mask"
+          },
+          "C": {
+            "text": "Let the artifact age well.",
+            "face": "artisan"
+          }
+        }
+      }
+    ],
+    "Bonding": [
+      {
+        "id": "FC-BON-1",
+        "prompt": "A teammate’s need conflicts with plan. You…",
+        "options": {
+          "A": {
+            "text": "Pick up extra load to stabilize.",
+            "face": "provider"
+          },
+          "B": {
+            "text": "Renegotiate together; protect edges.",
+            "face": "partner"
+          },
+          "C": {
+            "text": "Serve the mission first; take the task.",
+            "face": "servant"
+          }
+        }
+      },
+      {
+        "id": "FC-BON-2",
+        "prompt": "Credit was misassigned. You…",
+        "options": {
+          "A": {
+            "text": "Clarify calmly; keep the bond.",
+            "face": "partner"
+          },
+          "B": {
+            "text": "Let it go now; fix later.",
+            "face": "provider"
+          },
+          "C": {
+            "text": "Stand on duty and example.",
+            "face": "servant"
+          }
+        }
+      },
+      {
+        "id": "FC-BON-3",
+        "prompt": "Team is strained. You…",
+        "options": {
+          "A": {
+            "text": "Provision resources quietly.",
+            "face": "provider"
+          },
+          "B": {
+            "text": "Synchronize people and plans.",
+            "face": "partner"
+          },
+          "C": {
+            "text": "Carry unglamorous work without signal cost.",
+            "face": "servant"
+          }
+        }
+      }
+    ],
+    "Stress": [
+      {
+        "id": "FC-STR-1",
+        "prompt": "Heat rises across factions. You…",
+        "options": {
+          "A": {
+            "text": "Broker overlap; keep channels open.",
+            "face": "diplomat"
+          },
+          "B": {
+            "text": "Change environment to restart motion.",
+            "face": "wanderer"
+          },
+          "C": {
+            "text": "Spark a visible first step now.",
+            "face": "catalyst"
+          }
+        }
+      },
+      {
+        "id": "FC-STR-2",
+        "prompt": "Multiple fires at once. You…",
+        "options": {
+          "A": {
+            "text": "Set one small action and refocus.",
+            "face": "catalyst"
+          },
+          "B": {
+            "text": "Broker a truce; cool the room.",
+            "face": "diplomat"
+          },
+          "C": {
+            "text": "Walk away; change terrain.",
+            "face": "wanderer"
+          }
+        }
+      },
+      {
+        "id": "FC-STR-3",
+        "prompt": "Stuck process under scrutiny. You…",
+        "options": {
+          "A": {
+            "text": "Shift context; find looser path.",
+            "face": "wanderer"
+          },
+          "B": {
+            "text": "Initiate first move; stabilize after.",
+            "face": "catalyst"
+          },
+          "C": {
+            "text": "Translate terms; create workable overlap.",
+            "face": "diplomat"
+          }
+        }
+      }
+    ]
+  },
+  "line_items": [
+    {
+      "id": "L-CTL-1",
+      "line": "Control",
+      "prompt": "The team is stalling on a decision.",
+      "options": {
+        "A": "Make the call and move.",
+        "B": "Invite more input; decision later today.",
+        "C": "Leave it unresolved; hope momentum returns."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-CTL-2",
+      "line": "Control",
+      "prompt": "A process owner disagrees with your direction.",
+      "options": {
+        "A": "Hold the line; set a binary.",
+        "B": "Soften the call; pilot both.",
+        "C": "Drop the call; wait for consensus."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-PAC-1",
+      "line": "Pace",
+      "prompt": "Deadline is close and scope is fuzzy.",
+      "options": {
+        "A": "Freeze scope; ship the smallest viable.",
+        "B": "Gather more signal; start tomorrow.",
+        "C": "Delay for a better timing window."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-PAC-2",
+      "line": "Pace",
+      "prompt": "You see a bigger opportunity mid-build.",
+      "options": {
+        "A": "Park it for v2; finish v1.",
+        "B": "Stretch v1 slightly to include it.",
+        "C": "Blow up v1 to chase it now."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-BND-1",
+      "line": "Boundary",
+      "prompt": "An exec skips the queue.",
+      "options": {
+        "A": "Apply the same gate; schedule them.",
+        "B": "Fit them in with minimal disruption.",
+        "C": "Let them through; fix fallout later."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-BND-2",
+      "line": "Boundary",
+      "prompt": "A risky shortcut is proposed.",
+      "options": {
+        "A": "Decline until criteria are met.",
+        "B": "Allow with guardrails and monitoring.",
+        "C": "Approve to save time."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-TRU-1",
+      "line": "Truth",
+      "prompt": "Data conflicts with your plan.",
+      "options": {
+        "A": "Run a quick test; adjust if needed.",
+        "B": "Proceed but add monitoring.",
+        "C": "Ignore and push through."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-TRU-2",
+      "line": "Truth",
+      "prompt": "A teammate pitches a flashy fix.",
+      "options": {
+        "A": "Ask for a proof path, then decide.",
+        "B": "Try it in parallel; decide later.",
+        "C": "Adopt it as the new plan immediately."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-REC-1",
+      "line": "Recognition",
+      "prompt": "You shipped a win.",
+      "options": {
+        "A": "Let the artifact speak; move to the next.",
+        "B": "Tune comms to the room.",
+        "C": "Make a big show; proof later."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-REC-2",
+      "line": "Recognition",
+      "prompt": "Feedback is split in a demo.",
+      "options": {
+        "A": "Stay on the prototype; show results.",
+        "B": "Shift tone and framing to hold attention.",
+        "C": "Chase reactions; change scope mid-demo."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-BON-1",
+      "line": "Bonding",
+      "prompt": "A close teammate needs time that conflicts with your plan.",
+      "options": {
+        "A": "Hold your edge; find another slot.",
+        "B": "Bend a little to keep the bond.",
+        "C": "Drop your plan entirely for them."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-BON-2",
+      "line": "Bonding",
+      "prompt": "Credit was misassigned.",
+      "options": {
+        "A": "Clarify calmly; keep the bond intact.",
+        "B": "Let it go for now; fix later.",
+        "C": "Confront publicly; escalate heat."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-STR-1",
+      "line": "Stress",
+      "prompt": "Two groups are clashing live.",
+      "options": {
+        "A": "Set a small action and refocus.",
+        "B": "Broker overlap and cool the room.",
+        "C": "Walk away; change environment."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    },
+    {
+      "id": "L-STR-2",
+      "line": "Stress",
+      "prompt": "Multiple fires start at once.",
+      "options": {
+        "A": "Pick one and act; make progress.",
+        "B": "Open more channels; align stakeholders.",
+        "C": "Freeze until calm returns."
+      },
+      "token_map": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      }
+    }
+  ],
+  "face_duel_items": {
+    "Control": [
+      {
+        "id": "FD-CTL-1",
+        "prompt": "A blocking rule stops motion. You…",
+        "options": {
+          "A": {
+            "text": "Replace the rule now; set a simple standard.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Bypass to expose dead weight publicly.",
+            "face": "rebel"
+          }
+        }
+      },
+      {
+        "id": "FD-CTL-2",
+        "prompt": "Room is drifting and attention is fading. You…",
+        "options": {
+          "A": {
+            "text": "Make a one-line call; others orient.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Do the first visible step; create momentum.",
+            "face": "catalyst"
+          }
+        }
+      },
+      {
+        "id": "FD-CTL-3",
+        "prompt": "Pushback escalates. You…",
+        "options": {
+          "A": {
+            "text": "Challenge the premise in public.",
+            "face": "rebel"
+          },
+          "B": {
+            "text": "Ignite a small move and stabilize after.",
+            "face": "catalyst"
+          }
+        }
+      }
+    ],
+    "Pace": [
+      {
+        "id": "FD-PAC-1",
+        "prompt": "Odds are unclear and time is limited. You…",
+        "options": {
+          "A": {
+            "text": "Hold for the higher-leverage window.",
+            "face": "strategist"
+          },
+          "B": {
+            "text": "Place a small reversible stake now.",
+            "face": "navigator"
+          }
+        }
+      },
+      {
+        "id": "FD-PAC-2",
+        "prompt": "You see a future arc beyond the current plan. You…",
+        "options": {
+          "A": {
+            "text": "Sequence for timing; keep leverage high.",
+            "face": "strategist"
+          },
+          "B": {
+            "text": "Name the next era; start pulling toward it.",
+            "face": "visionary"
+          }
+        }
+      },
+      {
+        "id": "FD-PAC-3",
+        "prompt": "Direction is fuzzy but momentum exists. You…",
+        "options": {
+          "A": {
+            "text": "Choose a reversible route now; adjust in motion.",
+            "face": "navigator"
+          },
+          "B": {
+            "text": "Frame the future to align people first.",
+            "face": "visionary"
+          }
+        }
+      }
+    ],
+    "Boundary": [
+      {
+        "id": "FD-BND-1",
+        "prompt": "Queue is crowded and pressure rises. You…",
+        "options": {
+          "A": {
+            "text": "Apply hard criteria; clean gate.",
+            "face": "sentinel"
+          },
+          "B": {
+            "text": "Reset terms to even access.",
+            "face": "equalizer"
+          }
+        }
+      },
+      {
+        "id": "FD-BND-2",
+        "prompt": "Safety signal spikes on a request. You…",
+        "options": {
+          "A": {
+            "text": "No until safe; then green-light.",
+            "face": "guardian"
+          },
+          "B": {
+            "text": "Hold the stated rule; open/close cleanly.",
+            "face": "sentinel"
+          }
+        }
+      },
+      {
+        "id": "FD-BND-3",
+        "prompt": "A senior asks to skip the process. You…",
+        "options": {
+          "A": {
+            "text": "Rebalance terms so it's fair to all.",
+            "face": "equalizer"
+          },
+          "B": {
+            "text": "Protect people; decline until risk is low.",
+            "face": "guardian"
+          }
+        }
+      }
+    ],
+    "Truth": [
+      {
+        "id": "FD-TRU-1",
+        "prompt": "Conflicting claims, limited time. You…",
+        "options": {
+          "A": {
+            "text": "Run the smallest test; collapse uncertainty.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Formalize schema; route decisions.",
+            "face": "architect"
+          }
+        }
+      },
+      {
+        "id": "FD-TRU-2",
+        "prompt": "Setback hits; messy inputs remain. You…",
+        "options": {
+          "A": {
+            "text": "Ask for proof path; keep it falsifiable.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Reframe scraps into measurable leverage.",
+            "face": "alchemist"
+          }
+        }
+      },
+      {
+        "id": "FD-TRU-3",
+        "prompt": "A novel approach could help, but standards are unclear. You…",
+        "options": {
+          "A": {
+            "text": "Codify standards before adopting.",
+            "face": "architect"
+          },
+          "B": {
+            "text": "Bend rules to extract hidden yield now.",
+            "face": "alchemist"
+          }
+        }
+      }
+    ],
+    "Recognition": [
+      {
+        "id": "FD-REC-1",
+        "prompt": "How do you make the work land?",
+        "options": {
+          "A": {
+            "text": "Run the room; stage the reveal.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Tune language and posture to fit the audience.",
+            "face": "mask"
+          }
+        }
+      },
+      {
+        "id": "FD-REC-2",
+        "prompt": "In launch moments, you prefer…",
+        "options": {
+          "A": {
+            "text": "Stagecraft and live direction of attention.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Let materials and finish speak.",
+            "face": "artisan"
+          }
+        }
+      },
+      {
+        "id": "FD-REC-3",
+        "prompt": "Visibility is high; stakes are public. You…",
+        "options": {
+          "A": {
+            "text": "Mirror norms to maintain access.",
+            "face": "mask"
+          },
+          "B": {
+            "text": "Let shipped proof carry the message.",
+            "face": "artisan"
+          }
+        }
+      }
+    ],
+    "Bonding": [
+      {
+        "id": "FD-BON-1",
+        "prompt": "A teammate's need conflicts with plan. You…",
+        "options": {
+          "A": {
+            "text": "Pick up extra load to stabilize them.",
+            "face": "provider"
+          },
+          "B": {
+            "text": "Renegotiate edges together.",
+            "face": "partner"
+          }
+        }
+      },
+      {
+        "id": "FD-BON-2",
+        "prompt": "Mission load spikes. You…",
+        "options": {
+          "A": {
+            "text": "Serve the mission first; take the task.",
+            "face": "servant"
+          },
+          "B": {
+            "text": "Stabilize the person so the plan holds.",
+            "face": "provider"
+          }
+        }
+      },
+      {
+        "id": "FD-BON-3",
+        "prompt": "The bond is straining under pressure. You…",
+        "options": {
+          "A": {
+            "text": "Synchronize plans; protect edges of each person.",
+            "face": "partner"
+          },
+          "B": {
+            "text": "Absorb unglamorous work; model duty.",
+            "face": "servant"
+          }
+        }
+      }
+    ],
+    "Stress": [
+      {
+        "id": "FD-STR-1",
+        "prompt": "Heat rises across factions. You…",
+        "options": {
+          "A": {
+            "text": "Broker overlap; keep channels open.",
+            "face": "diplomat"
+          },
+          "B": {
+            "text": "Change environment; restart motion.",
+            "face": "wanderer"
+          }
+        }
+      },
+      {
+        "id": "FD-STR-2",
+        "prompt": "System is stuck; attention is flat. You…",
+        "options": {
+          "A": {
+            "text": "Spark a visible first step now.",
+            "face": "catalyst"
+          },
+          "B": {
+            "text": "Broker a truce; cool the room.",
+            "face": "diplomat"
+          }
+        }
+      },
+      {
+        "id": "FD-STR-3",
+        "prompt": "Momentum is low and roles are rigid. You…",
+        "options": {
+          "A": {
+            "text": "Change terrain; exit the stuck slot.",
+            "face": "wanderer"
+          },
+          "B": {
+            "text": "Ignite motion with a small win.",
+            "face": "catalyst"
+          }
+        }
+      }
+    ]
+  },
+  "logic": {
+    "flow_version": "v5",
+    "stages": [
+      "FH_family_hone",
+      "F_face_triad",
+      "L_lines"
+    ],
+    "family_hone": {
+      "type": "first_to_n",
+      "n": 3,
+      "router_item_min_options": 5,
+      "scheduler": {
+        "include_leader": true,
+        "include_runner": true,
+        "fill_strategy": [
+          "under_exposed",
+          "confusable"
+        ],
+        "avoid_repeat_in_item": true
+      },
+      "update_rule": "on_pick_increment_family_count",
+      "stop_condition": "any_family_count>=3",
+      "outputs": [
+        "lock_family",
+        "fh_counts",
+        "fh_history",
+        "router_items_seen"
+      ]
+    },
+    "face_selection": {
+      "triad_items_required": 3,
+      "duel_rules": {
+        "pattern_3_0_0": {
+          "winner": "top",
+          "duels": []
+        },
+        "pattern_2_1_0": {
+          "duels": [
+            {
+              "pair": "top_vs_second",
+              "on_win": "return_top",
+              "on_loss_next_duel": "winner_vs_third"
+            }
+          ]
+        },
+        "pattern_2_0_1": {
+          "duels": [
+            {
+              "pair": "top_vs_third",
+              "on_win": "return_top",
+              "on_loss_next_duel": "winner_vs_second"
+            }
+          ]
+        },
+        "pattern_1_1_1": {
+          "duels": [
+            {
+              "pair": "top_vs_second",
+              "assign_winner": "W"
+            },
+            {
+              "pair": "W_vs_third"
+            }
+          ]
+        },
+        "sudden_death_tie_breaker": true
+      },
+      "duel_item_contract": {
+        "options": 2,
+        "forced_choice": true,
+        "allow_depends": false,
+        "unique_prompt_per_duel": true,
+        "no_pair_repeat_per_session": true
+      },
+      "confidence_after_resolution": {
+        "high": [
+          "3-0-0",
+          "2-1-0 (top won first duel)",
+          "2-0-1 (top won first duel)"
+        ],
+        "medium": [
+          "2-1-0 (upset then won vs third)",
+          "2-0-1 (upset then won vs second)"
+        ],
+        "low": [
+          "1-1-1 resolved by two duels"
+        ]
+      },
+      "outputs": [
+        "face",
+        "triad_counts",
+        "duels_run",
+        "duel_log",
+        "confidence"
+      ]
+    },
+    "lines": {
+      "items_per_line": 2,
+      "token_map_default": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      },
+      "verdict_rule": "max_severity",
+      "severity_order": [
+        "F",
+        "O",
+        "C"
+      ],
+      "code7_order": [
+        "Control",
+        "Pace",
+        "Boundary",
+        "Truth",
+        "Recognition",
+        "Bonding",
+        "Stress"
+      ],
+      "outputs": [
+        "code_7",
+        "per_line_verdicts",
+        "per_line_notes",
+        "line_item_tokens"
+      ],
+      "skip_family_line": true,
+      "assume_clean_for_family_line": true,
+      "line_duel": {
+        "trigger": "if_two_items_disagree",
+        "forced_choice": true,
+        "no_pair_repeat": true,
+        "selector": "use token-pair variant (C_vs_O / O_vs_F / C_vs_F)",
+        "outputs": [
+          "line_duel_log"
+        ]
+      }
+    },
+    "output_contract": {
+      "family": [
+        "name",
+        "picks_to_lock",
+        "fh_history",
+        "router_items_seen"
+      ],
+      "face": [
+        "name",
+        "slug",
+        "triad_counts",
+        "duels_run",
+        "duel_log",
+        "confidence"
+      ],
+      "lines": [
+        "code_7",
+        "per_line_notes",
+        "line_duel_log"
+      ],
+      "truth_line": true,
+      "audit": [
+        "family_hone_counts",
+        "family_hone_history",
+        "face_triad_counts",
+        "face_duel_log",
+        "line_item_tokens",
+        "rules_used"
+      ]
+    },
+    "scoring_parameters": {
+      "randomize_option_order": true,
+      "disallow_same_family_twice_in_item": true,
+      "allow_abstain": false
+    },
+    "readme": "Run FH loop serving 5-option router items until any family hits count=3. Lock that family. Ask 3 face triad items; compute counts and apply duel rules. Then run Lines: 14 items (2 per line). Produce code_7 + notes + truth_line. See duel_rules for exact sequences."
+  },
+  "README": {
+    "title": "Quiz Bank + Runtime Logic — v5 (Family Hone & Duels)",
+    "version": "quiz-bank-v2.6",
+    "purpose": "Single artifact to run the v5 quiz: Family Hone (first-to-3), Face Triad + Duels, Lines (14 items), with output contract and audit fields.",
+    "flow": "FH (first-to-3) → Face Triad (3 items) → Face Duels (conditional) → Lines (14 items) → Results (Face, CODE_7, notes, truth line).",
+    "quickstart": [
+      "1) Serve FH router items (5 options; each maps to a distinct family).",
+      "2) Track counts per family; stop when any family reaches 3 picks; lock that family.",
+      "3) Ask 3 Face Triad items inside the locked family; tally a 3-count pattern.",
+      "4) If pattern is 3-0-0 → done; else apply duel rules (2-option forced choice) per logic.duel_rules.",
+      "4) On Lines: skip the locked family line (assume C). For the other six, if the two answers disagree, ask a line duel (token-pair variant).",
+      "5) Run Lines: 14 items (2 per line); map to tokens via token_map_default; per-line verdict is max severity.",
+      "6) Emit result payload per output_contract."
+    ],
+    "runtime_contract": {
+      "inputs": [
+        "user choices on FH router items",
+        "user choices on Face Triad items",
+        "user choices on Face Duel items (if any)",
+        "user choices on Line items"
+      ],
+      "state": [
+        "fh_counts",
+        "fh_history",
+        "router_items_seen",
+        "triad_counts",
+        "duel_log",
+        "line_item_tokens"
+      ],
+      "outputs": [
+        "family",
+        "face",
+        "lines.code_7",
+        "per_line notes",
+        "truth_line",
+        "audit"
+      ]
+    },
+    "stage_FH": {
+      "type": "first_to_n",
+      "n": 3,
+      "item_contract": "5 options, each tied to a different family (Control, Pace, Boundary, Truth, Recognition, Bonding, Stress).",
+      "scheduler_rules": [
+        "include leader",
+        "include runner-up",
+        "fill remaining slots from under-exposed and confusables",
+        "no family duplicates within one item"
+      ],
+      "stop_condition": "any family count reaches 3",
+      "handoff": "locked family → Face Triad stage"
+    },
+    "stage_Face": {
+      "triad_items": 3,
+      "duel_rules": {
+        "3-0-0": "winner = top; no duel",
+        "2-1-0": "duel A vs B; if A loses → duel B vs C; winner = face",
+        "2-0-1": "duel A vs C; if A loses → duel C vs B; winner = face",
+        "1-1-1": "duel A vs B → W; duel W vs C → winner = face"
+      },
+      "constraints": [
+        "duels are forced-choice",
+        "unique prompt per duel",
+        "no pair repeats",
+        "use micro-duel only on hard ties/abstains"
+      ]
+    },
+    "stage_Lines": {
+      "items": 14,
+      "per_line": 2,
+      "token_map_default": {
+        "A": "C",
+        "B": "O",
+        "C": "F"
+      },
+      "verdict_rule": "max_severity (F > O > C)",
+      "code7_order": [
+        "Control",
+        "Pace",
+        "Boundary",
+        "Truth",
+        "Recognition",
+        "Bonding",
+        "Stress"
+      ],
+      "notes": "Skip the line matching the locked family; assume token C there. For the other 6 lines, if the two answers disagree (e.g., C vs O), trigger a line duel using the matching token-pair variant."
+    },
+    "confidence_labels": {
+      "high": [
+        "3-0-0",
+        "2-1-0 (top wins first duel)",
+        "2-0-1 (top wins first duel)"
+      ],
+      "medium": [
+        "2-1-0 (upset then win vs third)",
+        "2-0-1 (upset then win vs second)"
+      ],
+      "low": [
+        "1-1-1 resolved by two duels"
+      ]
+    },
+    "telemetry": [
+      "FH_turns_to_lock (mean/median)",
+      "family distribution (by population and over time)",
+      "face_duel_trigger_rate (target ~30–45%)",
+      "wrong_triad_rate (from backtests; target <3%)",
+      "lines entropy (avoid drift to O/F)",
+      "completion drop-off by stage; avg duration"
+    ],
+    "authoring_rules": [
+      "Behavior-only, present-tense, observable prompts.",
+      "FH: 5 distinct families; no duplicate family per item.",
+      "Triad: 3 distinct faces; pick sharpest discriminators for that family.",
+      "Duel: 2 options; forced-choice; one clear differentiator; no 'depends'.",
+      "Lines: balanced wording; keep tokens aligned with map."
+    ],
+    "counts": {
+      "family_hone_items": 20,
+      "face_triad_items": 21,
+      "face_duel_items": 21,
+      "line_items": 14,
+      "total_bank": 76
+    },
+    "changelog": [
+      "v2.1 — Initial bank: FH(20), Triads(21), Lines(14).",
+      "v2.2 — Added Face Duel items (21).",
+      "v2.3 — Embedded logic block with flow v5 and output contract.",
+      "v2.4 — Added comprehensive README object."
+    ],
+    "notes": "This README duplicates key parts of logic for quick onboarding; authoritative flow rules live in the 'logic' block."
+  },
+  "confusables_by_family": {
+    "Control": [
+      "Pace",
+      "Boundary"
+    ],
+    "Pace": [
+      "Control",
+      "Truth"
+    ],
+    "Boundary": [
+      "Truth",
+      "Bonding"
+    ],
+    "Truth": [
+      "Boundary",
+      "Pace"
+    ],
+    "Recognition": [
+      "Pace",
+      "Bonding"
+    ],
+    "Bonding": [
+      "Recognition",
+      "Boundary"
+    ],
+    "Stress": [
+      "Control",
+      "Bonding"
+    ]
+  },
+  "face_truth_lines": {
+    "sovereign": "Authority is proven by outcomes held to the aim, not by volume.",
+    "visionary": "Vision is validated by one shipped object at a time.",
+    "rebel": "The break counts only when a build stands in its place.",
+    "equalizer": "Balance is correct placement, not retroactive payback.",
+    "provider": "Sustainable care includes the caregiver by design.",
+    "wanderer": "Chosen commitments expand freedom rather than shrink it.",
+    "seeker": "A claim becomes truth only when acted on and measured.",
+    "mask": "Durable fit requires the real voice to lead.",
+    "partner": "Loyalty strengthens when separateness is intact.",
+    "guardian": "Safety is boundary clarity, not thicker walls.",
+    "servant": "Real service stands on a spine, not surrender.",
+    "spotlight": "Visibility is a by-product of shipped proof.",
+    "architect": "The clean system is the one that ships and then improves.",
+    "strategist": "Strategy is a bet placed, not a plan admired.",
+    "catalyst": "Ignition matters only if the flame sustains.",
+    "diplomat": "Only bridges that bear weight should stand.",
+    "sentinel": "A real gate opens and closes cleanly on the stated rule.",
+    "artisan": "Craft is proven in use, not in the studio.",
+    "navigator": "Pick a heading and adjust underway.",
+    "alchemist": "Transformation honors cost while changing form."
+  },
+  "line_note_templates": {
+    "C": "Stable: the move lands cleanly without extra passes.",
+    "O": "Offset: hesitation/softening adds latency here.",
+    "F": "Break: pattern derails or reverses motion under pressure."
+  },
+  "micro_duel_prompts": [
+    {
+      "id": "MD-1",
+      "prompt": "Which move do you actually take most often when it costs you reputation?",
+      "options": {
+        "A": "Hold the gate",
+        "B": "Make the smallest test"
+      }
+    },
+    {
+      "id": "MD-2",
+      "prompt": "When the room resists, which lever do you pull first?",
+      "options": {
+        "A": "Decide and move",
+        "B": "Reframe so they can hear it"
+      }
+    }
+  ],
+  "line_duel_items": {
+    "Control": [
+      {
+        "id": "LD-CON-1",
+        "line": "Control",
+        "variant": "C_vs_O",
+        "prompt": "Decision is stuck. Which move is more like you?",
+        "options": {
+          "A": {
+            "text": "Make the call now; set a binary.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Invite more input; decide later today.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-CON-2",
+        "line": "Control",
+        "variant": "O_vs_F",
+        "prompt": "Direction is unclear. What do you actually do?",
+        "options": {
+          "A": {
+            "text": "Soften the call; pilot both.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Leave it unresolved; hope momentum returns.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-CON-3",
+        "line": "Control",
+        "variant": "C_vs_F",
+        "prompt": "High-stakes call under time. Choose the move you take.",
+        "options": {
+          "A": {
+            "text": "Set the call and move.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Drop the call; wait for consensus.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Pace": [
+      {
+        "id": "LD-PAC-1",
+        "line": "Pace",
+        "variant": "C_vs_O",
+        "prompt": "Deadline is close and scope is fuzzy. What’s your move?",
+        "options": {
+          "A": {
+            "text": "Freeze scope; ship the smallest viable.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Gather more signal; start tomorrow.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-PAC-2",
+        "line": "Pace",
+        "variant": "O_vs_F",
+        "prompt": "Window is slipping. Which do you do more often?",
+        "options": {
+          "A": {
+            "text": "Gather more signal; start tomorrow.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Delay for a better timing window.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-PAC-3",
+        "line": "Pace",
+        "variant": "C_vs_F",
+        "prompt": "Opportunity appears mid-build. Your instinct is…",
+        "options": {
+          "A": {
+            "text": "Keep v1 tight; ship it.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Blow up v1 to chase it now.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Boundary": [
+      {
+        "id": "LD-BOU-1",
+        "line": "Boundary",
+        "variant": "C_vs_O",
+        "prompt": "An exec skips the queue. What do you actually do?",
+        "options": {
+          "A": {
+            "text": "Apply the same gate; schedule properly.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Fit them in with minimal disruption.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-BOU-2",
+        "line": "Boundary",
+        "variant": "O_vs_F",
+        "prompt": "Risky shortcut is on the table. Your tendency is…",
+        "options": {
+          "A": {
+            "text": "Allow with guardrails and monitoring.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Let them through; fix fallout later.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-BOU-3",
+        "line": "Boundary",
+        "variant": "C_vs_F",
+        "prompt": "Compliance concern vs speed. You typically…",
+        "options": {
+          "A": {
+            "text": "Decline until criteria are met.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Approve to save time.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Truth": [
+      {
+        "id": "LD-TRU-1",
+        "line": "Truth",
+        "variant": "C_vs_O",
+        "prompt": "Data conflicts with plan. What do you do most?",
+        "options": {
+          "A": {
+            "text": "Run a quick test; adjust if needed.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Proceed but add monitoring.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-TRU-2",
+        "line": "Truth",
+        "variant": "O_vs_F",
+        "prompt": "Flashy fix with thin proof. Which are you more likely to do?",
+        "options": {
+          "A": {
+            "text": "Try it in parallel; decide later.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Adopt it immediately without proof.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-TRU-3",
+        "line": "Truth",
+        "variant": "C_vs_F",
+        "prompt": "Tension between proof and pressure. You…",
+        "options": {
+          "A": {
+            "text": "Ask for a proof path first.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Ignore the data and push through.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Recognition": [
+      {
+        "id": "LD-REC-1",
+        "line": "Recognition",
+        "variant": "C_vs_O",
+        "prompt": "You shipped a win. Which landing fits you more?",
+        "options": {
+          "A": {
+            "text": "Let the artifact speak; move on.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Tune comms to the room.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-REC-2",
+        "line": "Recognition",
+        "variant": "O_vs_F",
+        "prompt": "Demo heat rises. You tend to…",
+        "options": {
+          "A": {
+            "text": "Shift tone and framing to hold attention.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Make a big show; proof later.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-REC-3",
+        "line": "Recognition",
+        "variant": "C_vs_F",
+        "prompt": "Audience is large; optics are high. You…",
+        "options": {
+          "A": {
+            "text": "Let shipped proof carry the message.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Run the show even if proof is thin.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Bonding": [
+      {
+        "id": "LD-BON-1",
+        "line": "Bonding",
+        "variant": "C_vs_O",
+        "prompt": "A teammate needs time that conflicts with your plan.",
+        "options": {
+          "A": {
+            "text": "Hold your edge; find another slot.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Bend a little to keep the bond.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-BON-2",
+        "line": "Bonding",
+        "variant": "O_vs_F",
+        "prompt": "Credit was misassigned. You more often…",
+        "options": {
+          "A": {
+            "text": "Let it go for now; fix later.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Confront publicly; escalate heat.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-BON-3",
+        "line": "Bonding",
+        "variant": "C_vs_F",
+        "prompt": "Relationship under pressure. You…",
+        "options": {
+          "A": {
+            "text": "Clarify calmly; keep the bond intact.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Drop your plan entirely for them.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Stress": [
+      {
+        "id": "LD-STR-1",
+        "line": "Stress",
+        "variant": "C_vs_O",
+        "prompt": "Two groups are clashing live. You…",
+        "options": {
+          "A": {
+            "text": "Set a small action and refocus.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Broker overlap and cool the room.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-STR-2",
+        "line": "Stress",
+        "variant": "O_vs_F",
+        "prompt": "Heat spikes; attention fractures. You…",
+        "options": {
+          "A": {
+            "text": "Broker overlap and cool the room.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Walk away; change environment.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-STR-3",
+        "line": "Stress",
+        "variant": "C_vs_F",
+        "prompt": "System is stuck. Which move is more like you?",
+        "options": {
+          "A": {
+            "text": "Set one small action; refocus.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Walk away; change environment.",
+            "token": "F"
+          }
+        }
+      }
+    ]
+  }
+}

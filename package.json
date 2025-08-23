@@ -18,7 +18,8 @@
     "build": "npm run build --workspace=apps/web-app",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
-    "type-check": "npm run type-check --workspaces"
+    "type-check": "npm run type-check --workspaces",
+    "ai:metrics": "tsx tools/ai-metrics.ts"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -27,7 +28,13 @@
     "eslint": "^8.0.0",
     "concurrently": "^8.0.0",
     "wait-on": "^7.0.0",
-    "nodemon": "^3.0.0"
+    "nodemon": "^3.0.0",
+    "tsx": "^4.0.0"
+  },
+  "dependencies": {
+    "commander": "^11.0.0",
+    "simple-git": "^3.20.0",
+    "@octokit/rest": "^20.0.0"
   },
   "engines": {
     "node": ">=18.0.0"

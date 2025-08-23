@@ -16,8 +16,8 @@
   },
   {
     "code": "CCCCCOO",
-    "archetype": "Architect",
-    "label": "Architect — Stress Offset"
+    "archetype": "Artisan",
+    "label": "Artisan — Stress Offset"
   },
   {
     "code": "CCCCOCC",
@@ -31,8 +31,8 @@
   },
   {
     "code": "CCCCOOC",
-    "archetype": "Sentinel",
-    "label": "Sentinel — All Close"
+    "archetype": "Strategist",
+    "label": "Strategist — All Close"
   },
   {
     "code": "CCCCOOO",
@@ -56,8 +56,8 @@
   },
   {
     "code": "CCCOCOO",
-    "archetype": "Architect",
-    "label": "Architect — Truth + Stress Offset"
+    "archetype": "Artisan",
+    "label": "Artisan — Truth + Stress Offset"
   },
   {
     "code": "CCCOOCC",
@@ -71,13 +71,13 @@
   },
   {
     "code": "CCCOOOC",
-    "archetype": "Sentinel",
-    "label": "Sentinel — Truth Offset"
+    "archetype": "Rebel",
+    "label": "Rebel — Truth Offset"
   },
   {
     "code": "CCCOOOO",
-    "archetype": "Sentinel",
-    "label": "Sentinel — Truth + Stress Offset"
+    "archetype": "Strategist",
+    "label": "Strategist — Truth + Stress Offset"
   },
   {
     "code": "CCOCCCC",
@@ -106,8 +106,8 @@
   },
   {
     "code": "CCOCOCO",
-    "archetype": "Navigator",
-    "label": "Navigator — Bonding + Stress Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Bonding + Stress Offset"
   },
   {
     "code": "CCOCOOC",
@@ -116,8 +116,8 @@
   },
   {
     "code": "CCOCOOO",
-    "archetype": "Navigator",
-    "label": "Navigator — Stress Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Stress Offset"
   },
   {
     "code": "CCOOCCC",
@@ -146,8 +146,8 @@
   },
   {
     "code": "CCOOOCO",
-    "archetype": "Navigator",
-    "label": "Navigator — Truth + Bonding + Stress Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Truth + Bonding + Stress Offset"
   },
   {
     "code": "CCOOOOC",
@@ -156,8 +156,8 @@
   },
   {
     "code": "CCOOOOO",
-    "archetype": "Navigator",
-    "label": "Navigator — Truth + Stress Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Truth + Stress Offset"
   },
   {
     "code": "COCCCCC",
@@ -191,13 +191,13 @@
   },
   {
     "code": "COCCOOC",
-    "archetype": "Guardian",
-    "label": "Guardian — Bonding Offset"
+    "archetype": "Sentinel",
+    "label": "Sentinel — Pace Offset"
   },
   {
     "code": "COCCOOO",
-    "archetype": "Guardian",
-    "label": "Guardian — Bonding + Stress Offset"
+    "archetype": "Rebel",
+    "label": "Rebel — Pace + Stress Offset"
   },
   {
     "code": "COCOCCC",
@@ -211,8 +211,8 @@
   },
   {
     "code": "COCOCOC",
-    "archetype": "Architect",
-    "label": "Architect — Pace + Truth Offset"
+    "archetype": "Artisan",
+    "label": "Artisan — Pace + Truth Offset"
   },
   {
     "code": "COCOCOO",
@@ -231,8 +231,8 @@
   },
   {
     "code": "COCOOOC",
-    "archetype": "Guardian",
-    "label": "Guardian — Truth + Bonding Offset"
+    "archetype": "Strategist",
+    "label": "Strategist — Pace + Truth Offset"
   },
   {
     "code": "COCOOOO",
@@ -306,18 +306,18 @@
   },
   {
     "code": "COOOOCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Control + Bonding Offset"
+    "archetype": "Provider",
+    "label": "Provider — Control + Bonding Offset"
   },
   {
     "code": "COOOOOC",
-    "archetype": "Navigator",
-    "label": "Navigator — Pace + Truth Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Pace + Truth Offset"
   },
   {
     "code": "COOOOOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Control Offset"
+    "archetype": "Partner",
+    "label": "Partner — Control Offset"
   },
   {
     "code": "OCCCCCC",
@@ -336,8 +336,8 @@
   },
   {
     "code": "OCCCCOO",
-    "archetype": "Architect",
-    "label": "Architect — Control + Stress Offset"
+    "archetype": "Artisan",
+    "label": "Artisan — Control + Stress Offset"
   },
   {
     "code": "OCCCOCC",
@@ -356,8 +356,8 @@
   },
   {
     "code": "OCCCOOO",
-    "archetype": "Sentinel",
-    "label": "Sentinel — Control + Stress Offset"
+    "archetype": "Rebel",
+    "label": "Rebel — Control + Stress Offset"
   },
   {
     "code": "OCCOCCC",
@@ -376,8 +376,8 @@
   },
   {
     "code": "OCCOCOO",
-    "archetype": "Architect",
-    "label": "Architect — Control + Truth + Stress Offset"
+    "archetype": "Artisan",
+    "label": "Artisan — Control + Truth + Stress Offset"
   },
   {
     "code": "OCCOOCC",
@@ -386,18 +386,18 @@
   },
   {
     "code": "OCCOOCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Pace + Boundary + Bonding Offset"
+    "archetype": "Diplomat",
+    "label": "Diplomat — Pace + Boundary + Bonding Offset"
   },
   {
     "code": "OCCOOOC",
-    "archetype": "Sentinel",
-    "label": "Sentinel — Control + Truth Offset"
+    "archetype": "Strategist",
+    "label": "Strategist — Control + Truth Offset"
   },
   {
     "code": "OCCOOOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Pace + Boundary Offset"
+    "archetype": "Mask",
+    "label": "Mask — Pace + Boundary Offset"
   },
   {
     "code": "OCOCCCC",
@@ -431,8 +431,8 @@
   },
   {
     "code": "OCOCOOC",
-    "archetype": "Navigator",
-    "label": "Navigator — Control Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Control Offset"
   },
   {
     "code": "OCOCOOO",
@@ -446,8 +446,8 @@
   },
   {
     "code": "OCOOCCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Pace + Recognition + Bonding Offset"
+    "archetype": "Servant",
+    "label": "Servant — Pace + Recognition + Bonding Offset"
   },
   {
     "code": "OCOOCOC",
@@ -456,8 +456,8 @@
   },
   {
     "code": "OCOOCOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Pace + Recognition Offset"
+    "archetype": "Spotlight",
+    "label": "Spotlight — Pace + Recognition Offset"
   },
   {
     "code": "OCOOOCC",
@@ -466,13 +466,13 @@
   },
   {
     "code": "OCOOOCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Pace + Bonding Offset"
+    "archetype": "Wanderer",
+    "label": "Wanderer — Pace + Bonding Offset"
   },
   {
     "code": "OCOOOOC",
-    "archetype": "Navigator",
-    "label": "Navigator — Control + Truth Offset"
+    "archetype": "Alchemist",
+    "label": "Alchemist — Control + Truth Offset"
   },
   {
     "code": "OCOOOOO",
@@ -511,8 +511,8 @@
   },
   {
     "code": "OOCCOOC",
-    "archetype": "Guardian",
-    "label": "Guardian — Control + Bonding Offset"
+    "archetype": "Sentinel",
+    "label": "Sentinel — Control + Pace Offset"
   },
   {
     "code": "OOCCOOO",
@@ -526,18 +526,18 @@
   },
   {
     "code": "OOCOCCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Boundary + Recognition + Bonding Offset"
+    "archetype": "Provider",
+    "label": "Provider — Boundary + Recognition + Bonding Offset"
   },
   {
     "code": "OOCOCOC",
-    "archetype": "Architect",
-    "label": "Architect — Control + Pace + Truth Offset"
+    "archetype": "Artisan",
+    "label": "Artisan — Control + Pace + Truth Offset"
   },
   {
     "code": "OOCOCOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Boundary + Recognition Offset"
+    "archetype": "Partner",
+    "label": "Partner — Boundary + Recognition Offset"
   },
   {
     "code": "OOCOOCC",
@@ -546,18 +546,18 @@
   },
   {
     "code": "OOCOOCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Boundary + Bonding Offset"
+    "archetype": "Diplomat",
+    "label": "Diplomat — Boundary + Bonding Offset"
   },
   {
     "code": "OOCOOOC",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Boundary + Stress Offset"
+    "archetype": "Mask",
+    "label": "Mask — Boundary + Stress Offset"
   },
   {
     "code": "OOCOOOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Boundary Offset"
+    "archetype": "Servant",
+    "label": "Servant — Boundary Offset"
   },
   {
     "code": "OOOCCCC",
@@ -601,13 +601,13 @@
   },
   {
     "code": "OOOOCCC",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Recognition + Bonding + Stress Offset"
+    "archetype": "Spotlight",
+    "label": "Spotlight — Recognition + Bonding + Stress Offset"
   },
   {
     "code": "OOOOCCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Recognition + Bonding Offset"
+    "archetype": "Wanderer",
+    "label": "Wanderer — Recognition + Bonding Offset"
   },
   {
     "code": "OOOOCOC",
@@ -616,27 +616,27 @@
   },
   {
     "code": "OOOOCOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Recognition Offset"
+    "archetype": "Provider",
+    "label": "Provider — Recognition Offset"
   },
   {
     "code": "OOOOOCC",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Bonding + Stress Offset"
+    "archetype": "Partner",
+    "label": "Partner — Bonding + Stress Offset"
   },
   {
     "code": "OOOOOCO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Bonding Offset"
+    "archetype": "Diplomat",
+    "label": "Diplomat — Bonding Offset"
   },
   {
     "code": "OOOOOOC",
-    "archetype": "Equalizer",
-    "label": "Equalizer — Stress Offset"
+    "archetype": "Mask",
+    "label": "Mask — Stress Offset"
   },
   {
     "code": "OOOOOOO",
-    "archetype": "Equalizer",
-    "label": "Equalizer — All Close"
+    "archetype": "Servant",
+    "label": "Servant — All Close"
   }
 ]

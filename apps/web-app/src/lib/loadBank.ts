@@ -43,7 +43,7 @@ export async function loadBankWithFallback(): Promise<QuizBank> {
     return await loadBank();
   } catch (error) {
     console.warn("API load failed, falling back to static import:", error);
-    const bankData = (await import("@/data/quizBank.json")).default;
+    const bankData = (await import("@/data/quizBank_primary_only.json")).default;
     
     // Check protection status on fallback (dev-team only)
     if (QuizBankProtector.isLocked(bankData as ProtectedQuizBank)) {

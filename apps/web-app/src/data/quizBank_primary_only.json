@@ -1,5 +1,5 @@
 {
-  "version": "v2.0-new-questions",
+  "version": "One-Breath Bank v1.1 (Primary Variants Only)",
   "protection": {
     "locked": true,
     "requiredCode": "5339855",
@@ -16,11 +16,11 @@
         "frames": [
           {
             "id": "control_micro_1",
-            "prompt": "When someone says \"check first\" on a move you own, you…",
+            "prompt": "Someone says \"check with me first\" on a move you own.",
             "options": [
-              {"token": "CLOSE", "text": "Do one step now; post proof after."},
-              {"token": "STALL", "text": "Wait for a clear yes."},
-              {"token": "FRAG", "text": "Announce the plan; hold action."}
+              {"token": "CLOSE", "text": "Do one small step now; post proof after."},
+              {"token": "STALL", "text": "Wait and ask for a clear yes."},
+              {"token": "FRAG", "text": "Announce the plan first; act later."}
             ],
             "tags": ["check", "move", "ownership"],
             "variant": "primary",
@@ -35,13 +35,13 @@
         "frames": [
           {
             "id": "control_duelA_1",
-            "prompt": "When they say \"check first next time\" and the step is ready, you…",
+            "prompt": "They say \"check first next time.\" The small step is ready.",
             "options": [
               {"token": "CLOSE", "text": "Ship now; summarize after."},
               {"token": "STALL", "text": "Wait for explicit permission."},
-              {"token": "FRAG", "text": "Announce to gather agreement before moving."}
+              {"token": "FRAG", "text": "Rally others for buy-in first."}
             ],
-            "tags": ["permission", "ship", "agreement"],
+            "tags": ["permission", "ship", "buy-in"],
             "mode": ["original"]
           }
         ]
@@ -53,9 +53,9 @@
         "frames": [
           {
             "id": "control_duelB_1",
-            "prompt": "When a trusted person wants a preview before you act, you…",
+            "prompt": "Trusted person wants a preview before you act.",
             "options": [
-              {"token": "CLOSE", "text": "Make one move now; show outcome later."},
+              {"token": "CLOSE", "text": "Do one move now; show outcome later."},
               {"token": "STALL", "text": "Check with them first."},
               {"token": "FRAG", "text": "Announce intent; hold action."}
             ],
@@ -73,7 +73,7 @@
         "frames": [
           {
             "id": "pace_micro_1",
-            "prompt": "When you're mid-task and messages pop, you…",
+            "prompt": "You're mid-task; messages start popping.",
             "options": [
               {"token": "CLOSE", "text": "Mute and finish; reply after."},
               {"token": "STALL", "text": "Skim \"urgent,\" then resume."},
@@ -92,13 +92,13 @@
         "frames": [
           {
             "id": "pace_duelA_1",
-            "prompt": "When people talk around you mid-focus, you…",
+            "prompt": "People start talking around you mid-focus.",
             "options": [
               {"token": "CLOSE", "text": "Protect the block; engage after."},
               {"token": "STALL", "text": "Split attention."},
               {"token": "FRAG", "text": "Drop focus to join."}
             ],
-            "tags": ["focus", "interruption", "attention"],
+            "tags": ["conversation", "focus", "attention"],
             "mode": ["original"]
           }
         ]
@@ -110,9 +110,9 @@
         "frames": [
           {
             "id": "pace_duelB_1",
-            "prompt": "When home gets noisy during your quiet hour, you…",
+            "prompt": "Home gets noisy during your quiet hour.",
             "options": [
-              {"token": "CLOSE", "text": "Set one line; finish the block."},
+              {"token": "CLOSE", "text": "One boundary; finish the block."},
               {"token": "STALL", "text": "Bounce between both."},
               {"token": "FRAG", "text": "Abandon the block."}
             ],
@@ -130,14 +130,13 @@
         "frames": [
           {
             "id": "boundary_micro_1",
-            "prompt": "When they ask inside your protected hour, you…",
+            "prompt": "They ask inside your protected hour.",
             "options": [
-              {"token": "CLOSE", "text": "Hold the boundary; offer next slot."},
+              {"token": "CLOSE", "text": "Boundary stands; offer next slot."},
               {"token": "STALL", "text": "\"I'll try to make it work.\""},
               {"token": "FRAG", "text": "Say yes; move your plan."}
             ],
-            "tags": ["boundary", "protected", "time"],
-            "variant": "primary",
+            "tags": ["protected", "hour", "boundary"],
             "mode": ["original"]
           }
         ]
@@ -149,13 +148,13 @@
         "frames": [
           {
             "id": "boundary_duelA_1",
-            "prompt": "When someone wants weekend time that breaks your line, you…",
+            "prompt": "Someone asks for weekend time that breaks your line.",
             "options": [
               {"token": "CLOSE", "text": "Can't this weekend; commit a delivery time."},
               {"token": "STALL", "text": "\"I'll see what I can do.\""},
-              {"token": "FRAG", "text": "Join anyway."}
+              {"token": "FRAG", "text": "Yes, join anyway."}
             ],
-            "tags": ["weekend", "boundary", "commitment"],
+            "tags": ["weekend", "line", "commitment"],
             "mode": ["original"]
           }
         ]
@@ -167,13 +166,13 @@
         "frames": [
           {
             "id": "boundary_duelB_1",
-            "prompt": "When a partner pushes to change a protected hour, you…",
+            "prompt": "Partner pushes you to change a protected hour.",
             "options": [
               {"token": "CLOSE", "text": "Boundary stands; offer next slot."},
               {"token": "STALL", "text": "Soften to keep peace."},
               {"token": "FRAG", "text": "Drop the boundary today."}
             ],
-            "tags": ["partner", "protected", "boundary"],
+            "tags": ["partner", "protected", "peace"],
             "mode": ["original"]
           }
         ]
@@ -187,14 +186,13 @@
         "frames": [
           {
             "id": "truth_micro_1",
-            "prompt": "When you said no and they push twice, you…",
+            "prompt": "You said no; they push twice.",
             "options": [
               {"token": "CLOSE", "text": "Repeat once; end the thread."},
               {"token": "STALL", "text": "Add reasons to soften it."},
-              {"token": "FRAG", "text": "Say \"later.\""}
+              {"token": "FRAG", "text": "\"Maybe later.\""}
             ],
-            "tags": ["no", "push", "boundary"],
-            "variant": "primary",
+            "tags": ["no", "push", "thread"],
             "mode": ["original"]
           }
         ]
@@ -206,13 +204,13 @@
         "frames": [
           {
             "id": "truth_duelA_1",
-            "prompt": "When a decision is due and info is missing, you…",
+            "prompt": "Decision due; info is missing.",
             "options": [
               {"token": "CLOSE", "text": "Pick and lock."},
               {"token": "STALL", "text": "Delay for one more input."},
               {"token": "FRAG", "text": "Open a new frame to avoid the lock."}
             ],
-            "tags": ["decision", "missing", "info"],
+            "tags": ["decision", "info", "lock"],
             "mode": ["original"]
           }
         ]
@@ -224,13 +222,13 @@
         "frames": [
           {
             "id": "truth_duelB_1",
-            "prompt": "When each option has a cost and you must choose, you…",
+            "prompt": "Each option has a cost; you must choose.",
             "options": [
               {"token": "CLOSE", "text": "Pick one; accept cost; move."},
               {"token": "STALL", "text": "Delay to avoid choosing wrong."},
               {"token": "FRAG", "text": "Stay position-less."}
             ],
-            "tags": ["choice", "cost", "decision"],
+            "tags": ["cost", "choose", "position"],
             "mode": ["original"]
           }
         ]
@@ -244,14 +242,13 @@
         "frames": [
           {
             "id": "recognition_micro_1",
-            "prompt": "When the plan is ready and no one is watching, you…",
+            "prompt": "Plan is ready; no one is watching.",
             "options": [
-              {"token": "CLOSE", "text": "Do one step; post proof."},
-              {"token": "STALL", "text": "Hold until seen."},
-              {"token": "FRAG", "text": "Announce to gather attention."}
+              {"token": "CLOSE", "text": "Do one step; publish the receipt."},
+              {"token": "STALL", "text": "Wait for a buy-in moment."},
+              {"token": "FRAG", "text": "Pre-announce to gather attention."}
             ],
-            "tags": ["plan", "ready", "watching"],
-            "variant": "primary",
+            "tags": ["plan", "watching", "receipt"],
             "mode": ["original"]
           }
         ]
@@ -263,13 +260,13 @@
         "frames": [
           {
             "id": "recognition_duelA_1",
-            "prompt": "When nobody is watching today, you…",
+            "prompt": "Nobody is watching today.",
             "options": [
               {"token": "CLOSE", "text": "Ship a result anyway."},
               {"token": "STALL", "text": "Hold until seen."},
-              {"token": "FRAG", "text": "Announce for attention first."}
+              {"token": "FRAG", "text": "Tease for attention first."}
             ],
-            "tags": ["watching", "result", "attention"],
+            "tags": ["watching", "ship", "attention"],
             "mode": ["original"]
           }
         ]
@@ -281,13 +278,13 @@
         "frames": [
           {
             "id": "recognition_duelB_1",
-            "prompt": "When the show is tomorrow but you could move today, you…",
+            "prompt": "Show is tomorrow; you could move quietly today.",
             "options": [
               {"token": "CLOSE", "text": "Make the move; show it tomorrow."},
-              {"token": "STALL", "text": "Wait for the spotlight."},
+              {"token": "STALL", "text": "Wait for the stage to do it."},
               {"token": "FRAG", "text": "Announce now; do later."}
             ],
-            "tags": ["show", "tomorrow", "move"],
+            "tags": ["show", "tomorrow", "stage"],
             "mode": ["original"]
           }
         ]
@@ -301,14 +298,13 @@
         "frames": [
           {
             "id": "bonding_micro_1",
-            "prompt": "When they dislike your boundary, you…",
+            "prompt": "They dislike your boundary.",
             "options": [
-              {"token": "CLOSE", "text": "Boundary stands; invite the next step."},
+              {"token": "CLOSE", "text": "Boundary stands; invite calm next step."},
               {"token": "STALL", "text": "Soften to keep peace."},
-              {"token": "FRAG", "text": "Over-explain to soothe them."}
+              {"token": "FRAG", "text": "Over-explain to make them feel better."}
             ],
-            "tags": ["boundary", "dislike", "peace"],
-            "variant": "primary",
+            "tags": ["dislike", "boundary", "peace"],
             "mode": ["original"]
           }
         ]
@@ -320,13 +316,13 @@
         "frames": [
           {
             "id": "bonding_duelA_1",
-            "prompt": "When a new person pushes past your limit, you…",
+            "prompt": "New person pushes past your limit.",
             "options": [
-              {"token": "CLOSE", "text": "Name the line once; proceed on your terms."},
+              {"token": "CLOSE", "text": "Name the limit once; proceed on your terms."},
               {"token": "STALL", "text": "Bend to avoid losing them."},
               {"token": "FRAG", "text": "Long rationale to soothe them."}
             ],
-            "tags": ["new", "limit", "push"],
+            "tags": ["new", "limit", "terms"],
             "mode": ["original"]
           }
         ]
@@ -338,7 +334,7 @@
         "frames": [
           {
             "id": "bonding_duelB_1",
-            "prompt": "When a trusted person asks for a small exception, you…",
+            "prompt": "Trusted person asks for a \"small exception.\"",
             "options": [
               {"token": "CLOSE", "text": "Keep the line; offer a different path."},
               {"token": "STALL", "text": "Make the exception to avoid friction."},
@@ -358,14 +354,13 @@
         "frames": [
           {
             "id": "stress_micro_1",
-            "prompt": "When two important things collide today, you…",
+            "prompt": "Two important things collide today.",
             "options": [
               {"token": "CLOSE", "text": "Sequence: close one, then the other."},
               {"token": "STALL", "text": "Pause both to plan."},
-              {"token": "FRAG", "text": "Hop between both to keep them alive."}
+              {"token": "FRAG", "text": "Hop between both to keep both alive."}
             ],
-            "tags": ["collide", "important", "sequence"],
-            "variant": "primary",
+            "tags": ["collide", "sequence", "plan"],
             "mode": ["original"]
           }
         ]
@@ -377,7 +372,7 @@
         "frames": [
           {
             "id": "stress_duelA_1",
-            "prompt": "When one choice has visible consequences, you…",
+            "prompt": "One choice has visible consequences.",
             "options": [
               {"token": "CLOSE", "text": "Decide and execute one proof now."},
               {"token": "STALL", "text": "Produce more analysis first."},
@@ -395,13 +390,13 @@
         "frames": [
           {
             "id": "stress_duelB_1",
-            "prompt": "When many small tasks compete at once, you…",
+            "prompt": "Many small tasks compete at once.",
             "options": [
               {"token": "CLOSE", "text": "Batch and close in order."},
               {"token": "STALL", "text": "Park everything to reorganize."},
               {"token": "FRAG", "text": "Hop across tasks to keep many alive."}
             ],
-            "tags": ["tasks", "compete", "batch"],
+            "tags": ["tasks", "batch", "compete"],
             "mode": ["original"]
           }
         ]
@@ -417,23 +412,23 @@
         "questions": [
           {
             "qid": "control_ic_1",
-            "prompt": "When the group says \"check before acting,\" you…",
+            "prompt": "Group says \"check before acting.\"",
             "options": [
               {"token": "CLOSE", "text": "Post result when done; short summary."},
               {"token": "STALL", "text": "Ask the group for a green light."},
-              {"token": "FRAG", "text": "Announce intent first to get reactions."}
+              {"token": "FRAG", "text": "Post intent first to get reactions."}
             ],
-            "tags": ["group", "check", "acting"]
+            "tags": ["group", "check", "result"]
           },
           {
             "qid": "control_ic_2",
-            "prompt": "When a private message says \"clear moves first,\" you…",
+            "prompt": "Private message says \"clear moves first.\"",
             "options": [
-              {"token": "CLOSE", "text": "Make the move; post proof."},
+              {"token": "CLOSE", "text": "Make the move; send the receipt."},
               {"token": "STALL", "text": "Reply you'll wait next time."},
               {"token": "FRAG", "text": "Send a preview pitch before moving."}
             ],
-            "tags": ["private", "moves", "clear"]
+            "tags": ["private", "moves", "receipt"]
           }
         ]
       },
@@ -444,23 +439,23 @@
         "questions": [
           {
             "qid": "control_dl_1",
-            "prompt": "When the group says \"check before acting,\" you…",
+            "prompt": "Group says \"check before acting.\"",
             "options": [
               {"token": "CLOSE", "text": "Post result when done; short summary."},
               {"token": "STALL", "text": "Ask the group for a green light."},
-              {"token": "FRAG", "text": "Announce intent first to get reactions."}
+              {"token": "FRAG", "text": "Post intent first to get reactions."}
             ],
-            "tags": ["group", "check", "acting"]
+            "tags": ["group", "check", "result"]
           },
           {
             "qid": "control_dl_2",
-            "prompt": "When a private message says \"clear moves first,\" you…",
+            "prompt": "Private message says \"clear moves first.\"",
             "options": [
-              {"token": "CLOSE", "text": "Make the move; post proof."},
+              {"token": "CLOSE", "text": "Make the move; send the receipt."},
               {"token": "STALL", "text": "Reply you'll wait next time."},
               {"token": "FRAG", "text": "Send a preview pitch before moving."}
             ],
-            "tags": ["private", "moves", "clear"]
+            "tags": ["private", "moves", "receipt"]
           }
         ]
       },
@@ -471,23 +466,23 @@
         "questions": [
           {
             "qid": "control_st_1",
-            "prompt": "When the group says \"check before acting,\" you…",
+            "prompt": "Group says \"check before acting.\"",
             "options": [
               {"token": "CLOSE", "text": "Post result when done; short summary."},
               {"token": "STALL", "text": "Ask the group for a green light."},
-              {"token": "FRAG", "text": "Announce intent first to get reactions."}
+              {"token": "FRAG", "text": "Post intent first to get reactions."}
             ],
-            "tags": ["group", "check", "acting"]
+            "tags": ["group", "check", "result"]
           },
           {
             "qid": "control_st_2",
-            "prompt": "When a private message says \"clear moves first,\" you…",
+            "prompt": "Private message says \"clear moves first.\"",
             "options": [
-              {"token": "CLOSE", "text": "Make the move; post proof."},
+              {"token": "CLOSE", "text": "Make the move; send the receipt."},
               {"token": "STALL", "text": "Reply you'll wait next time."},
               {"token": "FRAG", "text": "Send a preview pitch before moving."}
             ],
-            "tags": ["private", "moves", "clear"]
+            "tags": ["private", "moves", "receipt"]
           }
         ]
       }
@@ -500,17 +495,17 @@
         "questions": [
           {
             "qid": "pace_ic_1",
-            "prompt": "When travel noise and messages stack, you…",
+            "prompt": "Travel day noise and messages stack.",
             "options": [
               {"token": "CLOSE", "text": "Batch replies; close one small unit."},
               {"token": "STALL", "text": "Hop between tasks to keep many alive."},
               {"token": "FRAG", "text": "Park work until settled."}
             ],
-            "tags": ["travel", "noise", "messages"]
+            "tags": ["travel", "noise", "batch"]
           },
           {
             "qid": "pace_ic_2",
-            "prompt": "When a regular day brings frequent pings, you…",
+            "prompt": "Regular day; frequent pings.",
             "options": [
               {"token": "CLOSE", "text": "Time-box replies; protect blocks."},
               {"token": "STALL", "text": "Check pings every few minutes."},
@@ -527,17 +522,17 @@
         "questions": [
           {
             "qid": "pace_dl_1",
-            "prompt": "When travel noise and messages stack, you…",
+            "prompt": "Travel day noise and messages stack.",
             "options": [
               {"token": "CLOSE", "text": "Batch replies; close one small unit."},
               {"token": "STALL", "text": "Hop between tasks to keep many alive."},
               {"token": "FRAG", "text": "Park work until settled."}
             ],
-            "tags": ["travel", "noise", "messages"]
+            "tags": ["travel", "noise", "batch"]
           },
           {
             "qid": "pace_dl_2",
-            "prompt": "When a regular day brings frequent pings, you…",
+            "prompt": "Regular day; frequent pings.",
             "options": [
               {"token": "CLOSE", "text": "Time-box replies; protect blocks."},
               {"token": "STALL", "text": "Check pings every few minutes."},
@@ -554,17 +549,17 @@
         "questions": [
           {
             "qid": "pace_st_1",
-            "prompt": "When travel noise and messages stack, you…",
+            "prompt": "Travel day noise and messages stack.",
             "options": [
               {"token": "CLOSE", "text": "Batch replies; close one small unit."},
               {"token": "STALL", "text": "Hop between tasks to keep many alive."},
               {"token": "FRAG", "text": "Park work until settled."}
             ],
-            "tags": ["travel", "noise", "messages"]
+            "tags": ["travel", "noise", "batch"]
           },
           {
             "qid": "pace_st_2",
-            "prompt": "When a regular day brings frequent pings, you…",
+            "prompt": "Regular day; frequent pings.",
             "options": [
               {"token": "CLOSE", "text": "Time-box replies; protect blocks."},
               {"token": "STALL", "text": "Check pings every few minutes."},
@@ -583,21 +578,21 @@
         "questions": [
           {
             "qid": "boundary_ic_1",
-            "prompt": "When a public invite lands inside your block, you…",
+            "prompt": "Public invite lands inside your block.",
             "options": [
               {"token": "CLOSE", "text": "Decline with one line; offer another time."},
               {"token": "STALL", "text": "Maybe; see how it goes."},
-              {"token": "FRAG", "text": "Accept in public."}
+              {"token": "FRAG", "text": "Accept to avoid optics."}
             ],
             "tags": ["public", "invite", "block"]
           },
           {
             "qid": "boundary_ic_2",
-            "prompt": "When a friend says \"just this once\" inside your block, you…",
+            "prompt": "Friend says \"just this once\" inside your block.",
             "options": [
               {"token": "CLOSE", "text": "Can't today; here's a fit."},
               {"token": "STALL", "text": "Long explanation that ends in maybe."},
-              {"token": "FRAG", "text": "Yes, \"just this once.\""}
+              {"token": "FRAG", "text": "Yes \"just this once.\""}
             ],
             "tags": ["friend", "once", "block"]
           }
@@ -610,21 +605,21 @@
         "questions": [
           {
             "qid": "boundary_dl_1",
-            "prompt": "When a public invite lands inside your block, you…",
+            "prompt": "Public invite lands inside your block.",
             "options": [
               {"token": "CLOSE", "text": "Decline with one line; offer another time."},
               {"token": "STALL", "text": "Maybe; see how it goes."},
-              {"token": "FRAG", "text": "Accept in public."}
+              {"token": "FRAG", "text": "Accept to avoid optics."}
             ],
             "tags": ["public", "invite", "block"]
           },
           {
             "qid": "boundary_dl_2",
-            "prompt": "When a friend says \"just this once\" inside your block, you…",
+            "prompt": "Friend says \"just this once\" inside your block.",
             "options": [
               {"token": "CLOSE", "text": "Can't today; here's a fit."},
               {"token": "STALL", "text": "Long explanation that ends in maybe."},
-              {"token": "FRAG", "text": "Yes, \"just this once.\""}
+              {"token": "FRAG", "text": "Yes \"just this once.\""}
             ],
             "tags": ["friend", "once", "block"]
           }
@@ -637,21 +632,21 @@
         "questions": [
           {
             "qid": "boundary_st_1",
-            "prompt": "When a public invite lands inside your block, you…",
+            "prompt": "Public invite lands inside your block.",
             "options": [
               {"token": "CLOSE", "text": "Decline with one line; offer another time."},
               {"token": "STALL", "text": "Maybe; see how it goes."},
-              {"token": "FRAG", "text": "Accept in public."}
+              {"token": "FRAG", "text": "Accept to avoid optics."}
             ],
             "tags": ["public", "invite", "block"]
           },
           {
             "qid": "boundary_st_2",
-            "prompt": "When a friend says \"just this once\" inside your block, you…",
+            "prompt": "Friend says \"just this once\" inside your block.",
             "options": [
               {"token": "CLOSE", "text": "Can't today; here's a fit."},
               {"token": "STALL", "text": "Long explanation that ends in maybe."},
-              {"token": "FRAG", "text": "Yes, \"just this once.\""}
+              {"token": "FRAG", "text": "Yes \"just this once.\""}
             ],
             "tags": ["friend", "once", "block"]
           }
@@ -666,23 +661,23 @@
         "questions": [
           {
             "qid": "truth_ic_1",
-            "prompt": "When you own the call and they ask for a vote, you…",
+            "prompt": "You own the call; people ask for a vote.",
             "options": [
               {"token": "CLOSE", "text": "Decide and post the call."},
               {"token": "STALL", "text": "Delay for consensus."},
               {"token": "FRAG", "text": "Open a thread to discuss options."}
             ],
-            "tags": ["call", "vote", "decision"]
+            "tags": ["owner", "call", "vote"]
           },
           {
             "qid": "truth_ic_2",
-            "prompt": "When you advise and someone else owns, you…",
+            "prompt": "You advise; someone else owns.",
             "options": [
-              {"token": "CLOSE", "text": "One clear recommendation; step back."},
+              {"token": "CLOSE", "text": "One clear rec; step back."},
               {"token": "STALL", "text": "Keep adding caveats."},
               {"token": "FRAG", "text": "Avoid a position; hand it back."}
             ],
-            "tags": ["advise", "owns", "recommendation"]
+            "tags": ["advise", "advisory", "position"]
           }
         ]
       },
@@ -693,23 +688,23 @@
         "questions": [
           {
             "qid": "truth_dl_1",
-            "prompt": "When you own the call and they ask for a vote, you…",
+            "prompt": "You own the call; people ask for a vote.",
             "options": [
               {"token": "CLOSE", "text": "Decide and post the call."},
               {"token": "STALL", "text": "Delay for consensus."},
               {"token": "FRAG", "text": "Open a thread to discuss options."}
             ],
-            "tags": ["call", "vote", "decision"]
+            "tags": ["owner", "call", "vote"]
           },
           {
             "qid": "truth_dl_2",
-            "prompt": "When you advise and someone else owns, you…",
+            "prompt": "You advise; someone else owns.",
             "options": [
-              {"token": "CLOSE", "text": "One clear recommendation; step back."},
+              {"token": "CLOSE", "text": "One clear rec; step back."},
               {"token": "STALL", "text": "Keep adding caveats."},
               {"token": "FRAG", "text": "Avoid a position; hand it back."}
             ],
-            "tags": ["advise", "owns", "recommendation"]
+            "tags": ["advise", "advisory", "position"]
           }
         ]
       },
@@ -720,23 +715,23 @@
         "questions": [
           {
             "qid": "truth_st_1",
-            "prompt": "When you own the call and they ask for a vote, you…",
+            "prompt": "You own the call; people ask for a vote.",
             "options": [
               {"token": "CLOSE", "text": "Decide and post the call."},
               {"token": "STALL", "text": "Delay for consensus."},
               {"token": "FRAG", "text": "Open a thread to discuss options."}
             ],
-            "tags": ["call", "vote", "decision"]
+            "tags": ["owner", "call", "vote"]
           },
           {
             "qid": "truth_st_2",
-            "prompt": "When you advise and someone else owns, you…",
+            "prompt": "You advise; someone else owns.",
             "options": [
-              {"token": "CLOSE", "text": "One clear recommendation; step back."},
+              {"token": "CLOSE", "text": "One clear rec; step back."},
               {"token": "STALL", "text": "Keep adding caveats."},
               {"token": "FRAG", "text": "Avoid a position; hand it back."}
             ],
-            "tags": ["advise", "owns", "recommendation"]
+            "tags": ["advise", "advisory", "position"]
           }
         ]
       }
@@ -749,20 +744,20 @@
         "questions": [
           {
             "qid": "recognition_ic_1",
-            "prompt": "When you finish a step, what do you post?",
+            "prompt": "You finish a step. What do you post?",
             "options": [
-              {"token": "CLOSE", "text": "The result only (what happened)."},
-              {"token": "STALL", "text": "Hold the result; wait for a meeting."},
-              {"token": "FRAG", "text": "Result plus ask for applause."}
+              {"token": "CLOSE", "text": "The artifact only (what happened)."},
+              {"token": "STALL", "text": "Hold the artifact; wait for a meeting."},
+              {"token": "FRAG", "text": "Artifact plus ask for applause."}
             ],
             "tags": ["finish", "step", "post"]
           },
           {
             "qid": "recognition_ic_2",
-            "prompt": "When people praise you in a chat, you…",
+            "prompt": "People praise you in a chat.",
             "options": [
               {"token": "CLOSE", "text": "Thank once; name your next step."},
-              {"token": "STALL", "text": "Thank once; stop there."},
+              {"token": "STALL", "text": "Thank once; pause."},
               {"token": "FRAG", "text": "Keep replying to extend the thread."}
             ],
             "tags": ["praise", "chat", "thank"]
@@ -776,20 +771,20 @@
         "questions": [
           {
             "qid": "recognition_dl_1",
-            "prompt": "When you finish a step, what do you post?",
+            "prompt": "You finish a step. What do you post?",
             "options": [
-              {"token": "CLOSE", "text": "The result only (what happened)."},
-              {"token": "STALL", "text": "Hold the result; wait for a meeting."},
-              {"token": "FRAG", "text": "Result plus ask for applause."}
+              {"token": "CLOSE", "text": "The artifact only (what happened)."},
+              {"token": "STALL", "text": "Hold the artifact; wait for a meeting."},
+              {"token": "FRAG", "text": "Artifact plus ask for applause."}
             ],
             "tags": ["finish", "step", "post"]
           },
           {
             "qid": "recognition_dl_2",
-            "prompt": "When people praise you in a chat, you…",
+            "prompt": "People praise you in a chat.",
             "options": [
               {"token": "CLOSE", "text": "Thank once; name your next step."},
-              {"token": "STALL", "text": "Thank once; stop there."},
+              {"token": "STALL", "text": "Thank once; pause."},
               {"token": "FRAG", "text": "Keep replying to extend the thread."}
             ],
             "tags": ["praise", "chat", "thank"]
@@ -803,20 +798,20 @@
         "questions": [
           {
             "qid": "recognition_st_1",
-            "prompt": "When you finish a step, what do you post?",
+            "prompt": "You finish a step. What do you post?",
             "options": [
-              {"token": "CLOSE", "text": "The result only (what happened)."},
-              {"token": "CLOSE", "text": "Hold the result; wait for a meeting."},
-              {"token": "FRAG", "text": "Result plus ask for applause."}
+              {"token": "CLOSE", "text": "The artifact only (what happened)."},
+              {"token": "STALL", "text": "Hold the artifact; wait for a meeting."},
+              {"token": "FRAG", "text": "Artifact plus ask for applause."}
             ],
             "tags": ["finish", "step", "post"]
           },
           {
             "qid": "recognition_st_2",
-            "prompt": "When people praise you in a chat, you…",
+            "prompt": "People praise you in a chat.",
             "options": [
               {"token": "CLOSE", "text": "Thank once; name your next step."},
-              {"token": "STALL", "text": "Thank once; stop there."},
+              {"token": "STALL", "text": "Thank once; pause."},
               {"token": "FRAG", "text": "Keep replying to extend the thread."}
             ],
             "tags": ["praise", "chat", "thank"]
@@ -832,7 +827,7 @@
         "questions": [
           {
             "qid": "bonding_ic_1",
-            "prompt": "When family asks inside your protected time, you…",
+            "prompt": "Family asks inside your protected time.",
             "options": [
               {"token": "CLOSE", "text": "Hold the line; propose a new slot."},
               {"token": "STALL", "text": "Explain a lot, then maybe."},
@@ -842,9 +837,9 @@
           },
           {
             "qid": "bonding_ic_2",
-            "prompt": "When someone asks for more than you offered, you…",
+            "prompt": "Someone asks for more than you offered.",
             "options": [
-              {"token": "CLOSE", "text": "Restate the limit; offer a fit path."},
+              {"token": "CLOSE", "text": "Restate limit; offer a fit path."},
               {"token": "STALL", "text": "Stretch this time to keep peace."},
               {"token": "FRAG", "text": "Promise later without a plan."}
             ],
@@ -859,7 +854,7 @@
         "questions": [
           {
             "qid": "bonding_dl_1",
-            "prompt": "When family asks inside your protected time, you…",
+            "prompt": "Family asks inside your protected time.",
             "options": [
               {"token": "CLOSE", "text": "Hold the line; propose a new slot."},
               {"token": "STALL", "text": "Explain a lot, then maybe."},
@@ -869,13 +864,13 @@
           },
           {
             "qid": "bonding_dl_2",
-            "prompt": "When someone asks for more than you offered, you…",
+            "prompt": "Someone asks for more than you offered.",
             "options": [
-              {"token": "CLOSE", "text": "Restate the limit; offer a fit path."},
+              {"token": "CLOSE", "text": "Restate limit; offer a fit path."},
               {"token": "STALL", "text": "Stretch this time to keep peace."},
               {"token": "FRAG", "text": "Promise later without a plan."}
             ],
-            "tags": ["family", "protected", "time"]
+            "tags": ["more", "offered", "limit"]
           }
         ]
       },
@@ -886,7 +881,7 @@
         "questions": [
           {
             "qid": "bonding_st_1",
-            "prompt": "When family asks inside your protected time, you…",
+            "prompt": "Family asks inside your protected time.",
             "options": [
               {"token": "CLOSE", "text": "Hold the line; propose a new slot."},
               {"token": "STALL", "text": "Explain a lot, then maybe."},
@@ -896,13 +891,13 @@
           },
           {
             "qid": "bonding_st_2",
-            "prompt": "When someone asks for more than you offered, you…",
+            "prompt": "Someone asks for more than you offered.",
             "options": [
-              {"token": "CLOSE", "text": "Restate the limit; offer a fit path."},
+              {"token": "CLOSE", "text": "Restate limit; offer a fit path."},
               {"token": "STALL", "text": "Stretch this time to keep peace."},
               {"token": "FRAG", "text": "Promise later without a plan."}
             ],
-            "tags": ["family", "protected", "time"]
+            "tags": ["more", "offered", "limit"]
           }
         ]
       }
@@ -915,23 +910,23 @@
         "questions": [
           {
             "qid": "stress_ic_1",
-            "prompt": "When a ping lands mid-decision, you…",
+            "prompt": "A ping lands mid-decision.",
             "options": [
               {"token": "CLOSE", "text": "Ignore it; finish; reply after."},
               {"token": "STALL", "text": "Stop and collect one more input."},
               {"token": "FRAG", "text": "Answer first; resume later."}
             ],
-            "tags": ["ping", "decision", "input"]
+            "tags": ["ping", "mid-decision", "interrupt"]
           },
           {
             "qid": "stress_ic_2",
-            "prompt": "When a quiet 40-minute window appears, you…",
+            "prompt": "A quiet 40-minute window appears.",
             "options": [
               {"token": "CLOSE", "text": "Close one meaningful unit now."},
               {"token": "STALL", "text": "Organize lists; do the work later."},
               {"token": "FRAG", "text": "Skim messages \"just in case.\""}
             ],
-            "tags": ["quiet", "window", "unit"]
+            "tags": ["quiet", "window", "opportunity"]
           }
         ]
       },
@@ -942,23 +937,23 @@
         "questions": [
           {
             "qid": "stress_dl_1",
-            "prompt": "When a ping lands mid-decision, you…",
+            "prompt": "A ping lands mid-decision.",
             "options": [
               {"token": "CLOSE", "text": "Ignore it; finish; reply after."},
               {"token": "STALL", "text": "Stop and collect one more input."},
               {"token": "FRAG", "text": "Answer first; resume later."}
             ],
-            "tags": ["ping", "decision", "input"]
+            "tags": ["ping", "mid-decision", "interrupt"]
           },
           {
             "qid": "stress_dl_2",
-            "prompt": "When a quiet 40-minute window appears, you…",
+            "prompt": "A quiet 40-minute window appears.",
             "options": [
               {"token": "CLOSE", "text": "Close one meaningful unit now."},
               {"token": "STALL", "text": "Organize lists; do the work later."},
               {"token": "FRAG", "text": "Skim messages \"just in case.\""}
             ],
-            "tags": ["quiet", "window", "unit"]
+            "tags": ["quiet", "window", "opportunity"]
           }
         ]
       },
@@ -969,23 +964,23 @@
         "questions": [
           {
             "qid": "stress_st_1",
-            "prompt": "When a ping lands mid-decision, you…",
+            "prompt": "A ping lands mid-decision.",
             "options": [
               {"token": "CLOSE", "text": "Ignore it; finish; reply after."},
               {"token": "STALL", "text": "Stop and collect one more input."},
               {"token": "FRAG", "text": "Answer first; resume later."}
             ],
-            "tags": ["ping", "decision", "input"]
+            "tags": ["ping", "mid-decision", "interrupt"]
           },
           {
             "qid": "stress_st_2",
-            "prompt": "When a quiet 40-minute window appears, you…",
+            "prompt": "A quiet 40-minute window appears.",
             "options": [
               {"token": "CLOSE", "text": "Close one meaningful unit now."},
               {"token": "STALL", "text": "Organize lists; do the work later."},
               {"token": "FRAG", "text": "Skim messages \"just in case.\""}
             ],
-            "tags": ["quiet", "window", "unit"]
+            "tags": ["quiet", "window", "opportunity"]
           }
         ]
       }

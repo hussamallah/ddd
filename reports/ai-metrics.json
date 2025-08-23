@@ -1,0 +1,48 @@
+{
+  "window": {
+    "start": "2025-08-16T08:04:05.083Z",
+    "end": "2025-08-23T08:04:05.083Z",
+    "days": 7
+  },
+  "adoption": {
+    "acceptanceRate": 0,
+    "backlogClearance": 0,
+    "aiEditShare": 0,
+    "promptYield": 0
+  },
+  "speed": {
+    "leadTimeAI_avg_hours": 0,
+    "buildBreaksPer1k": 0
+  },
+  "quality": {
+    "rework72h_pct": 0,
+    "defectIntroPer1k": 0,
+    "testPassDelta_pct": 0,
+    "typeLintPer1k": 0
+  },
+  "maintainability": {
+    "complexityDelta_pct": 0,
+    "duplicationDelta_pct": 0,
+    "ownershipChurn_pct": 0
+  },
+  "stability": {
+    "rollbackHotfixRate_pct": 0,
+    "mttrAI_hours": 24
+  },
+  "security": {
+    "newHighSeverity": 0,
+    "vulnDelta": 0
+  },
+  "performance": {
+    "perfDelta_p95_pct": "N/A",
+    "bundleSizeDelta_pct": "N/A"
+  },
+  "counts": {
+    "suggested_lines": 0,
+    "accepted_lines": 0,
+    "ai_sessions": 0,
+    "failed_ci_runs": 15,
+    "bugs_opened_7d": 0,
+    "deploys": 21
+  }
+}

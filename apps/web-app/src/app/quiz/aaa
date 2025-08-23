@@ -1,0 +1,448 @@
+{
+  "version": "Axis AIR Universal Cards v1.0",
+  "generated_at": "2025-08-21T05:46:18.889735Z",
+  "notes": "Clinical, neutral voice; 6–7 sentences; no advice; each ends with 'Truth: …'. Patterns cover 300,030,003,210,201,120,102,111,012.",
+  "cards": [
+    {
+      "line": "Control",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "context pressure",
+      "paragraph": "You state the move and do it; receipt follows. Tempo stays even and threads stay short, so the room orients without being invited to vote. When context pressure rises, language tightens but the move does not change. You keep move and update separate, moving first and summarizing later. The ownership line reads the same in private and in public, which keeps coordination light. Drift tells do not surface here; the result lands on schedule. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "context pressure",
+      "paragraph": "You place coordination in front of the move when context pressure rises. Tempo mirrors the stream, so threads expand while the move waits. Input becomes the gate; timing belongs to the room more than the plan. The ownership line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "context pressure",
+      "paragraph": "The ownership line is faint; optics or narrative often stands ahead of the move. When context pressure rises, the room sets pacing and threads lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "context pressure",
+      "paragraph": "You move first and post the receipt; a short check can appear under context pressure. Tempo stays steady because the ownership line is visible and simple. The room sees a brief pause for alignment, then the move completes. Threads do not widen; coordination stays narrow and time-bound. The check is a moment, not a mode; the result does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "context pressure",
+      "paragraph": "You move on the move and keep the receipt short; a glance at optics can appear and pass. The ownership line remains intact, so threads do not take the lead. When context pressure adds eyes or noise, posture tightens but sequence holds. The room aligns after the fact because the move is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "context pressure",
+      "paragraph": "A decisive move shows, then coordination expands around it. Under context pressure, the room adds checkpoints and the tempo stretches. The ownership line stays visible but yields some timing to replies. Threads stay active while the result approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "context pressure",
+      "paragraph": "A clear move lands once, then optics or context reclaims the timeline. Threads grow while the next move waits for eyes or mood. The ownership line shows in flashes, not as a steady rail. Under context pressure, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "context pressure",
+      "paragraph": "Signals split across the room: declaration, checking, and performing each appear. The ownership line is present but alternates tone under context pressure. Threads widen and narrow by turns, so tempo varies. Some move lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Control",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "context pressure",
+      "paragraph": "Delay and optics alternate, and the ownership line rarely appears. With context pressure, threads collect reactions while the move remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: the result lands and you lead."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "You state the unit and do it; proof follows. Pace stays even and streams stay short, so the day orients without being invited to vote. When deadlines + multitask rises, language tightens but the unit does not change. You keep unit and update separate, moving first and summarizing later. The focus line reads the same in private and in public, which keeps switching light. Drift tells do not surface here; the finish lands on schedule. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "You place switching in front of the unit when deadlines + multitask rises. Pace mirrors the stream, so streams expand while the unit waits. Input becomes the gate; timing belongs to the day more than the plan. The focus line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "The focus line is faint; notifications or narrative often stands ahead of the unit. When deadlines + multitask rises, the day sets pacing and streams lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "You move first and post the proof; a short check can appear under deadlines + multitask. Pace stays steady because the focus line is visible and simple. The day sees a brief pause for alignment, then the unit completes. Threads do not widen; switching stays narrow and time-bound. The check is a moment, not a mode; the finish does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "You move on the unit and keep the proof short; a glance at notifications can appear and pass. The focus line remains intact, so streams do not take the lead. When deadlines + multitask adds eyes or noise, posture tightens but sequence holds. The day aligns after the fact because the unit is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "A decisive unit shows, then switching expands around it. Under deadlines + multitask, the day adds checkpoints and the pace stretches. The focus line stays visible but yields some timing to replies. Streams stay active while the finish approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "A clear unit lands once, then notifications or context reclaims the timeline. Streams grow while the next unit waits for eyes or mood. The focus line shows in flashes, not as a steady rail. Under deadlines + multitask, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "Signals split across the day: declaration, checking, and performing each appear. The focus line is present but alternates tone under deadlines + multitask. Streams widen and narrow by turns, so pace varies. Some unit lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: depth returns and units close."
+    },
+    {
+      "line": "Pace",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "deadlines + multitask",
+      "paragraph": "Delay and notifications alternate, and the focus line rarely appears. With deadlines + multitask, streams collect reactions while the unit remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: depth returns and units close."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "colleague + help",
+      "paragraph": "You state the slot and do it; note follows. Cadence stays even and requests stay short, so the setting orients without being invited to vote. When colleague + help rises, language tightens but the slot does not change. You keep slot and update separate, moving first and summarizing later. The boundary line reads the same in private and in public, which keeps negotiation light. Drift tells do not surface here; the access pattern lands on schedule. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "colleague + help",
+      "paragraph": "You place negotiation in front of the slot when colleague + help rises. Cadence mirrors the stream, so requests expand while the slot waits. Input becomes the gate; timing belongs to the setting more than the plan. The boundary line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "colleague + help",
+      "paragraph": "The boundary line is faint; appearance or narrative often stands ahead of the slot. When colleague + help rises, the setting sets pacing and requests lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "colleague + help",
+      "paragraph": "You move first and post the note; a short check can appear under colleague + help. Cadence stays steady because the boundary line is visible and simple. The setting sees a brief pause for alignment, then the slot completes. Threads do not widen; negotiation stays narrow and time-bound. The check is a moment, not a mode; the access pattern does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "colleague + help",
+      "paragraph": "You move on the slot and keep the note short; a glance at appearance can appear and pass. The boundary line remains intact, so requests do not take the lead. When colleague + help adds eyes or noise, posture tightens but sequence holds. The setting aligns after the fact because the slot is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "colleague + help",
+      "paragraph": "A decisive slot shows, then negotiation expands around it. Under colleague + help, the setting adds checkpoints and the cadence stretches. The boundary line stays visible but yields some timing to replies. Requests stay active while the access pattern approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "colleague + help",
+      "paragraph": "A clear slot lands once, then appearance or context reclaims the timeline. Requests grow while the next slot waits for eyes or mood. The boundary line shows in flashes, not as a steady rail. Under colleague + help, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "colleague + help",
+      "paragraph": "Signals split across the setting: declaration, checking, and performing each appear. The boundary line is present but alternates tone under colleague + help. Requests widen and narrow by turns, so cadence varies. Some slot lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Boundary",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "colleague + help",
+      "paragraph": "Delay and appearance alternate, and the boundary line rarely appears. With colleague + help, requests collect reactions while the slot remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: the line holds and timing stays yours."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "ambiguity",
+      "paragraph": "You state the call and do it; summary follows. Timing stays even and questions stay short, so the thread orients without being invited to vote. When ambiguity rises, language tightens but the call does not change. You keep call and update separate, moving first and summarizing later. The decision line reads the same in private and in public, which keeps consensus light. Drift tells do not surface here; the decision lands on schedule. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "ambiguity",
+      "paragraph": "You place consensus in front of the call when ambiguity rises. Timing mirrors the stream, so questions expand while the call waits. Input becomes the gate; timing belongs to the thread more than the plan. The decision line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "ambiguity",
+      "paragraph": "The decision line is faint; audience or narrative often stands ahead of the call. When ambiguity rises, the thread sets pacing and questions lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "ambiguity",
+      "paragraph": "You move first and post the summary; a short check can appear under ambiguity. Timing stays steady because the decision line is visible and simple. The thread sees a brief pause for alignment, then the call completes. Threads do not widen; consensus stays narrow and time-bound. The check is a moment, not a mode; the decision does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "ambiguity",
+      "paragraph": "You move on the call and keep the summary short; a glance at audience can appear and pass. The decision line remains intact, so questions do not take the lead. When ambiguity adds eyes or noise, posture tightens but sequence holds. The thread aligns after the fact because the call is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "ambiguity",
+      "paragraph": "A decisive call shows, then consensus expands around it. Under ambiguity, the thread adds checkpoints and the timing stretches. The decision line stays visible but yields some timing to replies. Questions stay active while the decision approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "ambiguity",
+      "paragraph": "A clear call lands once, then audience or context reclaims the timeline. Questions grow while the next call waits for eyes or mood. The decision line shows in flashes, not as a steady rail. Under ambiguity, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "ambiguity",
+      "paragraph": "Signals split across the thread: declaration, checking, and performing each appear. The decision line is present but alternates tone under ambiguity. Questions widen and narrow by turns, so timing varies. Some call lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: you decide and move."
+    },
+    {
+      "line": "Truth",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "ambiguity",
+      "paragraph": "Delay and audience alternate, and the decision line rarely appears. With ambiguity, questions collect reactions while the call remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: you decide and move."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "achievement + success",
+      "paragraph": "You state the step and do it; artifact follows. Runway stays even and attention lines stay short, so the thread orients without being invited to vote. When achievement + success rises, language tightens but the step does not change. You keep step and update separate, moving first and summarizing later. The result-first line reads the same in private and in public, which keeps visibility light. Drift tells do not surface here; the delivery lands on schedule. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "achievement + success",
+      "paragraph": "You place visibility in front of the step when achievement + success rises. Runway mirrors the stream, so attention lines expand while the step waits. Input becomes the gate; timing belongs to the thread more than the plan. The result-first line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "achievement + success",
+      "paragraph": "The result-first line is faint; praise or narrative often stands ahead of the step. When achievement + success rises, the thread sets pacing and attention lines lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "achievement + success",
+      "paragraph": "You move first and post the artifact; a short check can appear under achievement + success. Runway stays steady because the result-first line is visible and simple. The thread sees a brief pause for alignment, then the step completes. Threads do not widen; visibility stays narrow and time-bound. The check is a moment, not a mode; the delivery does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "achievement + success",
+      "paragraph": "You move on the step and keep the artifact short; a glance at praise can appear and pass. The result-first line remains intact, so attention lines do not take the lead. When achievement + success adds eyes or noise, posture tightens but sequence holds. The thread aligns after the fact because the step is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "achievement + success",
+      "paragraph": "A decisive step shows, then visibility expands around it. Under achievement + success, the thread adds checkpoints and the runway stretches. The result-first line stays visible but yields some timing to replies. Attention lines stay active while the delivery approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "achievement + success",
+      "paragraph": "A clear step lands once, then praise or context reclaims the timeline. Attention lines grow while the next step waits for eyes or mood. The result-first line shows in flashes, not as a steady rail. Under achievement + success, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "achievement + success",
+      "paragraph": "Signals split across the thread: declaration, checking, and performing each appear. The result-first line is present but alternates tone under achievement + success. Attention lines widen and narrow by turns, so runway varies. Some step lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Recognition",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "achievement + success",
+      "paragraph": "Delay and praise alternate, and the result-first line rarely appears. With achievement + success, attention lines collect reactions while the step remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: proof leads and eyes follow."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "social + event",
+      "paragraph": "You state the choice and do it; note follows. Rhythm stays even and pulls stay short, so the relationship orients without being invited to vote. When social + event rises, language tightens but the choice does not change. You keep choice and update separate, moving first and summarizing later. The self line reads the same in private and in public, which keeps harmony work light. Drift tells do not surface here; the fit lands on schedule. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "social + event",
+      "paragraph": "You place harmony work in front of the choice when social + event rises. Rhythm mirrors the stream, so pulls expand while the choice waits. Input becomes the gate; timing belongs to the relationship more than the plan. The self line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "social + event",
+      "paragraph": "The self line is faint; appease or narrative often stands ahead of the choice. When social + event rises, the relationship sets pacing and pulls lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "social + event",
+      "paragraph": "You move first and post the note; a short check can appear under social + event. Rhythm stays steady because the self line is visible and simple. The relationship sees a brief pause for alignment, then the choice completes. Threads do not widen; harmony work stays narrow and time-bound. The check is a moment, not a mode; the fit does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "social + event",
+      "paragraph": "You move on the choice and keep the note short; a glance at appease can appear and pass. The self line remains intact, so pulls do not take the lead. When social + event adds eyes or noise, posture tightens but sequence holds. The relationship aligns after the fact because the choice is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "social + event",
+      "paragraph": "A decisive choice shows, then harmony work expands around it. Under social + event, the relationship adds checkpoints and the rhythm stretches. The self line stays visible but yields some timing to replies. Pulls stay active while the fit approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "social + event",
+      "paragraph": "A clear choice lands once, then appease or context reclaims the timeline. Pulls grow while the next choice waits for eyes or mood. The self line shows in flashes, not as a steady rail. Under social + event, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "social + event",
+      "paragraph": "Signals split across the relationship: declaration, checking, and performing each appear. The self line is present but alternates tone under social + event. Pulls widen and narrow by turns, so rhythm varies. Some choice lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Bonding",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "social + event",
+      "paragraph": "Delay and appease alternate, and the self line rarely appears. With social + event, pulls collect reactions while the choice remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: connection stays and direction stays."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "300",
+      "label": "Close",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "You state the unit and do it; proof follows. Sequence stays even and competing queues stay short, so the day orients without being invited to vote. When overwhelm + pings rises, language tightens but the unit does not change. You keep unit and update separate, moving first and summarizing later. The finish line reads the same in private and in public, which keeps replanning light. Drift tells do not surface here; the closure lands on schedule. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "030",
+      "label": "Offset",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "You place replanning in front of the unit when overwhelm + pings rises. Sequence mirrors the stream, so competing queues expand while the unit waits. Input becomes the gate; timing belongs to the day more than the plan. The finish line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "003",
+      "label": "Far",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "The finish line is faint; noise or narrative often stands ahead of the unit. When overwhelm + pings rises, the day sets pacing and competing queues lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "210",
+      "label": "Close",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "You move first and post the proof; a short check can appear under overwhelm + pings. Sequence stays steady because the finish line is visible and simple. The day sees a brief pause for alignment, then the unit completes. Threads do not widen; replanning stays narrow and time-bound. The check is a moment, not a mode; the closure does not slip. Across contexts the stance looks the same: concise line, then execution. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "201",
+      "label": "Close",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "You move on the unit and keep the proof short; a glance at noise can appear and pass. The finish line remains intact, so competing queues do not take the lead. When overwhelm + pings adds eyes or noise, posture tightens but sequence holds. The day aligns after the fact because the unit is already done. Commentary trails delivery; it does not set timing. The trace is visible without changing the outcome. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "120",
+      "label": "Offset",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "A decisive unit shows, then replanning expands around it. Under overwhelm + pings, the day adds checkpoints and the sequence stretches. The finish line stays visible but yields some timing to replies. Competing queues stay active while the closure approaches. The stance reads cooperative first, finishing after alignment is satisfied. Speed trades for certainty without loss of direction. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "102",
+      "label": "Far",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "A clear unit lands once, then noise or context reclaims the timeline. Competing queues grow while the next unit waits for eyes or mood. The finish line shows in flashes, not as a steady rail. Under overwhelm + pings, announcements and explanations crowd the channel. Delivery follows the talk rather than setting it. The pattern reads presentable first, conclusive later. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "111",
+      "label": "Mixed",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "Signals split across the day: declaration, checking, and performing each appear. The finish line is present but alternates tone under overwhelm + pings. Competing queues widen and narrow by turns, so sequence varies. Some unit lands cleanly while other pieces wait for context. The day reads coherent but not uniform; stance depends on who is present. Variation is stable, not chaotic; outcomes still aggregate. Truth: sequence tightens and closure lands."
+    },
+    {
+      "line": "Stress",
+      "base_pattern": "012",
+      "label": "Far",
+      "driver_hint": "overwhelm + pings",
+      "paragraph": "Delay and noise alternate, and the finish line rarely appears. With overwhelm + pings, competing queues collect reactions while the unit remains pending. Pacing belongs to replies and events, not to sequence or plan. Communication is frequent; closure is sparse. The stance reads open-ended and audience-led. Artifacts follow long after context has moved on. Truth: sequence tightens and closure lands."
+    }
+  ]
+}

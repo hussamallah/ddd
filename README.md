@@ -1,249 +1,161 @@
-# Core Engine + Next.js 14+ Application
+# Core TypeScript Engine with Next.js 14+ App
 
-A modern, framework-agnostic TypeScript core engine powering a Next.js 14+ web application with App Router.
+A comprehensive TypeScript engine with Next.js 14+ application, featuring AI-powered development tools and metrics tracking.
 
-## 🏗️ Architecture
+## Features
 
-- **Core Engine**: TypeScript module system with lifecycle management
-- **Web App**: Next.js 14+ with App Router and TypeScript
-- **Styling**: Tailwind CSS with custom components
-- **Deployment**: Vercel with automatic builds and CDN
-- **CI/CD**: GitHub Actions for automated deployment
+- **Core TypeScript Engine**: Robust, type-safe backend engine
+- **Next.js 14+ Frontend**: Modern React-based web application
+- **AI Engineering Metrics**: Comprehensive tracking of AI-assisted development performance
+- **Workspace Architecture**: Monorepo structure with shared packages
 
-## 🚀 Features
+## AI Engineering Metrics
 
-### Core Engine
-- **Modular Architecture**: Pluggable modules with lifecycle management
-- **Event System**: Built-in event emitter for module communication
-- **Type Safety**: Full TypeScript support with strict typing
-- **Logging**: Structured logging with configurable levels
-- **Validation**: Data validation utilities
-- **Framework Agnostic**: Can be used with any JavaScript/TypeScript framework
+Track and optimize your AI-assisted development workflow with comprehensive metrics collection.
 
-### Web Application
-- **Next.js 14+**: Latest features with App Router
-- **Real-time Engine Control**: Start/stop engine and manage modules
-- **Interactive UI**: Modern, responsive interface with Tailwind CSS
-- **API Routes**: RESTful API endpoints for engine interaction
-- **Type Safety**: Full TypeScript integration
-
-## 📁 Project Structure
-
-```
-├── packages/
-│   └── core-engine/          # TypeScript core engine
-│       ├── src/
-│       │   ├── core/         # Core classes (Engine, Module, EventEmitter)
-│       │   ├── utils/        # Utility classes (Logger, Validator)
-│       │   └── types/        # TypeScript type definitions
-│       ├── package.json
-│       └── tsconfig.json
-├── apps/
-│   └── web-app/              # Next.js 14+ application
-│       ├── src/
-│       │   ├── app/          # App Router pages and API routes
-│       │   └── components/   # React components
-│       ├── package.json
-│       ├── next.config.js
-│       └── tailwind.config.js
-├── .github/workflows/        # GitHub Actions CI/CD
-├── vercel.json              # Vercel deployment configuration
-└── package.json             # Root workspace configuration
-```
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- Node.js 18+ 
-- npm 8+
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd core-engine-nextjs-app
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Build the core engine**
-   ```bash
-   npm run build --workspace=packages/core-engine
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-### Available Scripts
-
-- `npm run dev` - Start Next.js development server
-- `npm run build` - Build all packages and Next.js app
-- `npm run test` - Run tests across all packages
-- `npm run lint` - Lint all packages
-- `npm run type-check` - Type check all packages
-
-## 🔧 Core Engine Usage
-
-### Basic Engine Setup
-
-```typescript
-import { Engine, Module } from '@core-engine/core'
-
-// Create an engine
-const engine = new Engine({
-  name: 'My Engine',
-  version: '1.0.0',
-  debug: true
-})
-
-// Create and register a module
-class MyModule extends Module {
-  constructor() {
-    super({
-      id: 'my-module',
-      name: 'My Module',
-      version: '1.0.0'
-    })
-  }
-
-  protected async onInitialize(): Promise<void> {
-    // Module initialization logic
-  }
-
-  protected async onDestroy(): Promise<void> {
-    // Module cleanup logic
-  }
-}
-
-const module = new MyModule()
-engine.registerModule(module)
-
-// Start the engine
-await engine.start()
-```
-
-### Event Handling
-
-```typescript
-// Listen to engine events
-engine.on('module:registered', (module) => {
-  console.log(`Module registered: ${module.name}`)
-})
-
-engine.on('engine:started', () => {
-  console.log('Engine started successfully')
-})
-```
-
-## 🌐 Web Application
-
-### Pages
-
-- **Home** (`/`): Engine demonstration and control
-- **Engine** (`/engine`): Advanced engine management
-- **API** (`/api`): RESTful API endpoints
-
-### API Endpoints
-
-- `GET /api/engine` - Get engine status and module data
-- `POST /api/engine` - Add data to engine modules
-- `DELETE /api/engine?id=<id>` - Remove data from engine modules
-
-## 🚀 Deployment
-
-### Vercel Deployment
-
-1. **Connect your GitHub repository to Vercel**
-2. **Set environment variables**:
-   - `VERCEL_TOKEN`
-   - `VERCEL_ORG_ID`
-   - `VERCEL_PROJECT_ID`
-3. **Push to main branch** - Automatic deployment will trigger
-
-### Manual Deployment
+### Quick Start
 
 ```bash
-# Build the project
-npm run build
+# Install dependencies
+npm install
 
-# Deploy to Vercel
-vercel --prod
+# Run metrics collection for last 7 days
+npm run ai:metrics
+
+# Run for custom time period
+npm run ai:metrics -- --days 30 --output custom-reports
 ```
 
-## 🔒 Environment Variables
+### Environment Configuration
 
-Create a `.env.local` file in the `apps/web-app` directory:
-
-```env
-# Add any environment variables your app needs
-NEXT_PUBLIC_APP_NAME=Core Engine Demo
-```
-
-## 🧪 Testing
+Set these environment variables to enable GitHub integration:
 
 ```bash
-# Run tests for core engine
-npm run test --workspace=packages/core-engine
+export GITHUB_TOKEN="your_github_personal_access_token"
+export OWNER="your_github_username"  # Optional: auto-detected from git remote
+export REPO="your_repository_name"   # Optional: auto-detected from git remote
+```
 
-# Run tests for web app
-npm run test --workspace=apps/web-app
+**Required GitHub Token Permissions:**
+- `repo` - Full repository access
+- `workflow` - GitHub Actions access
+- `issues` - Read issues and PRs
+- `pull_requests` - Read PR data
 
-# Run all tests
+### Metrics Collected
+
+#### Adoption & Yield
+- **Acceptance Rate**: Ratio of accepted to suggested lines
+- **Backlog Clearance**: Net change in AI-suggested work
+- **AI Edit Share**: Percentage of code changes involving AI
+- **Prompt Yield**: Lines generated per AI session
+
+#### Speed & Flow
+- **Lead Time AI**: Time from AI suggestion to merge
+- **Build Breaks per 1k**: Failed CI runs per 1000 lines
+
+#### Quality & Defects
+- **Rework within 72h**: Percentage of lines re-touched
+- **Defect Introduction Rate**: Bugs per 1000 lines
+- **Test Pass Delta**: Change in test success rate
+- **Type/Lint Errors**: Code quality issues per 1000 lines
+
+#### Maintainability
+- **Complexity Delta**: Change in code complexity
+- **Duplication Delta**: Change in code duplication
+- **Ownership Churn**: Files changed outside owners
+
+#### Stability & Operations
+- **Rollback/Hotfix Rate**: Emergency fixes percentage
+- **MTTR AI**: Mean time to repair AI-related issues
+
+#### Security & Dependencies
+- **New High Severity Findings**: Security vulnerabilities
+- **Vulnerability Delta**: Net change in security issues
+
+#### Performance & Size
+- **Performance Delta**: P95 latency/throughput changes
+- **Bundle Size Delta**: Frontend/server size changes
+
+### Output Files
+
+The tool generates two report formats:
+
+1. **`ai-metrics.json`**: Raw data in structured JSON format
+2. **`ai-metrics.md`**: Human-readable report with traffic-light indicators
+
+### GitHub Actions Integration
+
+Automated metrics collection runs:
+- **Nightly** at 2 AM UTC
+- **On push** to main branch
+- **Manually** via workflow dispatch
+
+Weekly summaries are automatically posted to:
+- Recent merged PRs
+- Repository README with status badge
+
+### Customization
+
+Extend the metrics collection by:
+- Adding new metric categories
+- Integrating with additional tools (APM, SAST, etc.)
+- Customizing target bands and thresholds
+- Adding team-specific KPIs
+
+### Troubleshooting
+
+**Common Issues:**
+- **Missing GitHub Token**: Ensure `GITHUB_TOKEN` is set with proper permissions
+- **Repository Detection**: Check git remote configuration
+- **Rate Limiting**: GitHub API has rate limits; consider using GitHub Apps for higher limits
+
+**Debug Mode:**
+```bash
+DEBUG=* npm run ai:metrics
+```
+
+## Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Run tests
 npm run test
+
+# Type checking
+npm run type-check
+
+# Linting
+npm run lint
 ```
 
-## 📚 API Documentation
+## Project Structure
 
-### Core Engine Classes
+```
+├── apps/
+│   └── web-app/          # Next.js frontend application
+├── packages/
+│   └── core-engine/      # TypeScript core engine
+├── tools/
+│   └── ai-metrics.ts     # AI metrics collection tool
+├── .github/
+│   └── workflows/        # GitHub Actions workflows
+└── reports/              # Generated metrics reports
+```
 
-#### Engine
-- `registerModule(module: IModule): void` - Register a module
-- `unregisterModule(moduleId: string): void` - Unregister a module
-- `start(): Promise<void>` - Start the engine
-- `stop(): Promise<void>` - Stop the engine
-- `getStatus(): EngineStatus` - Get engine status
-
-#### Module
-- `initialize(): Promise<void>` - Initialize the module
-- `destroy(): Promise<void>` - Destroy the module
-- `getStatus(): ModuleStatus` - Get module status
-
-#### EventEmitter
-- `on(event: string, listener: Function): void` - Add event listener
-- `off(event: string, listener: Function): void` - Remove event listener
-- `emit(event: string, ...args: any[]): void` - Emit event
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Issues**: [GitHub Issues](https://github.com/your-username/core-engine-nextjs-app/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/core-engine-nextjs-app/discussions)
-- **Documentation**: [Project Wiki](https://github.com/your-username/core-engine-nextjs-app/wiki)
-
-## 🙏 Acknowledgments
-
-- Next.js team for the amazing framework
-- Vercel for seamless deployment
-- Tailwind CSS for the utility-first CSS framework
-- TypeScript team for type safety
+This project is licensed under the MIT License.
