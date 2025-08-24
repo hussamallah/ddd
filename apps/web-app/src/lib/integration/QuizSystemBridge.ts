@@ -32,7 +32,7 @@ export interface QuizSystemConfig {
 }
 
 export interface QuizSystemState {
-  currentFormat: 'v1' | 'v2.7' | 'hybrid';
+  currentFormat: 'v1' | 'v2.6' | 'hybrid';
   v1Bank: QuizBank | null;
   v2Bank: QuizBankV2 | null;
   hybridBank: any | null;
@@ -179,7 +179,7 @@ export class QuizSystemBridge {
     // Initialize family hone engine
     this.v2Engines.familyHone = new FamilyHoneEngine({
       items: this.state.v2Bank.family_hone_items,
-      logic: this.state.v2Bank.logic.family_hone,
+      logic: this.state.v2Bank.logic?.family_hone || {},
       onFamilyPick: (family, itemId) => {
         console.log(`Family pick: ${family} for item ${itemId}`);
       },

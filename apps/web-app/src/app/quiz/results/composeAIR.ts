@@ -1,5 +1,6 @@
 // AIR Composer
 // Adapts verdicts to AirInput format and calls renderAIR
+// Now uses integrated quiz bank for all data
 
 import { generateAIR, generateQuizResult, type AirInput, type QuizResult } from '@/lib/air-generator';
 

@@ -157,14 +157,14 @@ export default function LinesComponentV2({
 
   // Auto-advance family line
   useEffect(() => {
-    if (shouldSkipFamilyLine && currentLineIndex < lines.length - 1) {
+    if (shouldSkipFamilyLine && currentLineIndex < linesToProcess.length - 1) {
       console.log('🚀 Auto-advancing family line:', currentLine);
       setCurrentLineIndex(prev => prev + 1);
       setCurrentItemIndex(0);
-    } else if (shouldSkipFamilyLine && currentLineIndex >= lines.length - 1) {
+    } else if (shouldSkipFamilyLine && currentLineIndex >= linesToProcess.length - 1) {
       console.log('✅ Family line auto-advance complete - reached end of lines');
     }
-  }, [shouldSkipFamilyLine, currentLineIndex, lines.length, currentLine]);
+  }, [shouldSkipFamilyLine, currentLineIndex, linesToProcess.length, currentLine]);
 
   // Reset selection when item changes
   useEffect(() => {
@@ -184,6 +184,23 @@ export default function LinesComponentV2({
     });
   }, [currentLine, currentLineIndex, currentItemIndex, currentLineItems, currentItem, shouldSkipFamilyLine, lineVerdicts]);
 
+  // Monitor lineVerdicts changes specifically for debugging
+  useEffect(() => {
+    console.log('🔍 lineVerdicts state changed:', lineVerdicts);
+    if (needsLineDuel && lineVerdicts[needsLineDuel]) {
+      console.log(`⚔️ Duel line ${needsLineDuel} verdicts:`, lineVerdicts[needsLineDuel]);
+    }
+  }, [lineVerdicts, needsLineDuel]);
+
+  // Ensure line index is always valid
+  useEffect(() => {
+    if (currentLineIndex >= linesToProcess.length) {
+      console.warn(`⚠️ Current line index ${currentLineIndex} is out of bounds for linesToProcess (length: ${linesToProcess.length}), resetting to 0`);
+      setCurrentLineIndex(0);
+      setCurrentLine(linesToProcess[0]);
+    }
+  }, [currentLineIndex, linesToProcess]);
+
   // Ensure line items are properly filtered
   useEffect(() => {
     const filteredItems = lineItems.filter(item => item.line === currentLine);
@@ -199,15 +216,15 @@ export default function LinesComponentV2({
   // Safety check: prevent infinite loops by monitoring state changes
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (shouldSkipFamilyLine && currentLineIndex === 7) {
-        console.warn('⚠️ Potential infinite loop detected at Control line, forcing advancement');
-        setCurrentLineIndex(1); // Skip to Pace line
+      if (shouldSkipFamilyLine && currentLineIndex >= linesToProcess.length) {
+        console.warn('⚠️ Potential infinite loop detected, forcing advancement to valid line');
+        setCurrentLineIndex(0); // Reset to first valid line
         setCurrentItemIndex(0);
       }
     }, 2000); // 2 second timeout
 
     return () => clearTimeout(timeoutId);
-  }, [shouldSkipFamilyLine, currentLineIndex]);
+  }, [shouldSkipFamilyLine, currentLineIndex, linesToProcess.length]);
 
   // Initialize line index
   const initializeLineIndex = useCallback(() => {
@@ -223,6 +240,10 @@ export default function LinesComponentV2({
     if (firstUnprocessedIndex !== -1) {
       setCurrentLineIndex(firstUnprocessedIndex);
       setCurrentLine(linesToProcess[firstUnprocessedIndex]);
+    } else {
+      // If all lines are processed, start with the first line
+      setCurrentLineIndex(0);
+      setCurrentLine(linesToProcess[0]);
     }
   }, [lineVerdicts, linesToProcess]);
 
@@ -279,8 +300,16 @@ export default function LinesComponentV2({
         console.log(`✅ Line ${currentLine} complete! All ${currentLineItems.length} items processed.`);
         // Line complete, check if we need a duel
         if (checkIfNeedsLineDuel(newLineVerdicts[currentLine])) {
+          console.log(`⚔️ Line ${currentLine} needs duel! Setting duel flag and preserving verdicts.`);
+          console.log(`📊 Line verdicts before setting duel:`, newLineVerdicts[currentLine]);
+          console.log(`🔍 Full lineVerdicts state:`, newLineVerdicts);
+          
           setNeedsLineDuel(currentLine);
-          // Don't return here - continue to advance to next line
+          setLineVerdicts(newLineVerdicts); // Ensure verdicts are saved before duel
+          
+          // IMPORTANT: Don't advance to next line when duel is needed
+          // The line will advance after the duel is resolved in handleLineDuelResult
+          return; // Exit early to prevent line advancement
         } else {
           // No duel needed, determine final verdict
           const finalVerdict = determineLineVerdict(newLineVerdicts[currentLine]);
@@ -310,7 +339,7 @@ export default function LinesComponentV2({
           }
         }
 
-        // Always move to next line after completing current line (with or without duel)
+        // Only advance to next line if no duel was needed (duel lines advance in handleLineDuelResult)
         if (currentLineIndex < linesToProcess.length - 1) {
           console.log(`🚀 Advancing from line ${currentLine} (${currentLineIndex}) to next line`);
           setCurrentLineIndex(prev => prev + 1);
@@ -337,6 +366,10 @@ export default function LinesComponentV2({
       return;
     }
     
+    console.log(`⚔️ Resolving line duel for ${needsLineDuel} with winner: ${winner}`);
+    console.log(`📊 Current lineVerdicts state:`, lineVerdicts);
+    console.log(`🎯 Line verdicts for duel line:`, lineVerdicts[needsLineDuel!]);
+    
     const severity = winner === 'C' ? 0 : winner === 'O' ? 1 : 2;
     
     // Record the duel result and complete the line
@@ -345,9 +378,11 @@ export default function LinesComponentV2({
       const currentLineVerdicts = lineVerdicts[needsLineDuel!];
       if (!currentLineVerdicts || currentLineVerdicts.length < 2) {
         console.error('❌ Missing line verdicts for duel:', needsLineDuel, 'Available:', currentLineVerdicts);
+        console.error('❌ Full lineVerdicts state:', lineVerdicts);
         return;
       }
       
+      console.log(`✅ Recording duel result for line ${needsLineDuel}:`, { winner, severity, currentLineVerdicts });
       onLineVerdict(needsLineDuel!, winner, severity, {
         item1: currentLineVerdicts[0],
         item2: currentLineVerdicts[1],
@@ -359,7 +394,8 @@ export default function LinesComponentV2({
     
     // Clear duel state and move to next line
     setNeedsLineDuel(null);
-    if (currentLineIndex < lines.length - 1) {
+    if (currentLineIndex < linesToProcess.length - 1) {
+      console.log(`🚀 Duel resolved, advancing from line ${currentLine} (${currentLineIndex}) to next line`);
       setCurrentLineIndex(prev => prev + 1);
       setCurrentItemIndex(0);
     }
@@ -469,10 +505,74 @@ export default function LinesComponentV2({
   // Show line duel if needed
   if (needsLineDuel) {
     const duelItems = lineDuelItems?.[needsLineDuel] || [];
+    
+    // Get the actual tokens that disagree to select the right duel variant
+    const currentLineVerdicts = lineVerdicts[needsLineDuel];
+    if (!currentLineVerdicts || currentLineVerdicts.length < 2) {
+      console.error('❌ Cannot show duel - missing line verdicts for:', needsLineDuel, 'Available:', currentLineVerdicts);
+      return (
+        <div className="text-center p-8">
+          <div className="text-red-400 text-6xl mb-4">⚠️</div>
+          <h2 className="text-xl font-bold text-white mb-4">Duel Error</h2>
+          <p className="text-neutral-300">Missing line verdicts for duel resolution</p>
+          <div className="mt-4 text-sm text-neutral-400">
+            <p>Line: {needsLineDuel}</p>
+            <p>Available Verdicts: {currentLineVerdicts?.length || 0}</p>
+            <p>Expected: 2</p>
+          </div>
+        </div>
+      );
+    }
+    
+    // Determine which variant we need based on the actual token disagreement
+    const token1 = currentLineVerdicts[0].token;
+    const token2 = currentLineVerdicts[1].token;
+    const variant = `${token1}_vs_${token2}`;
+    
+    console.log(`⚔️ Line duel for ${needsLineDuel}: ${token1} vs ${token2}, variant: ${variant}`);
+    console.log(`📊 Available duel items:`, duelItems.map(item => ({ id: item.id, variant: item.variant })));
+    
+    // Find the duel item that matches our variant
+    const matchingDuelItem = duelItems.find(item => item.variant === variant);
+    
+    if (!matchingDuelItem) {
+      console.error(`❌ No duel item found for variant ${variant} in line ${needsLineDuel}`);
+      console.error(`❌ Available variants:`, duelItems.map(item => item.variant));
+      console.error(`❌ Actual tokens: ${token1} vs ${token2}`);
+      
+      // Fallback: use the first available duel item
+      const fallbackDuelItem = duelItems[0];
+      if (fallbackDuelItem) {
+        console.warn(`⚠️ Using fallback duel item: ${fallbackDuelItem.variant} instead of ${variant}`);
+        return (
+          <LineDuelsComponent
+            line={needsLineDuel}
+            duelItems={[fallbackDuelItem]}
+            onDuelResult={handleLineDuelResult}
+          />
+        );
+      } else {
+        return (
+          <div className="text-center p-8">
+            <div className="text-red-400 text-6xl mb-4">⚠️</div>
+            <h2 className="text-xl font-bold text-white mb-4">Duel Configuration Error</h2>
+            <p className="text-neutral-300">No duel items available for {needsLineDuel} line</p>
+            <div className="mt-4 text-sm text-neutral-400">
+              <p>Line: {needsLineDuel}</p>
+              <p>Required Variant: {variant}</p>
+              <p>Available Duel Items: {duelItems.length}</p>
+            </div>
+          </div>
+        );
+      }
+    }
+    
+    console.log(`✅ Using duel item for variant ${variant}:`, matchingDuelItem.id);
+    
     return (
       <LineDuelsComponent
         line={needsLineDuel}
-        duelItems={duelItems}
+        duelItems={[matchingDuelItem]}
         onDuelResult={handleLineDuelResult}
       />
     );

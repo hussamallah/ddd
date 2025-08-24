@@ -11,8 +11,51 @@ import LinesComponentV2 from '../components/LinesComponentV2';
 import ResultsComponentV2 from '../components/ResultsComponentV2';
 import AnimatedStageTransition from '../components/AnimatedStageTransition';
 import { composeAIR } from '../results/composeAIR';
-import { generateArchetypeProfile, ARCHETYPE_COLORS } from '@/lib/archetype-generator';
 import { useRouter } from 'next/navigation';
+
+// Simple archetype profile generator
+function generateArchetypeProfile(verdicts: any[]): any {
+  // For now, return a simple profile based on the first line
+  const firstLine = verdicts[0]?.line || 'Control';
+  const archetype = firstLine === 'Control' ? 'Sovereign' : 
+                   firstLine === 'Pace' ? 'Guardian' :
+                   firstLine === 'Boundary' ? 'Visionary' :
+                   firstLine === 'Truth' ? 'Architect' :
+                   firstLine === 'Recognition' ? 'Spotlight' :
+                   firstLine === 'Bonding' ? 'Provider' :
+                   firstLine === 'Stress' ? 'Diplomat' : 'Sovereign';
+  
+  return {
+    archetype,
+    name: archetype,
+    primaryLine: firstLine,
+    secondaryLine: undefined
+  };
+}
+
+// Archetype colors from integrated quiz bank
+const ARCHETYPE_COLORS: Record<string, { name: string; hex: string }> = {
+  "Sovereign": { "name": "Imperial Purple", "hex": "#6B2F8A" },
+  "Visionary": { "name": "Indigo", "hex": "#3F51B5" },
+  "Rebel": { "name": "Crimson", "hex": "#C62828" },
+  "Equalizer": { "name": "Teal", "hex": "#00897B" },
+  "Provider": { "name": "Sage Green", "hex": "#5E8C6A" },
+  "Wanderer": { "name": "Turquoise", "hex": "#1ABC9C" },
+  "Seeker": { "name": "Midnight Blue", "hex": "#0D47A1" },
+  "Mask": { "name": "Charcoal", "hex": "#2E3138" },
+  "Partner": { "name": "Rose", "hex": "#D81B60" },
+  "Guardian": { "name": "Forest Green", "hex": "#1B5E20" },
+  "Servant": { "name": "Ochre", "hex": "#A9782B" },
+  "Spotlight": { "name": "Marigold", "hex": "#F9A825" },
+  "Architect": { "name": "Blueprint Blue", "hex": "#355AA6" },
+  "Strategist": { "name": "Navy", "hex": "#1A2A44" },
+  "Catalyst": { "name": "Flame Orange", "hex": "#EF6C00" },
+  "Diplomat": { "name": "Olive", "hex": "#6B8E23" },
+  "Sentinel": { "name": "Blue-Gray", "hex": "#455A64" },
+  "Artisan": { "name": "Terracotta", "hex": "#C65D3A" },
+  "Navigator": { "name": "Cerulean", "hex": "#2A9DF4" },
+  "Alchemist": { "name": "Citrine", "hex": "#C59A1F" }
+};
 
 // ---------- Heat Map Results Display ----------
 const ResultsHeatMap: React.FC<{
@@ -621,7 +664,7 @@ export default function TestV2Page() {
               <FaceDuelsComponent
                 quizState={quizState}
                 onDuelResult={handleDuelResult}
-                duelItems={quizBank.face_duel_items[family] || []}
+                duelItems={quizBank.face_duel_items?.[family] || []}
               />
             </AnimatedStageTransition>
           );
@@ -682,9 +725,9 @@ export default function TestV2Page() {
       <div className="bg-neutral-900/60 border-b border-neutral-700 p-4">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-2xl font-bold text-white mb-2">Quiz v2.7 Test Page</h1>
-                      <p className="text-neutral-400">
+          <p className="text-neutral-400">
               Testing the new quiz flow: Family Hone → Face Triad → Face Duels → Lines → Results (v2.7 - No Stage Skip)
-            </p>
+          </p>
           
           {/* Stage Indicator */}
           <div className="mt-4 flex gap-2">

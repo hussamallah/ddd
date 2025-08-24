@@ -311,8 +311,668 @@
     "O": "Offset: hesitation/softening adds latency here.",
     "F": "Break: pattern derails or reverses motion under pressure."
   },
-  "face_duel_items": {},
-  "line_duel_items": {},
+  "face_duel_items": {
+    "Control": [
+      {
+        "id": "FD-CTL-1",
+        "prompt": "A blocking rule stops motion. You…",
+        "options": {
+          "A": {
+            "text": "Replace the rule now; set a simple standard.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Bypass to expose dead weight publicly.",
+            "face": "rebel"
+          }
+        }
+      },
+      {
+        "id": "FD-CTL-2",
+        "prompt": "Room is drifting and attention is fading. You…",
+        "options": {
+          "A": {
+            "text": "Make a one-line call; others orient.",
+            "face": "sovereign"
+          },
+          "B": {
+            "text": "Do the first visible step; create momentum.",
+            "face": "catalyst"
+          }
+        }
+      },
+      {
+        "id": "FD-CTL-3",
+        "prompt": "Pushback escalates. You…",
+        "options": {
+          "A": {
+            "text": "Challenge the premise in public.",
+            "face": "rebel"
+          },
+          "B": {
+            "text": "Ignite a small move and stabilize after.",
+            "face": "catalyst"
+          }
+        }
+      }
+    ],
+    "Pace": [
+      {
+        "id": "FD-PAC-1",
+        "prompt": "Odds are unclear and time is limited. You…",
+        "options": {
+          "A": {
+            "text": "Hold for the higher-leverage window.",
+            "face": "strategist"
+          },
+          "B": {
+            "text": "Place a small reversible stake now.",
+            "face": "navigator"
+          }
+        }
+      },
+      {
+        "id": "FD-PAC-2",
+        "prompt": "You see a future arc beyond the current plan. You…",
+        "options": {
+          "A": {
+            "text": "Sequence for timing; keep leverage high.",
+            "face": "strategist"
+          },
+          "B": {
+            "text": "Name the next era; start pulling toward it.",
+            "face": "visionary"
+          }
+        }
+      },
+      {
+        "id": "FD-PAC-3",
+        "prompt": "Direction is fuzzy but momentum exists. You…",
+        "options": {
+          "A": {
+            "text": "Choose a reversible route now; adjust in motion.",
+            "face": "navigator"
+          },
+          "B": {
+            "text": "Frame the future to align people first.",
+            "face": "visionary"
+          }
+        }
+      }
+    ],
+    "Boundary": [
+      {
+        "id": "FD-BND-1",
+        "prompt": "Queue is crowded and pressure rises. You…",
+        "options": {
+          "A": {
+            "text": "Apply hard criteria; clean gate.",
+            "face": "sentinel"
+          },
+          "B": {
+            "text": "Reset terms to even access.",
+            "face": "equalizer"
+          }
+        }
+      },
+      {
+        "id": "FD-BND-2",
+        "prompt": "Safety signal spikes on a request. You…",
+        "options": {
+          "A": {
+            "text": "No until safe; then green-light.",
+            "face": "guardian"
+          },
+          "B": {
+            "text": "Hold the stated rule; open/close cleanly.",
+            "face": "sentinel"
+          }
+        }
+      },
+      {
+        "id": "FD-BND-3",
+        "prompt": "A senior asks to skip the process. You…",
+        "options": {
+          "A": {
+            "text": "Rebalance terms so it's fair to all.",
+            "face": "equalizer"
+          },
+          "B": {
+            "text": "Protect people; decline until risk is low.",
+            "face": "guardian"
+          }
+        }
+      }
+    ],
+    "Truth": [
+      {
+        "id": "FD-TRU-1",
+        "prompt": "Conflicting claims, limited time. You…",
+        "options": {
+          "A": {
+            "text": "Run the smallest test; collapse uncertainty.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Formalize schema; route decisions.",
+            "face": "architect"
+          }
+        }
+      },
+      {
+        "id": "FD-TRU-2",
+        "prompt": "Setback hits; messy inputs remain. You…",
+        "options": {
+          "A": {
+            "text": "Ask for proof path; keep it falsifiable.",
+            "face": "seeker"
+          },
+          "B": {
+            "text": "Reframe scraps into measurable leverage.",
+            "face": "alchemist"
+          }
+        }
+      },
+      {
+        "id": "FD-TRU-3",
+        "prompt": "A novel approach could help, but standards are unclear. You…",
+        "options": {
+          "A": {
+            "text": "Codify standards before adopting.",
+            "face": "architect"
+          },
+          "B": {
+            "text": "Bend rules to extract hidden yield now.",
+            "face": "alchemist"
+          }
+        }
+      }
+    ],
+    "Recognition": [
+      {
+        "id": "FD-REC-1",
+        "prompt": "How do you make the work land?",
+        "options": {
+          "A": {
+            "text": "Run the room; stage the reveal.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Tune language and posture to fit the audience.",
+            "face": "mask"
+          }
+        }
+      },
+      {
+        "id": "FD-REC-2",
+        "prompt": "In launch moments, you prefer…",
+        "options": {
+          "A": {
+            "text": "Stagecraft and live direction of attention.",
+            "face": "spotlight"
+          },
+          "B": {
+            "text": "Let materials and finish speak.",
+            "face": "artisan"
+          }
+        }
+      },
+      {
+        "id": "FD-REC-3",
+        "prompt": "Visibility is high; stakes are public. You…",
+        "options": {
+          "A": {
+            "text": "Mirror norms to maintain access.",
+            "face": "mask"
+          },
+          "B": {
+            "text": "Let shipped proof carry the message.",
+            "face": "artisan"
+          }
+        }
+      }
+    ],
+    "Bonding": [
+      {
+        "id": "FD-BON-1",
+        "prompt": "A teammate's need conflicts with plan. You…",
+        "options": {
+          "A": {
+            "text": "Pick up extra load to stabilize them.",
+            "face": "provider"
+          },
+          "B": {
+            "text": "Renegotiate edges together.",
+            "face": "partner"
+          }
+        }
+      },
+      {
+        "id": "FD-BON-2",
+        "prompt": "Mission load spikes. You…",
+        "options": {
+          "A": {
+            "text": "Serve the mission first; take the task.",
+            "face": "servant"
+          },
+          "B": {
+            "text": "Stabilize the person so the plan holds.",
+            "face": "provider"
+          }
+        }
+      },
+      {
+        "id": "FD-BON-3",
+        "prompt": "The bond is straining under pressure. You…",
+        "options": {
+          "A": {
+            "text": "Synchronize plans; protect edges of each person.",
+            "face": "partner"
+          },
+          "B": {
+            "text": "Absorb unglamorous work; model duty.",
+            "face": "servant"
+          }
+        }
+      }
+    ],
+    "Stress": [
+      {
+        "id": "FD-STR-1",
+        "prompt": "Heat rises across factions. You…",
+        "options": {
+          "A": {
+            "text": "Broker overlap; keep channels open.",
+            "face": "diplomat"
+          },
+          "B": {
+            "text": "Change environment; restart motion.",
+            "face": "wanderer"
+          }
+        }
+      },
+      {
+        "id": "FD-STR-2",
+        "prompt": "System is stuck; attention is flat. You…",
+        "options": {
+          "A": {
+            "text": "Spark a visible first step now.",
+            "face": "catalyst"
+          },
+          "B": {
+            "text": "Broker a truce; cool the room.",
+            "face": "diplomat"
+          }
+        }
+      },
+      {
+        "id": "FD-STR-3",
+        "prompt": "Momentum is low and roles are rigid. You…",
+        "options": {
+          "A": {
+            "text": "Change terrain; exit the stuck slot.",
+            "face": "wanderer"
+          },
+          "B": {
+            "text": "Ignite motion with a small win.",
+            "face": "catalyst"
+          }
+        }
+      }
+    ]
+  },
+  "line_duel_items": {
+    "Control": [
+      {
+        "id": "LD-CON-1",
+        "line": "Control",
+        "variant": "C_vs_O",
+        "prompt": "Decision is stuck. Which move is more like you?",
+        "options": {
+          "A": {
+            "text": "Make the call now; set a binary.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Invite more input; decide later today.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-CON-2",
+        "line": "Control",
+        "variant": "O_vs_F",
+        "prompt": "Direction is unclear. What do you actually do?",
+        "options": {
+          "A": {
+            "text": "Soften the call; pilot both.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Leave it unresolved; hope momentum returns.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-CON-3",
+        "line": "Control",
+        "variant": "C_vs_F",
+        "prompt": "High-stakes call under time. Choose the move you take.",
+        "options": {
+          "A": {
+            "text": "Set the call and move.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Drop the call; wait for consensus.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Pace": [
+      {
+        "id": "LD-PAC-1",
+        "line": "Pace",
+        "variant": "C_vs_O",
+        "prompt": "Deadline is close and scope is fuzzy. What's your move?",
+        "options": {
+          "A": {
+            "text": "Freeze scope; ship the smallest viable.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Gather more signal; start tomorrow.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-PAC-2",
+        "line": "Pace",
+        "variant": "O_vs_F",
+        "prompt": "Window is slipping. Which do you do more often?",
+        "options": {
+          "A": {
+            "text": "Gather more signal; start tomorrow.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Delay for a better timing window.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-PAC-3",
+        "line": "Pace",
+        "variant": "C_vs_F",
+        "prompt": "Opportunity appears mid-build. Your instinct is…",
+        "options": {
+          "A": {
+            "text": "Keep v1 tight; ship it.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Blow up v1 to chase it now.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Boundary": [
+      {
+        "id": "LD-BOU-1",
+        "line": "Boundary",
+        "variant": "C_vs_O",
+        "prompt": "An exec skips the queue. What do you actually do?",
+        "options": {
+          "A": {
+            "text": "Apply the same gate; schedule properly.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Fit them in with minimal disruption.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-BOU-2",
+        "line": "Boundary",
+        "variant": "O_vs_F",
+        "prompt": "Risky shortcut is on the table. Your tendency is…",
+        "options": {
+          "A": {
+            "text": "Allow with guardrails and monitoring.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Let them through; fix fallout later.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-BOU-3",
+        "line": "Boundary",
+        "variant": "C_vs_F",
+        "prompt": "Compliance concern vs speed. You typically…",
+        "options": {
+          "A": {
+            "text": "Decline until criteria are met.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Approve to save time.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Truth": [
+      {
+        "id": "LD-TRU-1",
+        "line": "Truth",
+        "variant": "C_vs_O",
+        "prompt": "Data conflicts with plan. What do you do most?",
+        "options": {
+          "A": {
+            "text": "Run a quick test; adjust if needed.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Proceed but add monitoring.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-TRU-2",
+        "line": "Truth",
+        "variant": "O_vs_F",
+        "prompt": "Flashy fix with thin proof. Which are you more likely to do?",
+        "options": {
+          "A": {
+            "text": "Try it in parallel; decide later.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Adopt it immediately without proof.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-TRU-3",
+        "line": "Truth",
+        "variant": "C_vs_F",
+        "prompt": "Tension between proof and pressure. You…",
+        "options": {
+          "A": {
+            "text": "Ask for a proof path first.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Ignore the data and push through.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Recognition": [
+      {
+        "id": "LD-REC-1",
+        "line": "Recognition",
+        "variant": "C_vs_O",
+        "prompt": "You shipped a win. Which landing fits you more?",
+        "options": {
+          "A": {
+            "text": "Let the artifact speak; move on.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Tune comms to the room.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-REC-2",
+        "line": "Recognition",
+        "variant": "O_vs_F",
+        "prompt": "Demo heat rises. You tend to…",
+        "options": {
+          "A": {
+            "text": "Shift tone and framing to hold attention.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Make a big show; proof later.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-REC-3",
+        "line": "Recognition",
+        "variant": "C_vs_F",
+        "prompt": "Audience is large; optics are high. You…",
+        "options": {
+          "A": {
+            "text": "Let shipped proof carry the message.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Run the show even if proof is thin.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Bonding": [
+      {
+        "id": "LD-BON-1",
+        "line": "Bonding",
+        "variant": "C_vs_O",
+        "prompt": "A teammate needs time that conflicts with your plan.",
+        "options": {
+          "A": {
+            "text": "Hold your edge; find another slot.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Bend a little to keep the bond.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-BON-2",
+        "line": "Bonding",
+        "variant": "O_vs_F",
+        "prompt": "Credit was misassigned. You more often…",
+        "options": {
+          "A": {
+            "text": "Let it go for now; fix later.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Confront publicly; escalate heat.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-BON-3",
+        "line": "Bonding",
+        "variant": "C_vs_F",
+        "prompt": "Relationship under pressure. You…",
+        "options": {
+          "A": {
+            "text": "Clarify calmly; keep the bond intact.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Drop your plan entirely for them.",
+            "token": "F"
+          }
+        }
+      }
+    ],
+    "Stress": [
+      {
+        "id": "LD-STR-1",
+        "line": "Stress",
+        "variant": "C_vs_O",
+        "prompt": "Two groups are clashing live. You…",
+        "options": {
+          "A": {
+            "text": "Set a small action and refocus.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Broker overlap and cool the room.",
+            "token": "O"
+          }
+        }
+      },
+      {
+        "id": "LD-STR-2",
+        "line": "Stress",
+        "variant": "O_vs_F",
+        "prompt": "Heat spikes; attention fractures. You…",
+        "options": {
+          "A": {
+            "text": "Broker overlap and cool the room.",
+            "token": "O"
+          },
+          "B": {
+            "text": "Walk away; change environment.",
+            "token": "F"
+          }
+        }
+      },
+      {
+        "id": "LD-STR-3",
+        "line": "Stress",
+        "variant": "C_vs_F",
+        "prompt": "System is stuck. Which move is more like you?",
+        "options": {
+          "A": {
+            "text": "Set one small action; refocus.",
+            "token": "C"
+          },
+          "B": {
+            "text": "Walk away; change environment.",
+            "token": "F"
+          }
+        }
+      }
+    ]
+  },
   "logic": {
     "flow_version": "v5",
     "stages": [
@@ -485,5 +1145,434 @@
       "allow_abstain": false
     },
     "readme": "Run FH loop serving 5-option router items until any family hits count=3. Lock that family. Ask 3 face triad items; compute counts and apply duel rules. Then run Lines: 14 items (2 per line). Produce code_7 + notes + truth_line. See duel_rules for exact sequences."
+  },
+  "diagnostic_cards": {
+    "version": "Axis AIR Universal Cards v1.1 (with G/B/U)",
+    "notes": "Clinical, neutral voice; 6–7 sentences; no advice; each ends with 'Truth: …'. Patterns cover 300,030,003,210,201,120,102,111,012. Added Good/Bad/Ugly sections per card.",
+    "cards": [
+      {
+        "line": "Control",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "context pressure",
+        "paragraph": "You state the move and do it; receipt follows. Tempo stays even and threads stay short, so the room orients without being invited to vote. When context pressure rises, language tightens but the move does not change. You keep move and update separate, moving first and summarizing later. The ownership line reads the same in private and in public, which keeps coordination light. Drift tells do not surface here; the result lands on schedule. Truth: the result lands and you lead.",
+        "good": [
+          "Result-first; small threads; steady tempo.",
+          "Ownership reads the same in public and private."
+        ],
+        "bad": [
+          "Under context pressure, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates commentary overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Control",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "context pressure",
+        "paragraph": "You place coordination in front of the move when context pressure rises. Tempo mirrors the stream, so threads expand while the move waits. Input becomes the gate; timing belongs to the room more than the plan. The ownership line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: the result lands and you lead.",
+        "good": [
+          "Coordination is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "context pressure imposes a stall tax; pace mirrors the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm threads grow while the unit waits."
+        ]
+      },
+      {
+        "line": "Control",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "context pressure",
+        "paragraph": "The ownership line is faint; optics or narrative often stands ahead of the move. When context pressure rises, the room sets pacing and threads lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the result lands and you lead.",
+        "good": [
+          "Visibility and context are rich; rooms stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under context pressure, artifacts lag; room sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Pace",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "deadlines + multitask",
+        "paragraph": "You state the unit and do it; proof follows. Pace stays even and streams stay short, so the day orients without being invited to vote. When deadlines + multitask rises, language tightens but the unit does not change. You keep unit and update separate, moving first and summarizing later. The focus line reads the same in private and in public, which keeps switching light. Drift tells do not surface here; the finish lands on schedule. Truth: depth returns and units close.",
+        "good": [
+          "Unit-first; small streams; steady pace.",
+          "Focus reads the same in public and private."
+        ],
+        "bad": [
+          "Under deadlines + multitask, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates switching overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Boundary",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "access pressure",
+        "paragraph": "You state the gate and apply it; access follows. Criteria stay even and checks stay short, so the queue orients without being invited to vote. When access pressure rises, language tightens but the gate does not change. You keep gate and update separate, applying first and summarizing later. The safety line reads the same in private and in public, which keeps monitoring light. Drift tells do not surface here; the access lands on schedule. Truth: the access lands and you protect.",
+        "good": [
+          "Gate-first; small checks; steady criteria.",
+          "Safety reads the same in public and private."
+        ],
+        "bad": [
+          "Under access pressure, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates monitoring overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Truth",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "evidence pressure",
+        "paragraph": "You state the test and run it; proof follows. Evidence stays even and checks stay short, so the claim orients without being invited to vote. When evidence pressure rises, language tightens but the test does not change. You keep test and update separate, running first and summarizing later. The verification line reads the same in private and in public, which keeps validation light. Drift tells do not surface here; the proof lands on schedule. Truth: the proof lands and you verify.",
+        "good": [
+          "Test-first; small checks; steady evidence.",
+          "Verification reads the same in public and private."
+        ],
+        "bad": [
+          "Under evidence pressure, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates validation overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Recognition",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "optics pressure",
+        "paragraph": "You state the message and deliver it; impact follows. Optics stay even and frames stay short, so the audience orients without being invited to vote. When optics pressure rises, language tightens but the message does not change. You keep message and update separate, delivering first and summarizing later. The visibility line reads the same in private and in public, which keeps presentation light. Drift tells do not surface here; the impact lands on schedule. Truth: the impact lands and you communicate.",
+        "good": [
+          "Message-first; small frames; steady optics.",
+          "Visibility reads the same in public and private."
+        ],
+        "bad": [
+          "Under optics pressure, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates presentation overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Bonding",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "relationship pressure",
+        "paragraph": "You state the support and provide it; connection follows. Bonds stay even and threads stay short, so the team orients without being invited to vote. When relationship pressure rises, language tightens but the support does not change. You keep support and update separate, providing first and summarizing later. The care line reads the same in private and in public, which keeps coordination light. Drift tells do not surface here; the connection lands on schedule. Truth: the connection lands and you support.",
+        "good": [
+          "Support-first; small threads; steady bonds.",
+          "Care reads the same in public and private."
+        ],
+        "bad": [
+          "Under relationship pressure, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates coordination overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Stress",
+        "base_pattern": "300",
+        "label": "Close",
+        "driver_hint": "pressure pressure",
+        "paragraph": "You state the response and execute it; stability follows. Pressure stays even and reactions stay short, so the system orients without being invited to vote. When pressure pressure rises, language tightens but the response does not change. You keep response and update separate, executing first and summarizing later. The resilience line reads the same in private and in public, which keeps management light. Drift tells do not surface here; the stability lands on schedule. Truth: the stability lands and you respond.",
+        "good": [
+          "Response-first; small reactions; steady pressure.",
+          "Resilience reads the same in public and private."
+        ],
+        "bad": [
+          "Under pressure pressure, brief language tightening appears without timing change."
+        ],
+        "ugly": [
+          "Stacked attention creates management overhead, not outcome slip."
+        ]
+      },
+      {
+        "line": "Control",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "context pressure",
+        "paragraph": "You place coordination in front of the move when context pressure rises. Tempo mirrors the stream, so threads expand while the move waits. Input becomes the gate; timing belongs to the room more than the plan. The ownership line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: the result lands and you lead.",
+        "good": [
+          "Coordination is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "context pressure imposes a stall tax; pace mirrors the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm threads grow while the unit waits."
+        ]
+      },
+      {
+        "line": "Pace",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "deadlines + multitask",
+        "paragraph": "You place switching in front of the unit when deadlines + multitask rises. Pace mirrors the stream, so streams expand while the unit waits. Input becomes the gate; timing belongs to the day more than the plan. The focus line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then delivery lands after. The pattern is steady and readable to others, though slower. Truth: depth returns and units close.",
+        "good": [
+          "Switching is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "deadlines + multitask imposes a stall tax; pace mirrors the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm streams grow while the unit waits."
+        ]
+      },
+      {
+        "line": "Boundary",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "access pressure",
+        "paragraph": "You place monitoring in front of the gate when access pressure rises. Criteria mirror the stream, so checks expand while the gate waits. Input becomes the gate; timing belongs to the queue more than the plan. The safety line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then access lands after. The pattern is steady and readable to others, though slower. Truth: the access lands and you protect.",
+        "good": [
+          "Monitoring is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "access pressure imposes a stall tax; criteria mirror the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm checks grow while the gate waits."
+        ]
+      },
+      {
+        "line": "Truth",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "evidence pressure",
+        "paragraph": "You place validation in front of the test when evidence pressure rises. Evidence mirrors the stream, so checks expand while the test waits. Input becomes the gate; timing belongs to the claim more than the plan. The verification line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then proof lands after. The pattern is steady and readable to others, though slower. Truth: the proof lands and you verify.",
+        "good": [
+          "Validation is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "evidence pressure imposes a stall tax; evidence mirrors the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm checks grow while the test waits."
+        ]
+      },
+      {
+        "line": "Recognition",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "optics pressure",
+        "paragraph": "You place presentation in front of the message when optics pressure rises. Optics mirror the stream, so frames expand while the message waits. Input becomes the gate; timing belongs to the audience more than the plan. The visibility line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then impact lands after. The pattern is steady and readable to others, though slower. Truth: the impact lands and you communicate.",
+        "good": [
+          "Presentation is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "optics pressure imposes a stall tax; optics mirror the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm frames grow while the message waits."
+        ]
+      },
+      {
+        "line": "Bonding",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "relationship pressure",
+        "paragraph": "You place coordination in front of the support when relationship pressure rises. Bonds mirror the stream, so threads expand while the support waits. Input becomes the gate; timing belongs to the team more than the plan. The care line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then connection lands after. The pattern is steady and readable to others, though slower. Truth: the connection lands and you support.",
+        "good": [
+          "Coordination is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "relationship pressure imposes a stall tax; bonds mirror the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm threads grow while the support waits."
+        ]
+      },
+      {
+        "line": "Stress",
+        "base_pattern": "030",
+        "label": "Offset",
+        "driver_hint": "pressure pressure",
+        "paragraph": "You place management in front of the response when pressure pressure rises. Pressure mirrors the stream, so reactions expand while the response waits. Input becomes the gate; timing belongs to the system more than the plan. The resilience line is present but softened; language lengthens and checks multiply. Progress accumulates by alignment, then stability lands after. The pattern is steady and readable to others, though slower. Truth: the stability lands and you respond.",
+        "good": [
+          "Management is clear; others know where they fit.",
+          "Safety and inclusion are high under load."
+        ],
+        "bad": [
+          "pressure pressure imposes a stall tax; pressure mirrors the stream."
+        ],
+        "ugly": [
+          "Long stall lane: warm reactions grow while the response waits."
+        ]
+      },
+      {
+        "line": "Control",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "context pressure",
+        "paragraph": "The ownership line is faint; optics or narrative often stands ahead of the move. When context pressure rises, the room sets pacing and threads lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the result lands and you lead.",
+        "good": [
+          "Visibility and context are rich; rooms stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under context pressure, artifacts lag; room sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Pace",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "deadlines + multitask",
+        "paragraph": "The focus line is faint; optics or narrative often stands ahead of the unit. When deadlines + multitask rises, the day sets pacing and streams lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: depth returns and units close.",
+        "good": [
+          "Visibility and context are rich; days stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under deadlines + multitask, artifacts lag; day sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Boundary",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "access pressure",
+        "paragraph": "The safety line is faint; optics or narrative often stands ahead of the gate. When access pressure rises, the queue sets pacing and checks lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the access lands and you protect.",
+        "good": [
+          "Visibility and context are rich; queues stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under access pressure, artifacts lag; queue sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Truth",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "evidence pressure",
+        "paragraph": "The verification line is faint; optics or narrative often stands ahead of the test. When evidence pressure rises, the claim sets pacing and checks lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the proof lands and you verify.",
+        "good": [
+          "Visibility and context are rich; claims stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under evidence pressure, artifacts lag; claim sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Recognition",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "optics pressure",
+        "paragraph": "The visibility line is faint; optics or narrative often stands ahead of the message. When optics pressure rises, the audience sets pacing and frames lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the impact lands and you communicate.",
+        "good": [
+          "Visibility and context are rich; audiences stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under optics pressure, artifacts lag; audience sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Bonding",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "relationship pressure",
+        "paragraph": "The care line is faint; optics or narrative often stands ahead of the support. When relationship pressure rises, the team sets pacing and threads lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the connection lands and you support.",
+        "good": [
+          "Visibility and context are rich; teams stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under relationship pressure, artifacts lag; team sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      },
+      {
+        "line": "Stress",
+        "base_pattern": "003",
+        "label": "Far",
+        "driver_hint": "pressure pressure",
+        "paragraph": "The resilience line is faint; optics or narrative often stands ahead of the response. When pressure pressure rises, the system sets pacing and reactions lengthen. Updates replace cuts; the calendar slides while attention stays social or contextual. The stance reads responsive and visible, less directed. Artifacts lag behind announcements, so the line is hard to follow from outside. Closure appears late and irregular compared to talk volume. Truth: the stability lands and you respond.",
+        "good": [
+          "Visibility and context are rich; systems stay informed.",
+          "Rapport stays high even as plans evolve."
+        ],
+        "bad": [
+          "Under pressure pressure, artifacts lag; system sets pace over plan."
+        ],
+        "ugly": [
+          "Performance loop: promises outrun delivery; calendar slides."
+        ]
+      }
+    ]
+  },
+  "archetype_symbols": {
+    "sovereign": "👑",
+    "visionary": "🔮",
+    "rebel": "⚡",
+    "equalizer": "⚖️",
+    "provider": "🛡️",
+    "wanderer": "🌍",
+    "seeker": "🔍",
+    "mask": "🎭",
+    "partner": "🤝",
+    "guardian": "🏰",
+    "servant": "⚙️",
+    "spotlight": "💡",
+    "architect": "🏗️",
+    "strategist": "🎯",
+    "catalyst": "🔥",
+    "diplomat": "🌐",
+    "sentinel": "🚪",
+    "artisan": "🎨",
+    "navigator": "🧭",
+    "alchemist": "⚗️"
+  },
+  "results_generation": {
+    "description": "Complete results generation system integrated into quiz bank",
+    "components": {
+      "diagnostic_cards": "Good/Bad/Ugly analysis for each line pattern",
+      "archetype_symbols": "Visual symbols for each archetype",
+      "face_truth_lines": "Philosophical statements for each face",
+      "line_note_templates": "C/O/F descriptions for results display"
+    },
+    "flow": "Quiz completion → Code7 generation → Archetype matching → Results display with integrated data"
   }
 }

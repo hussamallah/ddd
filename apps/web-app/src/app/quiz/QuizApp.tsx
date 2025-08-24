@@ -1529,7 +1529,10 @@ export default function QuizApp() {
       token: convertLegacyTokenToV2(legacyVerdict.distance), // Close→C, Offset→O, Far→F
       severity: getSeverityFromLegacy(legacyVerdict), // Convert to severity number
       note: legacyVerdict.reason, // Use existing reason as note
-      items: [] // Legacy doesn't track items
+      items: {
+        item1: { token: convertLegacyTokenToV2(legacyVerdict.distance), severity: getSeverityFromLegacy(legacyVerdict) },
+        item2: { token: convertLegacyTokenToV2(legacyVerdict.distance), severity: getSeverityFromLegacy(legacyVerdict) }
+      }
     }));
   }
 
@@ -1541,6 +1544,16 @@ export default function QuizApp() {
       case 'Offset': return 2;  // Medium severity - some issues
       case 'Far': return 3;     // High severity - broken
       default: return 1;
+    }
+  }
+
+  // Helper function to convert legacy distance to new token format
+  function convertLegacyTokenToV2(distance: 'Close' | 'Offset' | 'Far'): 'C' | 'O' | 'F' {
+    switch (distance) {
+      case 'Close': return 'C';
+      case 'Offset': return 'O';
+      case 'Far': return 'F';
+      default: return 'C';
     }
   }
 

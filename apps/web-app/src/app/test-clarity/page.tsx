@@ -2,6 +2,13 @@
 
 import { useEffect } from 'react';
 
+// Extend Window interface to include clarity property
+declare global {
+  interface Window {
+    clarity?: (command: string, ...args: any[]) => void;
+  }
+}
+
 export default function TestClarityPage() {
   useEffect(() => {
     // Test if Clarity is loaded

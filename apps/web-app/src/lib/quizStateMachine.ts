@@ -485,12 +485,16 @@ export class QuizStateMachine {
       }
     });
 
-    // Check if all lines are complete (12 items total: 6 lines × 2 items each, skipping family line)
-    if (newLineVerdicts.length >= 12) {
-      console.log('🎯 All 12 line items completed, transitioning to complete stage');
+    // Check if all lines are complete (6 lines total, skipping family line)
+    const uniqueLines = new Set(newLineVerdicts.map(v => v.line));
+    console.log(`🔍 Line completion check: ${uniqueLines.size}/6 lines completed (${newLineVerdicts.length} total verdicts)`);
+    console.log(`🔍 Completed lines:`, Array.from(uniqueLines));
+    
+    if (uniqueLines.size >= 6) {
+      console.log('🎯 All 6 lines completed, transitioning to complete stage');
       this.completeLines();
     } else {
-      console.log(`📊 Line progress: ${newLineVerdicts.length}/12 items completed`);
+      console.log(`📊 Line progress: ${uniqueLines.size}/6 lines completed (${newLineVerdicts.length} total verdicts)`);
     }
   }
 

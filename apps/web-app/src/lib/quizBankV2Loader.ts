@@ -57,7 +57,7 @@ export class QuizBankV2Loader {
 
     this.familyHoneItems = this.quizBank.family_hone_items || [];
     this.faceTriadItems = this.quizBank.face_triad_items || {};
-    this.faceDuelItems = this.quizBank.face_duel_items || {};
+    this.faceDuelItems = this.quizBank.face_duel_items || {} as Record<Family, FaceDuelItem[]>;
     this.lineItems = this.quizBank.line_items || [];
     this.faceTruthLines = this.quizBank.face_truth_lines || {};
     this.lineNoteTemplates = this.quizBank.line_note_templates || {
@@ -236,12 +236,12 @@ export async function loadQuizBankV2WithFallback(): Promise<QuizBankV2> {
       return await quizBankV2Loader.loadQuizBank(data);
     }
 
-    // Fallback to static import
+    // Fallback to static import of integrated quiz bank
     console.warn('API load failed, falling back to static import');
     const bankData = (await import('@/data/quiz-bank-v2.7.json')).default;
     return await quizBankV2Loader.loadQuizBank(bankData);
   } catch (error) {
-    console.error('Failed to load quiz bank v2.7:', error);
+    console.error('Failed to load integrated quiz bank v2.7:', error);
     throw error;
   }
 }

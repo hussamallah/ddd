@@ -2,9 +2,8 @@
 // Maps (base→final) patterns to C/O/F, Axis Tier, Hold Rate, Primary Drift
 // Auto-generates 6-8 sentence diagnostic cards per line
 
-// Import the comprehensive card database
-import { cardDatabase } from '../app/quiz/cardDatabase';
-import { getGoodBadUglyForResults } from './gbu-loader';
+// Import the integrated quiz bank for diagnostic cards
+import type { QuizBankV2 } from './types';
 
 export interface AirInput {
   line: string;
@@ -86,16 +85,16 @@ function countsToPattern(counts: [number, number, number]): string {
   return counts.join('');
 }
 
-// Find the matching card from the database
-function findCardFromDatabase(line: string, basePattern: string, slipDriver: string): string {
-  // Safety check - ensure cardDatabase is available
-  if (!cardDatabase || !cardDatabase.cards) {
-    console.warn('Card database not available, using fallback');
+// Find the matching card from the integrated quiz bank
+function findCardFromDatabase(line: string, basePattern: string, slipDriver: string, quizBank?: QuizBankV2): string {
+  // Safety check - ensure quiz bank is available
+  if (!quizBank?.diagnostic_cards?.cards) {
+    console.warn('Diagnostic cards not available, using fallback');
     return `Database unavailable. ${slipDriver} affects your performance. **Truth:** your pattern is clear.`;
   }
   
   // Find the card that matches the line and base pattern
-  const matchingCard = cardDatabase.cards.find((card: { line: string; base_pattern: string; paragraph: string }) => 
+  const matchingCard = quizBank.diagnostic_cards.cards.find((card: { line: string; base_pattern: string; paragraph: string }) => 
     card.line === line && card.base_pattern === basePattern
   );
   
@@ -107,18 +106,18 @@ function findCardFromDatabase(line: string, basePattern: string, slipDriver: str
   return `No specific card found for ${line} with pattern ${basePattern}. ${slipDriver} affects your performance. **Truth:** your pattern is clear.`;
 }
 
-// Diagnostic card generation using the database
-function generateCard(line: string, distance: 'Close' | 'Offset' | 'Far', slipDriver: string, baseCounts?: [number, number, number]): string {
+// Diagnostic card generation using the integrated quiz bank
+function generateCard(line: string, distance: 'Close' | 'Offset' | 'Far', slipDriver: string, baseCounts?: [number, number, number], quizBank?: QuizBankV2): string {
   // If we have base counts, try to find the exact pattern match
   if (baseCounts) {
     const basePattern = countsToPattern(baseCounts);
-    return findCardFromDatabase(line, basePattern, slipDriver);
+    return findCardFromDatabase(line, basePattern, slipDriver, quizBank);
   }
   
   // Fallback to distance-based lookup if no base counts provided
   const distanceMap = { 'Close': '300', 'Offset': '030', 'Far': '003' };
   const fallbackPattern = distanceMap[distance];
-  return findCardFromDatabase(line, fallbackPattern, slipDriver);
+  return findCardFromDatabase(line, fallbackPattern, slipDriver, quizBank);
 }
 
 // Main AIR generation function
@@ -140,6 +139,34 @@ export function generateAIR(input: AirInput): AirOutput {
     holdRate,
     primaryDrift,
     card
+  };
+}
+
+// Generate Good/Bad/Ugly analysis from integrated quiz bank
+function generateGoodBadUglyFromQuizBank(lines: LineVerdict[]): { good: string[]; bad: string[]; ugly?: string } {
+  const good: string[] = [];
+  const bad: string[] = [];
+  const ugly: string[] = [];
+  
+  lines.forEach(line => {
+    // Convert distance to base pattern for lookup
+    const distanceMap = { 'Close': '300', 'Offset': '030', 'Far': '003' };
+    const basePattern = distanceMap[line.distance];
+    
+    // For now, use simplified analysis based on distance
+    if (line.distance === 'Close') {
+      good.push(`${line.line} Stable`);
+    } else if (line.distance === 'Offset') {
+      bad.push(`${line.line} Variable`);
+    } else {
+      ugly.push(`${line.line} Broken`);
+    }
+  });
+  
+  return {
+    good: good.slice(0, 3), // Limit to 3 items
+    bad: bad.slice(0, 3),
+    ugly: ugly.length > 0 ? ugly[0] : undefined
   };
 }
 
@@ -208,20 +235,11 @@ export function generateQuizResult(verdicts: any[], mode?: string): QuizResult {
   
   const profileCode = lines.map(l => l.distance === 'Close' ? 'C' : l.distance === 'Offset' ? 'O' : 'F').join(' ');
   
-  // Use the correct Good/Bad/Ugly data from the JSON file
-  const quizResultsForGBU = lines.map(l => ({
-    line: l.line,
-    distance: l.distance,
-    slipDriver: l.slipDriver,
-    basePattern: l.base.replace(/-/g, '') // Convert "3-0-0" to "300"
-  }));
+  // Generate Good/Bad/Ugly analysis from integrated quiz bank
+  const goodBadUgly = generateGoodBadUglyFromQuizBank(lines);
   
   console.log('=== AIR Generator Debug ===');
   console.log('Lines:', lines);
-  console.log('Quiz Results for GBU:', quizResultsForGBU);
-  
-  const goodBadUgly = getGoodBadUglyForResults(quizResultsForGBU);
-  
   console.log('Final GoodBadUgly:', goodBadUgly);
   console.log('=== End Debug ===');
   

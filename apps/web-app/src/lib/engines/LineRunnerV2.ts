@@ -14,6 +14,7 @@ export interface LineDuelItem {
   id: string;
   prompt: string;
   line: Line;
+  variant: string; // e.g., "C_vs_O", "O_vs_F", "C_vs_F"
   options: Record<string, {
     text: string;
     token: 'C' | 'O' | 'F';

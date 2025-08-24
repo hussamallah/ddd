@@ -1,5 +1,5 @@
 {
-  "version": "quiz-bank-v2.6",
+  "version": "quiz-bank-v2.7",
   "flow": "FH (first-to-3) → Face Triad (3 items + duel rules §19.9) → Lines (14 items)",
   "families": [
     "Control",
@@ -1609,8 +1609,8 @@
         "per_line_notes",
         "line_item_tokens"
       ],
-      "skip_family_line": true,
-      "assume_clean_for_family_line": true,
+      "skip_family_line": false,
+      "assume_clean_for_family_line": false,
       "line_duel": {
         "trigger": "if_two_items_disagree",
         "forced_choice": true,
@@ -1619,7 +1619,8 @@
         "outputs": [
           "line_duel_log"
         ]
-      }
+      },
+      "hotline_flag_rule": "F and no item was C"
     },
     "output_contract": {
       "family": [
@@ -1668,7 +1669,7 @@
       "2) Track counts per family; stop when any family reaches 3 picks; lock that family.",
       "3) Ask 3 Face Triad items inside the locked family; tally a 3-count pattern.",
       "4) If pattern is 3-0-0 → done; else apply duel rules (2-option forced choice) per logic.duel_rules.",
-      "4) On Lines: skip the locked family line (assume C). For the other six, if the two answers disagree, ask a line duel (token-pair variant).",
+      "4) On Lines: probe all 7 lines (2 items each). If the two answers disagree on a line, ask a line duel (token‑pair variant).",
       "5) Run Lines: 14 items (2 per line); map to tokens via token_map_default; per-line verdict is max severity.",
       "6) Emit result payload per output_contract."
     ],
@@ -1742,7 +1743,7 @@
         "Bonding",
         "Stress"
       ],
-      "notes": "Skip the line matching the locked family; assume token C there. For the other 6 lines, if the two answers disagree (e.g., C vs O), trigger a line duel using the matching token-pair variant."
+      "notes": "Probe all 7 lines; if the two answers disagree (e.g., C vs O), trigger a line duel using the matching token‑pair variant. if the two answers disagree (e.g., C vs O), trigger a line duel using the matching token-pair variant."
     },
     "confidence_labels": {
       "high": [
@@ -1784,7 +1785,8 @@
       "v2.1 — Initial bank: FH(20), Triads(21), Lines(14).",
       "v2.2 — Added Face Duel items (21).",
       "v2.3 — Embedded logic block with flow v5 and output contract.",
-      "v2.4 — Added comprehensive README object."
+      "v2.4 — Added comprehensive README object.",
+      "v2.7 — Flow v5 alignment: no Stage‑L skip; added hotline_flag_rule; added runtime_config with canonical CODE_7 order."
     ],
     "notes": "This README duplicates key parts of logic for quick onboarding; authoritative flow rules live in the 'logic' block."
   },
@@ -2214,5 +2216,31 @@
         }
       }
     ]
+  },
+  "runtime_config": {
+    "active_flow": "v5",
+    "family_hone": {
+      "stop_rule": "first_to_3",
+      "duel": false
+    },
+    "face": {
+      "triad_items": 3,
+      "duel_on_tie": true
+    },
+    "lines": {
+      "items": 14,
+      "per_line": 2,
+      "rule": "max_severity"
+    },
+    "canonical_code7_order": [
+      "Control",
+      "Pace",
+      "Boundary",
+      "Truth",
+      "Recognition",
+      "Bonding",
+      "Stress"
+    ],
+    "hotline_flag_rule": "F and no item was C"
   }
 }

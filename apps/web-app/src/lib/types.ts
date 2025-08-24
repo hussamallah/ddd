@@ -185,6 +185,7 @@ export interface LineDuelItem {
   id: string;
   prompt: string;
   line: Line;
+  variant: string; // e.g., "C_vs_O", "O_vs_F", "C_vs_F"
   options: Record<string, {
     text: string;
     token: 'C' | 'O' | 'F';
@@ -233,6 +234,26 @@ export interface QuizBankV2 {
   face_truth_lines: Record<Face, string>;
   line_note_templates: Record<'C' | 'O' | 'F', string>;
   line_duel_items?: Record<Line, LineDuelItem[]>;
+  diagnostic_cards?: {
+    version: string;
+    notes: string;
+    cards: Array<{
+      line: string;
+      base_pattern: string;
+      label: string;
+      driver_hint: string;
+      paragraph: string;
+      good: string[];
+      bad: string[];
+      ugly: string[];
+    }>;
+  };
+  archetype_symbols?: Record<string, string>;
+  results_generation?: {
+    description: string;
+    components: Record<string, string>;
+    flow: string;
+  };
 }
 
 export type DuelPattern = '3-0-0' | '2-1-0' | '2-0-1' | '1-1-1';

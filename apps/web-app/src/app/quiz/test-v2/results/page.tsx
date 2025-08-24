@@ -3,7 +3,51 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { composeAIR } from '../../results/composeAIR';
-import { generateArchetypeProfile, ARCHETYPE_COLORS } from '@/lib/archetype-generator';
+import { LineVerdict } from '@/lib/types';
+
+// Simple archetype profile generator
+function generateArchetypeProfile(verdicts: any[]): any {
+  // For now, return a simple profile based on the first line
+  const firstLine = verdicts[0]?.line || 'Control';
+  const archetype = firstLine === 'Control' ? 'Sovereign' : 
+                   firstLine === 'Pace' ? 'Guardian' :
+                   firstLine === 'Boundary' ? 'Visionary' :
+                   firstLine === 'Truth' ? 'Architect' :
+                   firstLine === 'Recognition' ? 'Spotlight' :
+                   firstLine === 'Bonding' ? 'Provider' :
+                   firstLine === 'Stress' ? 'Diplomat' : 'Sovereign';
+  
+  return {
+    archetype,
+    name: archetype,
+    primaryLine: firstLine,
+    secondaryLine: undefined
+  };
+}
+
+// Archetype colors from integrated quiz bank
+const ARCHETYPE_COLORS: Record<string, { name: string; hex: string }> = {
+  "Sovereign": { "name": "Imperial Purple", "hex": "#6B2F8A" },
+  "Visionary": { "name": "Indigo", "hex": "#3F51B5" },
+  "Rebel": { "name": "Crimson", "hex": "#C62828" },
+  "Equalizer": { "name": "Teal", "hex": "#00897B" },
+  "Provider": { "name": "Sage Green", "hex": "#5E8C6A" },
+  "Wanderer": { "name": "Turquoise", "hex": "#1ABC9C" },
+  "Seeker": { "name": "Midnight Blue", "hex": "#0D47A1" },
+  "Mask": { "name": "Charcoal", "hex": "#2E3138" },
+  "Partner": { "name": "Rose", "hex": "#D81B60" },
+  "Guardian": { "name": "Forest Green", "hex": "#1B5E20" },
+  "Servant": { "name": "Ochre", "hex": "#A9782B" },
+  "Spotlight": { "name": "Marigold", "hex": "#F9A825" },
+  "Architect": { "name": "Blueprint Blue", "hex": "#355AA6" },
+  "Strategist": { "name": "Navy", "hex": "#1A2A44" },
+  "Catalyst": { "name": "Flame Orange", "hex": "#EF6C00" },
+  "Diplomat": { "name": "Olive", "hex": "#6B8E23" },
+  "Sentinel": { "name": "Blue-Gray", "hex": "#455A64" },
+  "Artisan": { "name": "Terracotta", "hex": "#C65D3A" },
+  "Navigator": { "name": "Cerulean", "hex": "#2A9DF4" },
+  "Alchemist": { "name": "Citrine", "hex": "#C59A1F" }
+};
 
 // ---------- Heat Map Results Display ----------
 const ResultsHeatMap: React.FC<{
@@ -317,11 +361,11 @@ export default function ResultsPage() {
           <h2 className="text-2xl text-white mb-2 font-medium">
             {(() => {
               // Find all lines that are not Close (Offset or Far)
-              const offLines = verdicts.filter(l => l.distance !== 'Close');
+              const offLines = verdicts.filter((l: LineVerdict) => l.distance !== 'Close');
               
               // Group by distance type
-              const brokenLines = offLines.filter(l => l.distance === 'Far').map(l => l.line);
-              const stalledLines = offLines.filter(l => l.distance === 'Offset').map(l => l.line);
+              const brokenLines = offLines.filter((l: LineVerdict) => l.distance === 'Far').map((l: LineVerdict) => l.line);
+              const stalledLines = offLines.filter((l: LineVerdict) => l.distance === 'Offset').map((l: LineVerdict) => l.line);
               
               // Create descriptive combinations
               let description = '';
